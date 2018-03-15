@@ -9,7 +9,7 @@ public class Mastery {
 
     public static final String modId = "mastery";
     public static final String name = "Mastery Mod";
-    public static final String version = "0.0.1";
+    public static final String version = "1.12.2-0.0.1";
 
     @Mod.Instance(modId)
     public static Mastery instance;

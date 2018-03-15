@@ -1,4 +1,5 @@
 package mastery;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -21,12 +22,16 @@ public class Mastery {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-
+        registerCapabilities();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
+    }
+
+    private void registerCapabilities() {
+//        CapabilityManager.INSTANCE.register();
     }
 
 }

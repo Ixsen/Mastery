@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class Mastery {
 
     public static final String modId = "mastery";
-    public static final String name = "Mastery Mod";
+    public static final String name = "Mastery";
     public static final String version = "1.12.2-0.0.1";
 
     @Mod.Instance(modId)

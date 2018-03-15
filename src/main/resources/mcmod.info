@@ -1,9 +1,9 @@
 [
 {
-  "modid": "${modid}",
-  "name": "${name}",
+  "modid": "mastery",
+  "name": "Mastery",
   "description": "Mod for character progression and more",
-  "version": "${version}",
+  "version": "1.12.2-0.0.1",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

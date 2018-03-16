@@ -8,7 +8,7 @@ public class Mastery implements IMastery {
     private int miningMastery;
 
     public Mastery() {
-        this.miningMastery = 0;
+        this.miningMastery = 5;
     }
 
     public int getMiningMastery() {

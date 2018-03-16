@@ -4,9 +4,7 @@ import mastery.experience.IMastery;
 import mastery.experience.MasteryProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -20,17 +18,10 @@ public class ExperienceEventsHandler {
     }
 
     @SubscribeEvent
-    public void attackEntity(AttackEntityEvent attackEvent) {
-        attackEvent.getEntityPlayer().sendMessage(new TextComponentString(attackEvent.getTarget().getName() + " hit"));
-    }
-
-    @SubscribeEvent
-    public void criticalExperience(CriticalHitEvent criticalHitEvent) {
-        criticalHitEvent.getEntityPlayer().sendMessage(new TextComponentString(criticalHitEvent.getTarget().getName() + " hit very hard"));
-    }
-
-    @SubscribeEvent
-    public void getHit(LivingAttackEvent getHitEvent) {
+    public void getHit(LivingHurtEvent getHitEvent) {
+        if(getHitEvent.getSource().getTrueSource() instanceof  EntityPlayer)  {
+            getHitEvent.getSource().getTrueSource().sendMessage(new TextComponentString("You hit " + getHitEvent.getEntity().getName() + " for " + getHitEvent.getAmount()));
+        }
         if(getHitEvent.getEntity() instanceof EntityPlayer){
             getHitEvent.getEntity().sendMessage(new TextComponentString("You got hit!"));
         }

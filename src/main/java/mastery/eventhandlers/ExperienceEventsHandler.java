@@ -1,11 +1,11 @@
-package mastery;
+package mastery.eventhandlers;
 
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EventHandler {
+public class ExperienceEventsHandler {
     @SubscribeEvent
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
         breakEvent.getPlayer().sendMessage(new TextComponentString(breakEvent.toString()));

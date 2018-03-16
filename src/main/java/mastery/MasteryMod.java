@@ -4,6 +4,7 @@ import mastery.eventhandlers.ExperienceEventsHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
 import mastery.experience.PlayerExperience;
+import mastery.experience.TMPEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;

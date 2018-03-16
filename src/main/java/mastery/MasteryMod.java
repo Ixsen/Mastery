@@ -30,6 +30,8 @@ public class MasteryMod {
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
+        MinecraftForge.EVENT_BUS.register(new TMPEventHandler());
+
         registerCapabilities();
     }
 

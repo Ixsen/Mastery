@@ -1,8 +1,11 @@
 package mastery;
 
+import mastery.eventhandlers.ExperienceEventsHandler;
+import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
 import mastery.experience.PlayerExperience;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -25,7 +28,8 @@ public class Mastery {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+        MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
+        MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
         registerCapabilities();
     }
 

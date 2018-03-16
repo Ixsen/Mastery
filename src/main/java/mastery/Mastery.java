@@ -1,5 +1,7 @@
 package mastery;
 
+import mastery.experience.IMastery;
+import mastery.experience.PlayerExperience;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -34,7 +36,7 @@ public class Mastery {
     }
 
     private void registerCapabilities() {
-//        CapabilityManager.INSTANCE.register();
+        CapabilityManager.INSTANCE.register(IMastery.class, new PlayerExperience(), mastery.experience.Mastery.class);
     }
 
 }

@@ -1,5 +1,7 @@
 package mastery;
 
+import mastery.eventhandlers.ExperienceEventsHandler;
+import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
 import mastery.experience.PlayerExperience;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +28,8 @@ public class MasteryMod {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new EventHandler());
+        MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
+        MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
         registerCapabilities();
     }
 

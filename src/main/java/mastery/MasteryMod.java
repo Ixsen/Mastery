@@ -3,6 +3,7 @@ package mastery;
 import mastery.eventhandlers.ExperienceEventsHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
+import mastery.experience.PlayerCapabilityHandler;
 import mastery.experience.PlayerExperience;
 import mastery.experience.TMPEventHandler;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +33,7 @@ public class MasteryMod {
         MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
         MinecraftForge.EVENT_BUS.register(new TMPEventHandler());
+        MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
 
         registerCapabilities();
     }

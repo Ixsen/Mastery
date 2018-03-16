@@ -19,4 +19,7 @@ public class Mastery implements IMastery {
         this.miningMastery = miningMastery;
     }
 
+    public void increaseMiningExp() {
+        miningMastery++;
+    }
 }

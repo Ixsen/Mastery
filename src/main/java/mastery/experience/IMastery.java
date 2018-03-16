@@ -9,4 +9,5 @@ public interface IMastery {
 
     void setMiningMastery(int miningMastery);
 
+    void increaseMiningExp();
 }

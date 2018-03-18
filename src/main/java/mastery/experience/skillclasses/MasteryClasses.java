@@ -1,0 +1,31 @@
+package mastery.experience.skillclasses;
+
+/**
+ * Created by Granis on 18/03/2018.
+ */
+public abstract class MasteryClasses {
+
+    private int experience = 0;
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getLevel() {
+        return experience / 100;
+    }
+
+    public void increaseExperience() {
+        this.experience++;
+    }
+
+    public void increaseExperience(int amount) {
+        this.experience += amount;
+    }
+
+    public abstract MASTERY_SPEC getSkillClass();
+}

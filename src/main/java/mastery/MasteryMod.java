@@ -4,8 +4,7 @@ import mastery.eventhandlers.ExperienceEventsHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
 import mastery.experience.PlayerCapabilityHandler;
-import mastery.experience.PlayerExperience;
-import mastery.experience.TMPEventHandler;
+import mastery.experience.MasteryPersistenceManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +31,6 @@ public class MasteryMod {
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
-        MinecraftForge.EVENT_BUS.register(new TMPEventHandler());
         MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
 
         registerCapabilities();
@@ -44,7 +42,7 @@ public class MasteryMod {
     }
 
     private void registerCapabilities() {
-        CapabilityManager.INSTANCE.register(IMastery.class, new PlayerExperience(), mastery.experience.Mastery.class);
+        CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(), mastery.experience.Mastery.class);
     }
 
 }

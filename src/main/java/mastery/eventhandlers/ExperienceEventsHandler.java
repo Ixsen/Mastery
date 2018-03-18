@@ -1,6 +1,7 @@
 package mastery.eventhandlers;
 
 import mastery.experience.IMastery;
+import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.experience.MasteryProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
@@ -13,8 +14,8 @@ public class ExperienceEventsHandler {
     @SubscribeEvent
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
         IMastery mastery = breakEvent.getPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-        mastery.increaseMiningExp();
-        breakEvent.getPlayer().sendMessage(new TextComponentString("Your mining exp is: " + mastery.getMiningMastery()));
+        mastery.getMasteries().get(MASTERY_SPEC.MINING).increaseExperience();
+        breakEvent.getPlayer().sendMessage(new TextComponentString("Your mining exp is: " + mastery.getMasteries().get(MASTERY_SPEC.MINING).getExperience()));
     }
 
     @SubscribeEvent

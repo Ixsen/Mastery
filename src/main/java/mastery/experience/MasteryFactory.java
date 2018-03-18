@@ -5,11 +5,11 @@ import java.util.concurrent.Callable;
 /**
  * Created by Granis on 16/03/2018.
  */
-public class MasteryFactory implements Callable<PlayerExperience> {
+public class MasteryFactory implements Callable<MasteryPersistenceManager> {
 
     @Override
-    public PlayerExperience call() throws Exception {
-        return new PlayerExperience();
+    public MasteryPersistenceManager call() throws Exception {
+        return new MasteryPersistenceManager();
     }
 
 }

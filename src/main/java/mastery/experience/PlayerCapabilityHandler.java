@@ -25,6 +25,7 @@ public class PlayerCapabilityHandler {
     @SubscribeEvent
     public void persistAcrossDeath(PlayerEvent.Clone respawnEvent) {
         IMastery originalMastery = respawnEvent.getOriginal().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-        respawnEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null).setMiningMastery(originalMastery.getMiningMastery());
+        respawnEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null).setMasteries(originalMastery.getMasteries());
+
     }
 }

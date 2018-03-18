@@ -4,7 +4,6 @@ package mastery.experience.skillclasses;
  * Created by Granis on 18/03/2018.
  */
 public enum MASTERY_SPEC {
-    //TODO reorganize, atm ENUM order should not be changed
     MINING(0),
     COMBAT(1);
     public int order;

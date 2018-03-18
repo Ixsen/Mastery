@@ -1,9 +1,6 @@
 package mastery.experience;
 
-import mastery.experience.skillclasses.CombatMastery;
-import mastery.experience.skillclasses.MASTERY_SPEC;
-import mastery.experience.skillclasses.MiningMastery;
-import mastery.experience.skillclasses.MasteryClasses;
+import mastery.experience.skillclasses.*;
 
 import java.util.HashMap;
 
@@ -44,6 +41,12 @@ public class Mastery implements IMastery {
     public Mastery() {
         masteryClasses.put(MASTERY_SPEC.MINING, new MiningMastery());
         masteryClasses.put(MASTERY_SPEC.COMBAT, new CombatMastery());
+        masteryClasses.put(MASTERY_SPEC.ALCHEMY, new AlchemyMastery());
+        masteryClasses.put(MASTERY_SPEC.FARMING, new FarmingMastery());
+        masteryClasses.put(MASTERY_SPEC.HUSBANDRY, new HusbandryMastery());
+        masteryClasses.put(MASTERY_SPEC.SURVIVAL, new SurvivalMastery());
+        masteryClasses.put(MASTERY_SPEC.CRAFTING, new CraftingMastery());
+        masteryClasses.put(MASTERY_SPEC.ATHLETICS, new AthleticsMastery());
     }
 
 }

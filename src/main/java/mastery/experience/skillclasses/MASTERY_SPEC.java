@@ -5,7 +5,13 @@ package mastery.experience.skillclasses;
  */
 public enum MASTERY_SPEC {
     MINING(0),
-    COMBAT(1);
+    COMBAT(1),
+    ALCHEMY(2),
+    FARMING(3),
+    HUSBANDRY(4),
+    SURVIVAL(5),
+    CRAFTING(6),
+    ATHLETICS(7);
     public int order;
 
     MASTERY_SPEC(int order) {

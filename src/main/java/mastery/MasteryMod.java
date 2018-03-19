@@ -1,10 +1,11 @@
 package mastery;
 
+import mastery.eventhandlers.EffectEventsHandler;
 import mastery.eventhandlers.ExperienceEventsHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
-import mastery.experience.PlayerCapabilityHandler;
 import mastery.experience.MasteryPersistenceManager;
+import mastery.experience.PlayerCapabilityHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -19,6 +20,8 @@ public class MasteryMod {
     public static final String name = "MasteryMod";
     public static final String version = "1.12.2-0.0.1";
 
+//    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("mastery");
+
     @Mod.Instance(modId)
     public static MasteryMod instance;
 
@@ -32,7 +35,7 @@ public class MasteryMod {
         MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
         MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
-
+        MinecraftForge.EVENT_BUS.register(new EffectEventsHandler());
         registerCapabilities();
     }
 

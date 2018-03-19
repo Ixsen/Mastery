@@ -9,4 +9,12 @@ public class MiningMastery extends MasteryClasses {
     public MASTERY_SPEC getSkillClass() {
         return MASTERY_SPEC.MINING;
     }
+
+    public float getMiningSpeed(float originalSpeed) {
+        float miningSpeed =  originalSpeed * getLevel();
+        if(miningSpeed == 0.0f) {
+            miningSpeed = 1.0f;
+        }
+        return miningSpeed;
+    }
 }

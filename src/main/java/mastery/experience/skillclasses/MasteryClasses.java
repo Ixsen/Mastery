@@ -16,7 +16,7 @@ public abstract class MasteryClasses {
     }
 
     public int getLevel() {
-        return experience / 100;
+        return experience / 10;
     }
 
     public void increaseExperience() {

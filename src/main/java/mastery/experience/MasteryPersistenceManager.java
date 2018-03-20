@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 /**
  * Created by Granis on 15/03/2018.
-         */
+ */
 public class MasteryPersistenceManager implements Capability.IStorage<IMastery> {
     @Nullable
     @Override
@@ -19,6 +19,6 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
 
     @Override
     public void readNBT(Capability<IMastery> capability, IMastery iMastery, EnumFacing enumFacing, NBTBase nbtBase) {
-        iMastery.readIntArray(((NBTTagIntArray)nbtBase).getIntArray());
+        iMastery.readIntArray(((NBTTagIntArray) nbtBase).getIntArray());
     }
 }

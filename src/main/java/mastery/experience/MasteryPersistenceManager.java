@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 
 /**
  * Created by Granis on 15/03/2018.
- */
+         */
 public class MasteryPersistenceManager implements Capability.IStorage<IMastery> {
     @Nullable
     @Override

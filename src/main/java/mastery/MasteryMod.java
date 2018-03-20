@@ -6,6 +6,7 @@ import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.experience.IMastery;
 import mastery.experience.MasteryPersistenceManager;
 import mastery.experience.PlayerCapabilityHandler;
+import mastery.networking.PacketHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -20,14 +21,12 @@ public class MasteryMod {
     public static final String name = "MasteryMod";
     public static final String version = "1.12.2-0.0.1";
 
-//    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel("mastery");
-
     @Mod.Instance(modId)
     public static MasteryMod instance;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        System.out.println(name + " is loading!");
+        PacketHandler.registerMasteryExpMessages();
     }
 
     @Mod.EventHandler

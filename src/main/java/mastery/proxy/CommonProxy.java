@@ -1,5 +1,6 @@
 package mastery.proxy;
 
+import mastery.MasteryMod;
 import mastery.eventhandlers.EffectEventsHandler;
 import mastery.eventhandlers.ExperienceEventsHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
@@ -16,6 +17,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
@@ -27,6 +30,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
         MinecraftForge.EVENT_BUS.register(new EffectEventsHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.instance, new GuiProxy());
         registerCapabilities();
     }
 

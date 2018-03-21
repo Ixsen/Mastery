@@ -6,4 +6,8 @@ public class AlchemyMastery extends MasteryClasses {
     public MASTERY_SPEC getSkillClass() {
         return MASTERY_SPEC.ALCHEMY;
     }
+
+    public AlchemyMastery() {
+        name = "Alchemy";
+    }
 }

@@ -6,6 +6,7 @@ package mastery.experience.skillclasses;
 public abstract class MasteryClasses {
 
     private int experience = 0;
+    protected String name = "mastery_placeholder";
 
     public int getExperience() {
         return experience;
@@ -28,4 +29,9 @@ public abstract class MasteryClasses {
     }
 
     public abstract MASTERY_SPEC getSkillClass();
+
+    @Override
+    public String toString() {
+        return name +" -> Level: " + getLevel() + " Exp: " + getExperience();
+    }
 }

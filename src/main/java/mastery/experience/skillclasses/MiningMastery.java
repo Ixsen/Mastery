@@ -5,6 +5,10 @@ package mastery.experience.skillclasses;
  */
 public class MiningMastery extends MasteryClasses {
 
+    public MiningMastery() {
+        name = "Mining";
+    }
+
     @Override
     public MASTERY_SPEC getSkillClass() {
         return MASTERY_SPEC.MINING;

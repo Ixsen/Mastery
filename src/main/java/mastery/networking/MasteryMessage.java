@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MasteryMessage implements IMessage {
+public class MasteryMessage implements IMessage { // TODO optimize for single mastery exp (only send one int)
     List<Integer> experienceLevels = new ArrayList<>();
 
     public MasteryMessage() {
@@ -39,10 +39,10 @@ public class MasteryMessage implements IMessage {
     public static class MasteryMessageHandler implements IMessageHandler<MasteryMessage, IMessage> {
         @Override
         public IMessage onMessage(MasteryMessage message, MessageContext context) {
-            Minecraft.getMinecraft().addScheduledTask(() ->{
+            Minecraft.getMinecraft().addScheduledTask(() -> {
                 IMastery mastery = Minecraft.getMinecraft().player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
                 mastery.readIntArray(message.experienceLevels.stream().mapToInt(it -> it.intValue()).toArray());
-                    });
+            });
             return null;
         }
     }

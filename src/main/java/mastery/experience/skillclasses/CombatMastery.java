@@ -5,6 +5,10 @@ package mastery.experience.skillclasses;
  */
 public class CombatMastery extends MasteryClasses {
 
+    public CombatMastery() {
+        name = "Combat";
+    }
+
     @Override
     public MASTERY_SPEC getSkillClass() {
         return MASTERY_SPEC.COMBAT;

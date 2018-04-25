@@ -25,7 +25,6 @@ public class ExperienceEventsHandler {
             EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
             MasteryMessage message = new MasteryMessage(mastery.toIntArray());
             PacketHandler.INSTANCE.sendTo(message, player);
-            breakEvent.getPlayer().sendMessage(new TextComponentString("Your mining exp is: " + mastery.getMasteries().get(MASTERY_SPEC.MINING).getExperience()));
         }
     }
 

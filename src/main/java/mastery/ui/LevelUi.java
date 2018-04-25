@@ -44,5 +44,20 @@ public class LevelUi extends GuiScreen {
         buttonList.add(husbandry);
         buttonList.add(mining);
         buttonList.add(survival);
+
+        
+        //GUILabel(FontRenderer, ID, X, Y, WIDTH, HEIGHT, TEXT_COLOR)
+//        GuiLabel level = new GuiLabel(fontRenderer, 100, 2, 2, 200, 50, 4210752);
+//        level.addLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+//        GuiLabel level2 = new GuiLabel(fontRenderer, 100, 2, 25, 200, 50, 4210752);
+//        level.addLine("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+//        GuiLabel level3 = new GuiLabel(fontRenderer, 100, 2, 50, 200, 50, 4210752);
+//        level.addLine("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+//        GuiLabel level4 = new GuiLabel(fontRenderer, 100, 2, 75, 200, 50, 1000);
+//        level.addLine("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+//        labelList.add(level);
+//        labelList.add(level2);
+//        labelList.add(level3);
+//        labelList.add(level4);
     }
 }

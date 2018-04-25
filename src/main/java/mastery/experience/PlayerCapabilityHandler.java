@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class PlayerCapabilityHandler {
 
-    public static final ResourceLocation MASTERY_CAPABILITY = new ResourceLocation(MasteryMod.modId, "mastery");
+    public static final ResourceLocation MASTERY_CAPABILITY = new ResourceLocation(MasteryMod.modid, "mastery");
 
     @SubscribeEvent
     public void attachCapability(AttachCapabilitiesEvent event) {

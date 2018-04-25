@@ -1,11 +1,11 @@
 package mastery.experience;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-
-import javax.annotation.Nullable;
 
 /**
  * Created by Granis on 15/03/2018.

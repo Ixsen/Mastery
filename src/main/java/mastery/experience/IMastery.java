@@ -1,9 +1,9 @@
 package mastery.experience;
 
+import java.util.HashMap;
+
 import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.experience.skillclasses.MasteryClasses;
-
-import java.util.HashMap;
 
 /**
  * Created by Granis on 16/03/2018.

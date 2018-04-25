@@ -1,6 +1,10 @@
 package mastery.networking;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.primitives.Ints;
+
 import io.netty.buffer.ByteBuf;
 import mastery.experience.IMastery;
 import mastery.experience.MasteryProvider;
@@ -8,9 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MasteryMessage implements IMessage { // TODO optimize for single mastery exp (only send one int)
     List<Integer> experienceLevels = new ArrayList<>();

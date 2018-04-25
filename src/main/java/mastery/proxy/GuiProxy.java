@@ -1,11 +1,11 @@
 package mastery.proxy;
 
+import javax.annotation.Nullable;
+
 import mastery.ui.LevelUi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-
-import javax.annotation.Nullable;
 
 public class GuiProxy implements IGuiHandler {
 

@@ -2,8 +2,6 @@ package mastery;
 
 import mastery.networking.PacketHandler;
 import mastery.proxy.CommonProxy;
-import mastery.ui.LevelOverlayUi;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;

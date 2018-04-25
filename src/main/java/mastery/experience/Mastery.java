@@ -1,8 +1,17 @@
 package mastery.experience;
 
-import mastery.experience.skillclasses.*;
-
 import java.util.HashMap;
+
+import mastery.experience.skillclasses.AlchemyMastery;
+import mastery.experience.skillclasses.AthleticsMastery;
+import mastery.experience.skillclasses.CombatMastery;
+import mastery.experience.skillclasses.CraftingMastery;
+import mastery.experience.skillclasses.FarmingMastery;
+import mastery.experience.skillclasses.HusbandryMastery;
+import mastery.experience.skillclasses.MASTERY_SPEC;
+import mastery.experience.skillclasses.MasteryClasses;
+import mastery.experience.skillclasses.MiningMastery;
+import mastery.experience.skillclasses.SurvivalMastery;
 
 /**
  * Created by Granis on 16/03/2018.

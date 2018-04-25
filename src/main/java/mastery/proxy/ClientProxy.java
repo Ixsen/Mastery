@@ -2,6 +2,7 @@ package mastery.proxy;
 
 import mastery.keybindings.InputHandler;
 import mastery.keybindings.KeyBindings;
+import mastery.ui.LevelOverlayUi;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -22,6 +23,7 @@ public class ClientProxy extends CommonProxy {
     public void init(FMLInitializationEvent event) {
         super.init(event);
         MinecraftForge.EVENT_BUS.register(new InputHandler());
+    	MinecraftForge.EVENT_BUS.register(new LevelOverlayUi());
         KeyBindings.init();
     }
 

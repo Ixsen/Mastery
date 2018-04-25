@@ -36,7 +36,6 @@ public class MasteryMod {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-    	MinecraftForge.EVENT_BUS.register(new LevelOverlayUi());
         proxy.postInit(event);
     }
 

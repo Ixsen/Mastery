@@ -5,6 +5,7 @@ import mastery.experience.MasteryProvider;
 import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
+import mastery.ui.LevelOverlayUi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
@@ -25,6 +26,7 @@ public class ExperienceEventsHandler {
             EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
             MasteryMessage message = new MasteryMessage(mastery.toIntArray());
             PacketHandler.INSTANCE.sendTo(message, player);
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.MINING;
         }
     }
 
@@ -32,25 +34,27 @@ public class ExperienceEventsHandler {
     public void getHit(LivingHurtEvent getHitEvent) { // TODO COMBAT (hitting, getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
         if (getHitEvent.getSource().getTrueSource() instanceof EntityPlayer) {
             getHitEvent.getSource().getTrueSource().sendMessage(new TextComponentString("You hit " + getHitEvent.getEntity().getName() + " for " + getHitEvent.getAmount()));
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
         }
         if (getHitEvent.getEntity() instanceof EntityPlayer) {
             getHitEvent.getEntity().sendMessage(new TextComponentString("You got hit by " + getHitEvent.getSource()));
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.SURVIVAL;
         }
     }
 
     @SubscribeEvent
     public void animalTame(AnimalTameEvent tameEvent) { //TODO HUSBANDRY
-
+        LevelOverlayUi.currentMastery = MASTERY_SPEC.HUSBANDRY;
     }
 
     @SubscribeEvent
     public void brewedPotion(PlayerBrewedPotionEvent potioEvent) { // TODO ALCHEMY only limited exp for brewing!
-
+        LevelOverlayUi.currentMastery = MASTERY_SPEC.ALCHEMY;
     }
 
     @SubscribeEvent
     public void spawnBaby(BabyEntitySpawnEvent babyEntitySpawnEvent) { // TODO HUSBANDRY exp
-
+        LevelOverlayUi.currentMastery = MASTERY_SPEC.HUSBANDRY;
     }
 
 

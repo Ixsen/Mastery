@@ -27,6 +27,14 @@ public abstract class MasteryClasses {
     public void increaseExperience(int amount) {
         this.experience += amount;
     }
+    
+    public int getNextLevelExp() {
+    	return (getLevel()+1) * 10;
+    }
+    
+    public String getName() {
+    	return name;
+    }
 
     public abstract MASTERY_SPEC getSkillClass();
 

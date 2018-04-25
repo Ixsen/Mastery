@@ -11,8 +11,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
-import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -31,7 +33,12 @@ public class ExperienceEventsHandler {
     }
 
     @SubscribeEvent
-    public void getHit(LivingHurtEvent getHitEvent) { // TODO COMBAT (hitting, getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
+    public void attack(AttackEntityEvent attackEvent) { // TODO COMBAT
+
+    }
+
+    @SubscribeEvent
+    public void getHit(LivingHurtEvent getHitEvent) { // TODO COMBAT (getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
         if (getHitEvent.getSource().getTrueSource() instanceof EntityPlayer) {
             getHitEvent.getSource().getTrueSource().sendMessage(new TextComponentString("You hit " + getHitEvent.getEntity().getName() + " for " + getHitEvent.getAmount()));
             LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
@@ -42,20 +49,53 @@ public class ExperienceEventsHandler {
         }
     }
 
+
+    @SubscribeEvent
+    public void brewedPotion(PlayerBrewedPotionEvent potionEvent) { // TODO ALCHEMY only limited exp for brewing!
+        LevelOverlayUi.currentMastery = MASTERY_SPEC.ALCHEMY;
+    }
+
+    @SubscribeEvent
+    public void useItem(LivingEntityUseItemEvent.Finish useItemEvent) { // TODO ALCHEMY, SURVIVAL
+
+    }
+
+    @SubscribeEvent
+    public void harvestCrop(PlayerEvent.HarvestCheck harvestCheck) {//TODO FARMING
+
+    }
+
+    @SubscribeEvent
+    public void boneEvent(BonemealEvent bonemealEvent) { // TODO FARMING
+
+    }
+
+    @SubscribeEvent
+    public void hoeing(UseHoeEvent useHoeEvent) { // TODO FARMING
+
+    }
+
     @SubscribeEvent
     public void animalTame(AnimalTameEvent tameEvent) { //TODO HUSBANDRY
         LevelOverlayUi.currentMastery = MASTERY_SPEC.HUSBANDRY;
     }
 
     @SubscribeEvent
-    public void brewedPotion(PlayerBrewedPotionEvent potioEvent) { // TODO ALCHEMY only limited exp for brewing!
-        LevelOverlayUi.currentMastery = MASTERY_SPEC.ALCHEMY;
+    public void feed(PlayerInteractEvent.EntityInteractSpecific interactEvent) {//TODO HUSBANDRY
+
     }
 
     @SubscribeEvent
-    public void spawnBaby(BabyEntitySpawnEvent babyEntitySpawnEvent) { // TODO HUSBANDRY exp
-        LevelOverlayUi.currentMastery = MASTERY_SPEC.HUSBANDRY;
+    public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {//TODO CRAFTING
+        LevelOverlayUi.currentMastery = MASTERY_SPEC.CRAFTING;
     }
 
+    @SubscribeEvent
+    public void jump(LivingEvent.LivingJumpEvent jumpEvent) { // TODO ATHLETICS
 
+    }
+
+    /* TODO
+        TNT MINING
+    */
 }

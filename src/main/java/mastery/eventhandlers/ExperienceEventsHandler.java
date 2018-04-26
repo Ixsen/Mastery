@@ -87,7 +87,18 @@ public class ExperienceEventsHandler {
 
     @SubscribeEvent
     public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {//TODO CRAFTING
-        LevelOverlayUi.currentMastery = MASTERY_SPEC.CRAFTING;
+
+        if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
+
+            IMastery mastery = itemCraftedEvent.player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+
+            mastery.getMasteries().get(MASTERY_SPEC.CRAFTING).increaseExperience();
+            EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
+            MasteryMessage message = new MasteryMessage(mastery.toIntArray());
+            PacketHandler.INSTANCE.sendTo(message, player);
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.CRAFTING;
+
+        }
     }
 
     @SubscribeEvent

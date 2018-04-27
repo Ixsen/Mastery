@@ -27,30 +27,30 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
 
     @Override
     public void readNBT(Capability<IMastery> capability, IMastery iMastery, EnumFacing enumFacing, NBTBase nbtBase) {
-        NBTTagCompound nbtMap = (NBTTagCompound) nbtBase;
+        NBTTagCompound masteryMap = (NBTTagCompound) nbtBase;
         for (Map.Entry<MASTERY_SPEC, MasteryClasses> entry : iMastery.getMasteries().entrySet()) {
-            nbtMap.getCompoundTag(entry.getValue().getName());
+            NBTTagCompound specificMasteryMap = masteryMap.getCompoundTag(entry.getValue().getName());
+            entry.getValue().setLevel(specificMasteryMap.getInteger(TAG_LEVEL));
+            entry.getValue().calcNextLevelExp();
+            entry.getValue().setExperience(specificMasteryMap.getInteger(TAG_EXPERIENCE));
 
         }
-
-
-        iMastery.readIntArray(((NBTTagIntArray) nbtBase).getIntArray());
     }
 
     private NBTTagCompound getNBTMasteryMap(IMastery mastery) {
-        NBTTagCompound nbtMap = new NBTTagCompound();
+        NBTTagCompound masteryMap = new NBTTagCompound();
         for (Map.Entry<MASTERY_SPEC, MasteryClasses> entry : mastery.getMasteries().entrySet()) {
-            nbtMap.setTag(entry.getValue().getName(), getNBTMap(entry.getValue()));
+            masteryMap.setTag(entry.getValue().getName(), getNBTMap(entry.getValue()));
         }
         return null;
     }
 
     private NBTTagCompound getNBTMap(MasteryClasses mastery) {
-        NBTTagCompound nbtMap = new NBTTagCompound();
-        nbtMap.setString(TAG_NAME, mastery.getName());
-        nbtMap.setInteger(TAG_LEVEL, mastery.getLevel());
-        nbtMap.setInteger(TAG_EXPERIENCE, mastery.getExperience());
-        return nbtMap;
+        NBTTagCompound specificMasteryMap = new NBTTagCompound();
+        specificMasteryMap.setString(TAG_NAME, mastery.getName());
+        specificMasteryMap.setInteger(TAG_LEVEL, mastery.getLevel());
+        specificMasteryMap.setInteger(TAG_EXPERIENCE, mastery.getExperience());
+        return specificMasteryMap;
     }
 
 }

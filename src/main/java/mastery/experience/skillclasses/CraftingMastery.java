@@ -9,7 +9,4 @@ public class CraftingMastery extends MasteryClasses {
     public MASTERY_SPEC getSkillClass() {
         return MASTERY_SPEC.CRAFTING;
     }
-
-
-
 }

@@ -7,19 +7,28 @@ public abstract class MasteryClasses {
 
     private int experience = 0;
     private int level = 1;
+    protected int nextLevelExperience = 3;
     protected String name = "mastery_placeholder";
-
 
     public void setExperience(int experience) {
         this.experience = experience;
     }
 
     public void increaseExperience() {
-        this.experience++;
+        increaseExperience(1);
     }
 
     public void increaseExperience(int amount) {
         this.experience += amount;
+        if (experience >= nextLevelExperience) {
+            level++;
+            calcNextLevelExp();
+            increaseExperience(-nextLevelExperience);
+        }
+    }
+
+    public void calcNextLevelExp() {
+        nextLevelExperience = 3;
     }
 
     public void setLevel(int level) {
@@ -31,7 +40,7 @@ public abstract class MasteryClasses {
     }
 
     public int getNextLevelExp() {
-        return (getLevel() + 1) * 10;
+        return nextLevelExperience;
     }
 
     public int getExperience() {

@@ -3,6 +3,7 @@ package mastery.eventhandlers;
 import mastery.experience.IMastery;
 import mastery.experience.MasteryProvider;
 import mastery.experience.skillclasses.MASTERY_SPEC;
+import mastery.experience.skillclasses.MasteryClasses;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
 import mastery.ui.LevelOverlayUi;
@@ -25,20 +26,10 @@ public class ExperienceEventsHandler {
             IMastery mastery = breakEvent.getPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
             mastery.getMasteries().get(MASTERY_SPEC.MINING).increaseExperience();
             EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
-            sendExpToPlayer(mastery, player);
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.MINING;
+            sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.MINING), player);
         }
     }
 
-//    @SubscribeEvent
-//    public void attack(AttackEntityEvent attackEvent) { // TODO COMBAT
-//        if (!attackEvent.getEntityPlayer().getEntityWorld().isRemote) {
-//            IMastery mastery = attackEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-//            mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
-//            sendExpToPlayer(mastery, (EntityPlayerMP) attackEvent.getEntityPlayer());
-//            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
-//        }
-//    }
 
     @SubscribeEvent
     public void killEntity(LivingDeathEvent deathEvent) { //TODO COMBAT
@@ -46,8 +37,7 @@ public class ExperienceEventsHandler {
             EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
             IMastery mastery = player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
             mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience(Math.round(deathEvent.getEntityLiving().getMaxHealth()));
-            sendExpToPlayer(mastery, player);
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
+            sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.COMBAT), player);
         }
     }
 
@@ -58,16 +48,14 @@ public class ExperienceEventsHandler {
             if (livingHurtEvent.getAmount() >= 1.0) {
                 mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
             }
-            sendExpToPlayer(mastery, (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource());
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
+            sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.COMBAT), (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource());
         }
         if (livingHurtEvent.getEntity() instanceof EntityPlayer) {
             IMastery mastery = livingHurtEvent.getEntity().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
             if (livingHurtEvent.getAmount() >= 1.0) {
                 mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
             }
-            sendExpToPlayer(mastery, (EntityPlayerMP) livingHurtEvent.getEntity());
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
+            sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.COMBAT), (EntityPlayerMP) livingHurtEvent.getEntity());
         }
     }
 
@@ -109,17 +97,11 @@ public class ExperienceEventsHandler {
 
     @SubscribeEvent
     public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {//TODO CRAFTING
-
         if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
-
             IMastery mastery = itemCraftedEvent.player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-
             mastery.getMasteries().get(MASTERY_SPEC.CRAFTING).increaseExperience();
             EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
-            MasteryMessage message = new MasteryMessage(mastery.toIntArray());
-            PacketHandler.INSTANCE.sendTo(message, player);
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.CRAFTING;
-
+            sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.CRAFTING), player);
         }
     }
 
@@ -128,8 +110,8 @@ public class ExperienceEventsHandler {
 
     }
 
-    private void sendExpToPlayer(IMastery mastery, EntityPlayerMP player) {
-        MasteryMessage message = new MasteryMessage(mastery.toIntArray());
+    private void sendExpToPlayer(MasteryClasses mastery, EntityPlayerMP player) {
+        MasteryMessage message = new MasteryMessage(mastery.getSkillClass().order, mastery.getLevel(), mastery.getExperience());
         PacketHandler.INSTANCE.sendTo(message, player);
     }
 

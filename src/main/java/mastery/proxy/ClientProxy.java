@@ -1,6 +1,7 @@
 package mastery.proxy;
 
 import mastery.configuration.MasteryConfiguration;
+import mastery.eventhandlers.TooltipEventHandler;
 import mastery.keybindings.InputHandler;
 import mastery.keybindings.KeyBindings;
 import mastery.ui.LevelOverlayUi;
@@ -26,6 +27,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new InputHandler());
     	MinecraftForge.EVENT_BUS.register(new LevelOverlayUi());
     	MinecraftForge.EVENT_BUS.register(new MasteryConfiguration());
+    	MinecraftForge.EVENT_BUS.register(new TooltipEventHandler());
         KeyBindings.init();
     }
 

@@ -1,21 +1,14 @@
 package mastery.eventhandlers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import mastery.experience.IMastery;
 import mastery.experience.MasteryProvider;
 import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
 import mastery.ui.LevelOverlayUi;
+import mastery.util.ItemTagUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
-import net.minecraft.init.PotionTypes;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
@@ -31,26 +24,11 @@ import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 
 public class ExperienceEventsHandler {
-	
-	/** Contains all types of items that give no exp.*/
-	private List<ItemStack> useLessPotions = new ArrayList<>();
-	/** Contains all brewed potions.*/
-	private Map<PotionType, Integer> brewedPotions = new HashMap<>();
+
+	private static final String TAG_BREWED_POTION = "isBrewed";
+	private static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
 	
 	public ExperienceEventsHandler() {
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.THICK));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.MUNDANE));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.AWKWARD));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.THICK));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.WATER));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.MUNDANE));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.AWKWARD));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.THICK));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.WATER));
-		useLessPotions.add(PotionUtils.addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.MUNDANE));
-		useLessPotions.add(new ItemStack(Items.GLASS_BOTTLE));
 	}
 	
     @SubscribeEvent
@@ -84,82 +62,62 @@ public class ExperienceEventsHandler {
 
 
     @SubscribeEvent
-    public void brewedPotion(PlayerBrewedPotionEvent potionEvent) { // TODO ALCHEMY only limited exp for brewing!
+    public void takePotion(PlayerBrewedPotionEvent potionEvent) { // TODO ALCHEMY only limited exp for brewing!
         if (!potionEvent.getEntityPlayer().getEntityWorld().isRemote) {
         	ItemStack stack = potionEvent.getStack();
-        	
-        	//Check Glass Bottle
-        	if(stack.getItem().equals(new ItemStack(Items.GLASS_BOTTLE).getItem())) {
-        		//Useless => no exp
-        		return;
-        	} else if (stack.getItem().equals(new ItemStack(Items.POTIONITEM).getItem()) || stack.getItem().equals(new ItemStack(Items.SPLASH_POTION).getItem()) || stack.getItem().equals(new ItemStack(Items.LINGERING_POTION).getItem())) {
-            	//Check Potion, Splash Potion, Lingering Potion
-        		PotionType our = PotionUtils.getPotionFromItem(stack);
-        		if(our.getEffects().isEmpty()) {
-        			//Useless
-        			return;
-        		}
-        		//Check if any quantity is available
-        		int quantityAvailable = brewedPotions.get(our);
-        		if(quantityAvailable > 0) {
-        			brewedPotions.put(our, quantityAvailable-1);
-        		} else {
-        			return;
-        		}
-        	} else {
-        		//Useless, everything except potions
-        		return;
-        	}
-        	
-        	IMastery mastery = potionEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-            mastery.getMasteries().get(MASTERY_SPEC.ALCHEMY).increaseExperience();
-            EntityPlayerMP player = (EntityPlayerMP) potionEvent.getEntityPlayer();
-            MasteryMessage message = new MasteryMessage(mastery.toIntArray());
-            PacketHandler.INSTANCE.sendTo(message, player);
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.ALCHEMY;
+
+    		//Check if stack is marked as 'brewed'
+    		if(!ItemTagUtils.hasTag(stack, TAG_BREWED_POTION)) {
+    			return;
+    		} else {
+    			ItemTagUtils.removeTag(stack, TAG_BREWED_POTION);
+        		//Add author to potion
+    			ItemTagUtils.addTagString(stack, TAG_POTION_AUTHOR, "Brewed by " + potionEvent.getEntityPlayer().getName());
+    		}
+
+    		PotionType our = PotionUtils.getPotionFromItem(stack);
+    		int numberOfExp = 1*our.getEffects().size();   
+
+    		
+    		if(numberOfExp > 0) {
+            	IMastery mastery = potionEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+                mastery.getMasteries().get(MASTERY_SPEC.ALCHEMY).increaseExperience();
+                EntityPlayerMP player = (EntityPlayerMP) potionEvent.getEntityPlayer();
+                MasteryMessage message = new MasteryMessage(mastery.toIntArray());
+                PacketHandler.INSTANCE.sendTo(message, player);
+                LevelOverlayUi.currentMastery = MASTERY_SPEC.ALCHEMY;
+    		}
 		}
     }
     
     @SubscribeEvent
-    public void brewedPotion(PotionBrewEvent.Post potionEvent) { // TODO ALCHEMY only limited exp for brewing!
+    public void postBrewedPotion(PotionBrewEvent.Post potionEvent) { // TODO ALCHEMY only limited exp for brewing!
     	ItemStack first = potionEvent.getItem(0);
     	ItemStack second = potionEvent.getItem(1);
     	ItemStack third = potionEvent.getItem(2);
-
+    	
     	//Skip if air
     	if(!first.isEmpty()) {
     		PotionType our = PotionUtils.getPotionFromItem(first);
     		if(!our.getEffects().isEmpty()) {
-    			//Increase Stack size by 1
-    			if(brewedPotions.containsKey(our)) {
-    				brewedPotions.put(our, brewedPotions.get(our)+1);
-    			} else {
-    				brewedPotions.put(our, 1);
-    			}
+    			//Tag stack as 'brewed'
+    			ItemTagUtils.addTagBoolean(first, TAG_BREWED_POTION, true);
     		}
     	}
     	//Skip if air
     	if(!second.isEmpty()) {
     		PotionType our = PotionUtils.getPotionFromItem(first);
     		if(!our.getEffects().isEmpty()) {
-    			//Increase Stack size by 1
-    			if(brewedPotions.containsKey(our)) {
-    				brewedPotions.put(our, brewedPotions.get(our)+1);
-    			} else {
-    				brewedPotions.put(our, 1);
-    			}
+    			//Tag stack as 'brewed'
+    			ItemTagUtils.addTagBoolean(second, TAG_BREWED_POTION, true);
     		}
     	}
     	//Skip if air
     	if(!third.isEmpty()) {
     		PotionType our = PotionUtils.getPotionFromItem(first);
     		if(!our.getEffects().isEmpty()) {
-    			//Increase Stack size by 1
-    			if(brewedPotions.containsKey(our)) {
-    				brewedPotions.put(our, brewedPotions.get(our)+1);
-    			} else {
-    				brewedPotions.put(our, 1);
-    			}
+    			//Tag stack as 'brewed'
+    			ItemTagUtils.addTagBoolean(third, TAG_BREWED_POTION, true);
     		}
     	} 
     }

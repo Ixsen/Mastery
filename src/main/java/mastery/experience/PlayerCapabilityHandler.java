@@ -18,7 +18,6 @@ public class PlayerCapabilityHandler {
     public void attachCapability(AttachCapabilitiesEvent event) {
         if (event.getObject() instanceof EntityPlayer) {
             event.addCapability(MASTERY_CAPABILITY, new MasteryProvider());
-
         }
     }
 
@@ -26,6 +25,5 @@ public class PlayerCapabilityHandler {
     public void persistAcrossDeath(PlayerEvent.Clone respawnEvent) {
         IMastery originalMastery = respawnEvent.getOriginal().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
         respawnEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null).setMasteries(originalMastery.getMasteries());
-
     }
 }

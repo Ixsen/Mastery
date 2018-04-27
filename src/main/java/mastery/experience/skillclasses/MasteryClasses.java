@@ -6,18 +6,12 @@ package mastery.experience.skillclasses;
 public abstract class MasteryClasses {
 
     private int experience = 0;
+    private int level = 1;
     protected String name = "mastery_placeholder";
 
-    public int getExperience() {
-        return experience;
-    }
 
     public void setExperience(int experience) {
         this.experience = experience;
-    }
-
-    public int getLevel() {
-        return experience / 10;
     }
 
     public void increaseExperience() {
@@ -27,19 +21,31 @@ public abstract class MasteryClasses {
     public void increaseExperience(int amount) {
         this.experience += amount;
     }
-    
-    public int getNextLevelExp() {
-    	return (getLevel()+1) * 10;
+
+    public void setLevel(int level) {
+        this.level = level;
     }
-    
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getNextLevelExp() {
+        return (getLevel() + 1) * 10;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
     public String getName() {
-    	return name;
+        return name;
     }
 
     public abstract MASTERY_SPEC getSkillClass();
 
     @Override
     public String toString() {
-        return name +" -> Level: " + getLevel() + " Exp: " + getExperience();
+        return name + " -> Level: " + getLevel() + " Exp: " + getExperience();
     }
 }

@@ -40,7 +40,7 @@ public class LevelOverlayUi extends Gui {
     public static MASTERY_SPEC currentMastery = MASTERY_SPEC.MINING;
 
 
-    public static LevelOverlayUi levelOverlayUi;
+    public static LevelOverlayUi levelOverlayUi; // TODO change this during event overhaul
     public LevelOverlayUi() {  // not proud about this one
         super();
         levelOverlayUi = this;

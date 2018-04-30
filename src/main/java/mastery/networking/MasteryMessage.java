@@ -47,7 +47,7 @@ public class MasteryMessage implements IMessage {
                 mastery.getMasteries().get(MASTERY_SPEC.getByOrder(message.masteryID)).calcNextLevelExp();
                 mastery.getMasteries().get(MASTERY_SPEC.getByOrder(message.masteryID)).setExperience(message.experience);
                 LevelOverlayUi.currentMastery = MASTERY_SPEC.getByOrder(message.masteryID);
-                LevelOverlayUi.levelOverlayUi.show();
+                LevelOverlayUi.levelOverlayUi.show(); // TODO change this during event overhaul
             });
             return null;
         }

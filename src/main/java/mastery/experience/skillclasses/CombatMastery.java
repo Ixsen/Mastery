@@ -13,4 +13,12 @@ public class CombatMastery extends MasteryClasses {
     public MASTERY_SPEC getSkillClass() {
         return MASTERY_SPEC.COMBAT;
     }
+
+    public float getAttackDamageEffect(float originalDamage) {
+        return originalDamage + originalDamage * (float) Math.log(getLevel() + 1) / 10.0f;
+    }
+
+    public float getDefenseDamageEffect(float originalDamage) {
+        return originalDamage - originalDamage * (float) Math.log(getLevel() + 1) / 20.0f;
+    }
 }

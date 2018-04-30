@@ -11,13 +11,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
+import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.potion.PotionType;
@@ -37,26 +42,49 @@ public class ExperienceEventsHandler {
             IMastery mastery = breakEvent.getPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
             mastery.getMasteries().get(MASTERY_SPEC.MINING).increaseExperience();
             EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
-            MasteryMessage message = new MasteryMessage(mastery.toIntArray());
-            PacketHandler.INSTANCE.sendTo(message, player);
+            sendExpToPlayer(mastery, player);
             LevelOverlayUi.currentMastery = MASTERY_SPEC.MINING;
         }
     }
 
-    @SubscribeEvent
-    public void attack(AttackEntityEvent attackEvent) { // TODO COMBAT
+//    @SubscribeEvent
+//    public void attack(AttackEntityEvent attackEvent) { // TODO COMBAT
+//        if (!attackEvent.getEntityPlayer().getEntityWorld().isRemote) {
+//            IMastery mastery = attackEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+//            mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
+//            sendExpToPlayer(mastery, (EntityPlayerMP) attackEvent.getEntityPlayer());
+//            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
+//        }
+//    }
 
+    @SubscribeEvent
+    public void killEntity(LivingDeathEvent deathEvent) { //TODO COMBAT
+        if (!deathEvent.getEntity().getEntityWorld().isRemote && deathEvent.getSource().getTrueSource() instanceof EntityPlayer) {
+            EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
+            IMastery mastery = player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+            mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience(Math.round(deathEvent.getEntityLiving().getMaxHealth()));
+            sendExpToPlayer(mastery, player);
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
+        }
     }
 
     @SubscribeEvent
-    public void getHit(LivingHurtEvent getHitEvent) { // TODO COMBAT (getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
-        if (getHitEvent.getSource().getTrueSource() instanceof EntityPlayer) {
-            getHitEvent.getSource().getTrueSource().sendMessage(new TextComponentString("You hit " + getHitEvent.getEntity().getName() + " for " + getHitEvent.getAmount()));
+    public void getHit(LivingHurtEvent livingHurtEvent) { // TODO COMBAT (hit, getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
+        if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer) {
+            IMastery mastery = livingHurtEvent.getSource().getTrueSource().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+            if (livingHurtEvent.getAmount() >= 1.0) {
+                mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
+            }
+            sendExpToPlayer(mastery, (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource());
             LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
         }
-        if (getHitEvent.getEntity() instanceof EntityPlayer) {
-            getHitEvent.getEntity().sendMessage(new TextComponentString("You got hit by " + getHitEvent.getSource()));
-            LevelOverlayUi.currentMastery = MASTERY_SPEC.SURVIVAL;
+        if (livingHurtEvent.getEntity() instanceof EntityPlayer) {
+            IMastery mastery = livingHurtEvent.getEntity().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+            if (livingHurtEvent.getAmount() >= 1.0) {
+                mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
+            }
+            sendExpToPlayer(mastery, (EntityPlayerMP) livingHurtEvent.getEntity());
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.COMBAT;
         }
     }
 
@@ -154,12 +182,28 @@ public class ExperienceEventsHandler {
 
     @SubscribeEvent
     public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {//TODO CRAFTING
-        LevelOverlayUi.currentMastery = MASTERY_SPEC.CRAFTING;
+
+        if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
+
+            IMastery mastery = itemCraftedEvent.player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+
+            mastery.getMasteries().get(MASTERY_SPEC.CRAFTING).increaseExperience();
+            EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
+            MasteryMessage message = new MasteryMessage(mastery.toIntArray());
+            PacketHandler.INSTANCE.sendTo(message, player);
+            LevelOverlayUi.currentMastery = MASTERY_SPEC.CRAFTING;
+
+        }
     }
 
     @SubscribeEvent
     public void jump(LivingEvent.LivingJumpEvent jumpEvent) { // TODO ATHLETICS
 
+    }
+
+    private void sendExpToPlayer(IMastery mastery, EntityPlayerMP player) {
+        MasteryMessage message = new MasteryMessage(mastery.toIntArray());
+        PacketHandler.INSTANCE.sendTo(message, player);
     }
 
     /* TODO

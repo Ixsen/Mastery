@@ -33,7 +33,7 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
             entry.getValue().setLevel(specificMasteryMap.getInteger(TAG_LEVEL));
             entry.getValue().calcNextLevelExp();
             entry.getValue().setExperience(specificMasteryMap.getInteger(TAG_EXPERIENCE));
-
+            entry.getValue().setSpecifics(specificMasteryMap);
         }
     }
 
@@ -42,7 +42,7 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
         for (Map.Entry<MASTERY_SPEC, MasteryClasses> entry : mastery.getMasteries().entrySet()) {
             masteryMap.setTag(entry.getValue().getName(), getNBTMap(entry.getValue()));
         }
-        return null;
+        return masteryMap;
     }
 
     private NBTTagCompound getNBTMap(MasteryClasses mastery) {
@@ -50,7 +50,7 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
         specificMasteryMap.setString(TAG_NAME, mastery.getName());
         specificMasteryMap.setInteger(TAG_LEVEL, mastery.getLevel());
         specificMasteryMap.setInteger(TAG_EXPERIENCE, mastery.getExperience());
-        return specificMasteryMap;
+        return mastery.getSpecifics(specificMasteryMap);
     }
 
 }

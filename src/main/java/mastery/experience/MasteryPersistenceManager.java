@@ -31,7 +31,6 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
         for (Map.Entry<MASTERY_SPEC, MasteryClasses> entry : iMastery.getMasteries().entrySet()) {
             NBTTagCompound specificMasteryMap = masteryMap.getCompoundTag(entry.getValue().getName());
             entry.getValue().setLevel(specificMasteryMap.getInteger(TAG_LEVEL));
-            entry.getValue().calcNextLevelExp();
             entry.getValue().setExperience(specificMasteryMap.getInteger(TAG_EXPERIENCE));
             entry.getValue().setSpecifics(specificMasteryMap);
         }

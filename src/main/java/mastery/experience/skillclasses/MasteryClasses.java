@@ -9,7 +9,7 @@ public abstract class MasteryClasses {
 
     private int experience = 0;
     private int level = 1;
-    protected int nextLevelExperience = 3;
+    protected int nextLevelExperience = 10;
     protected String name = "mastery_placeholder";
 
     public void setExperience(int experience) {
@@ -24,17 +24,19 @@ public abstract class MasteryClasses {
         this.experience += amount;
         if (experience >= nextLevelExperience) {
             level++;
+            int nextLevel = nextLevelExperience;
             calcNextLevelExp();
-            increaseExperience(-nextLevelExperience);
+            increaseExperience(-nextLevel);
         }
     }
 
     public void calcNextLevelExp() {
-        nextLevelExperience = 3;
+        nextLevelExperience = (int) (10.0f * Math.log(level));
     }
 
     public void setLevel(int level) {
         this.level = level;
+        calcNextLevelExp();
     }
 
     public int getLevel() {
@@ -72,6 +74,7 @@ public abstract class MasteryClasses {
 
     /**
      * Overwrite this method to load specific data previously saved via getSpecifics
+     *
      * @param map read from this map
      */
     public void setSpecifics(NBTTagCompound map) {

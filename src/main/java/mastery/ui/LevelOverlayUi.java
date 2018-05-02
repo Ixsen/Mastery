@@ -94,7 +94,7 @@ public class LevelOverlayUi extends Gui {
         GL11.glScalef(1, 1, 1);
         GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
         drawTexturedModalRect(MasteryConfiguration.UI_OVERLAY.uiOffsetX, MasteryConfiguration.UI_OVERLAY.uiOffsetY + (ICON_SCALE * ICON_SIZE), 0, 0, BACK_WIDTH, BACK_HEIGHT);
-        double quotient = (double) ((masteryInstance.getExperience() % 10) / 10d);
+        double quotient = (double) (masteryInstance.getExperience() / (float) masteryInstance.getNextLevelExp());
         int currentBarWidth = (int) (BAR_WIDTH * quotient);
         drawTexturedModalRect(MasteryConfiguration.UI_OVERLAY.uiOffsetX + 1, MasteryConfiguration.UI_OVERLAY.uiOffsetY + (ICON_SCALE * ICON_SIZE) + 1, 1, BACK_HEIGHT + 1, currentBarWidth, BAR_HEIGHT);
         GL11.glPopMatrix();

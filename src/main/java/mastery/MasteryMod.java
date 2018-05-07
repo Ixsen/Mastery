@@ -1,5 +1,9 @@
 package mastery;
 
+import mastery.eventsystem.MasteryEvent;
+import mastery.eventsystem.MasteryEventHandler;
+import mastery.eventsystem.MasteryEventType;
+import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.networking.PacketHandler;
 import mastery.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,6 +22,7 @@ public class MasteryMod {
 	public static final String modid = "mastery";
 	public static final String name = "MasteryMod";
 	public static final String version = "1.12.2-0.0.1";
+	private MasteryEventHandler eventSystem;
 
 	@SidedProxy(clientSide = "mastery.proxy.ClientProxy", serverSide = "mastery.proxy.ServerProxy")
 	public static CommonProxy proxy;
@@ -27,6 +32,7 @@ public class MasteryMod {
 
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		eventSystem = new MasteryEventHandler();
 		proxy.preInit(event);
 		PacketHandler.registerMasteryExpMessages();
 	}
@@ -48,5 +54,13 @@ public class MasteryMod {
 			return new ItemStack(MasteryItems.INGRIDIENT_RAINBOW_POWDER);
 		}
 	};
+
+	public static void fireExpEvent(MASTERY_SPEC spec, boolean notifyUI) {
+		instance.eventSystem.fireEvent(new MasteryEvent(MasteryEventType.PLAYER_EXP_CHANGED, spec, notifyUI));
+	}
+
+	public static MasteryEventHandler getEventHandler() {
+		return instance.eventSystem;
+	}
 
 }

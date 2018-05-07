@@ -1,40 +1,41 @@
 package mastery.networking;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.primitives.Ints;
-
 import io.netty.buffer.ByteBuf;
 import mastery.experience.IMastery;
 import mastery.experience.MasteryProvider;
+import mastery.experience.skillclasses.MASTERY_SPEC;
+import mastery.ui.LevelOverlayUi;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MasteryMessage implements IMessage { // TODO optimize for single mastery exp (only send one int)
-    List<Integer> experienceLevels = new ArrayList<>();
+public class MasteryMessage implements IMessage {
+    private int level;
+    private int experience;
+    private int masteryID;
 
-    public MasteryMessage() {
+    public MasteryMessage() { // Don't delete, is necessary for message initialization
     }
 
-    public MasteryMessage(int[] experienceLevels) {
-        this.experienceLevels = Ints.asList(experienceLevels);
+    public MasteryMessage(int masteryID, int level, int experience) {
+        this.masteryID = masteryID;
+        this.level = level;
+        this.experience = experience;
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        for (int i : experienceLevels) {
-            buf.writeInt(i);
-        }
+        buf.writeInt(masteryID);
+        buf.writeInt(level);
+        buf.writeInt(experience);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        while (buf.isReadable()) {
-            experienceLevels.add(buf.readInt());
-        }
+        masteryID = buf.readInt();
+        level = buf.readInt();
+        experience = buf.readInt();
     }
 
     public static class MasteryMessageHandler implements IMessageHandler<MasteryMessage, IMessage> {
@@ -42,7 +43,11 @@ public class MasteryMessage implements IMessage { // TODO optimize for single ma
         public IMessage onMessage(MasteryMessage message, MessageContext context) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 IMastery mastery = Minecraft.getMinecraft().player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-                mastery.readIntArray(message.experienceLevels.stream().mapToInt(it -> it.intValue()).toArray());
+                mastery.getMasteries().get(MASTERY_SPEC.getByOrder(message.masteryID)).setLevel(message.level);
+                mastery.getMasteries().get(MASTERY_SPEC.getByOrder(message.masteryID)).calcNextLevelExp();
+                mastery.getMasteries().get(MASTERY_SPEC.getByOrder(message.masteryID)).setExperience(message.experience);
+                LevelOverlayUi.currentMastery = MASTERY_SPEC.getByOrder(message.masteryID);
+                LevelOverlayUi.levelOverlayUi.show(); // TODO change this during event overhaul
             });
             return null;
         }

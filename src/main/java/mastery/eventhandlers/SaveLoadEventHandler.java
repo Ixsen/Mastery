@@ -22,7 +22,7 @@ public class SaveLoadEventHandler {
 			for (MASTERY_SPEC mastSpec : MASTERY_SPEC.values()) {
 				MasteryClasses masteryClasses = mastery.getMasteries().get(mastSpec);
 				MasteryMessage message = new MasteryMessage(masteryClasses.getSkillClass().order,
-						masteryClasses.getLevel(), masteryClasses.getExperience());
+						masteryClasses.getLevel(), masteryClasses.getExperience(), false);
 				PacketHandler.INSTANCE.sendTo(message, player);
 			}
 		}

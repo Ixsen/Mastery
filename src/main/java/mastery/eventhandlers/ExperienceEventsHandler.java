@@ -6,7 +6,6 @@ import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.experience.skillclasses.MasteryClasses;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
-import mastery.ui.LevelOverlayUi;
 import mastery.util.ItemTagUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -161,7 +160,6 @@ public class ExperienceEventsHandler {
 
 	@SubscribeEvent
 	public void animalTame(AnimalTameEvent tameEvent) { // TODO HUSBANDRY
-		LevelOverlayUi.currentMastery = MASTERY_SPEC.HUSBANDRY;
 	}
 
 	@SubscribeEvent
@@ -187,7 +185,7 @@ public class ExperienceEventsHandler {
 
 	private void sendExpToPlayer(MasteryClasses mastery, EntityPlayerMP player) {
 		MasteryMessage message = new MasteryMessage(mastery.getSkillClass().order, mastery.getLevel(),
-				mastery.getExperience());
+				mastery.getExperience(), true);
 		PacketHandler.INSTANCE.sendTo(message, player);
 	}
 

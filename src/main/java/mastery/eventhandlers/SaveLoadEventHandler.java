@@ -1,18 +1,30 @@
 package mastery.eventhandlers;
 
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import mastery.experience.IMastery;
+import mastery.experience.MasteryProvider;
+import mastery.experience.skillclasses.MASTERY_SPEC;
+import mastery.experience.skillclasses.MasteryClasses;
+import mastery.networking.MasteryMessage;
+import mastery.networking.PacketHandler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class SaveLoadEventHandler {
 
-    @SubscribeEvent
-    public void joinWorld(PlayerEvent.LoadFromFile joinWorldEvent) {
-//        if(joinWorldEvent.getEntityPlayer() != null && !joinWorldEvent.getEntityPlayer().getEntityWorld().isRemote) {
-//            IMastery mastery = joinWorldEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-//            EntityPlayerMP player = (EntityPlayerMP) joinWorldEvent.getEntityPlayer();
-//            player.sendMessage(new TextComponentString("YOU HAVE " + player.connection));
-//            MasteryMessage message = new MasteryMessage(mastery.toIntArray());
-//            PacketHandler.INSTANCE.sendTo(message, player);
-//        }
-    }
+	@SubscribeEvent
+	public void joinWorld(EntityJoinWorldEvent joinWorldEvent) {
+		if ((joinWorldEvent.getEntity() instanceof EntityPlayer)
+				&& !joinWorldEvent.getEntity().getEntityWorld().isRemote) {
+			IMastery mastery = joinWorldEvent.getEntity().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+			EntityPlayerMP player = (EntityPlayerMP) joinWorldEvent.getEntity();
+			for (MASTERY_SPEC mastSpec : MASTERY_SPEC.values()) {
+				MasteryClasses masteryClasses = mastery.getMasteries().get(mastSpec);
+				MasteryMessage message = new MasteryMessage(masteryClasses.getSkillClass().order,
+						masteryClasses.getLevel(), masteryClasses.getExperience());
+				PacketHandler.INSTANCE.sendTo(message, player);
+			}
+		}
+	}
 }

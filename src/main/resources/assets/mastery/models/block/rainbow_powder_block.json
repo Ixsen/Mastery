@@ -1,0 +1,6 @@
+{
+   "parent": "block/cube_all",
+   "textures": {
+       "all": "mastery:blocks/rainbow_powder_block"
+   }
+}

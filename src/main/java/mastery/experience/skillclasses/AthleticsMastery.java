@@ -1,9 +1,9 @@
 package mastery.experience.skillclasses;
 
-public class AthleticsMastery extends MasteryClasses {
+public class AthleticsMastery extends MasteryClass {
 
     public AthleticsMastery() {
-        name = "Athletics";
+        this.name = "Athletics";
     }
 
     @Override

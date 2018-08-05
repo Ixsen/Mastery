@@ -1,6 +1,7 @@
 package mastery.experience;
 
 import mastery.MasteryMod;
+import mastery.util.MasteryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -23,7 +24,7 @@ public class PlayerCapabilityHandler {
 
     @SubscribeEvent
     public void persistAcrossDeath(PlayerEvent.Clone respawnEvent) {
-        IMastery originalMastery = respawnEvent.getOriginal().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-        respawnEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null).setMasteries(originalMastery.getMasteries());
+        IMastery originalMastery = MasteryUtils.getMasteries(respawnEvent.getOriginal());
+        MasteryUtils.getMasteries(respawnEvent.getEntityPlayer()).setMasteries(originalMastery.getMasteries());
     }
 }

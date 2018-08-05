@@ -9,7 +9,7 @@ import mastery.experience.skillclasses.CraftingMastery;
 import mastery.experience.skillclasses.FarmingMastery;
 import mastery.experience.skillclasses.HusbandryMastery;
 import mastery.experience.skillclasses.MASTERY_SPEC;
-import mastery.experience.skillclasses.MasteryClasses;
+import mastery.experience.skillclasses.MasteryClass;
 import mastery.experience.skillclasses.MiningMastery;
 import mastery.experience.skillclasses.SurvivalMastery;
 
@@ -22,7 +22,7 @@ public class Mastery implements IMastery {
     public int[] toIntArray() {
         int[] intArray = new int[MASTERY_SPEC.values().length];
         for (int i = 0; i < MASTERY_SPEC.values().length; i++) {
-            intArray[i] = masteryClasses.get(MASTERY_SPEC.getByOrder(i)).getExperience();
+            intArray[i] = this.masteryClasses.get(MASTERY_SPEC.getByOrder(i)).getExperience();
         }
         return intArray;
     }
@@ -30,32 +30,32 @@ public class Mastery implements IMastery {
     @Override
     public void readIntArray(int[] array) {
         for (int i = 0; i < MASTERY_SPEC.values().length; i++) {
-            MasteryClasses masteryClass = this.masteryClasses.get(MASTERY_SPEC.getByOrder(i));
+            MasteryClass masteryClass = this.masteryClasses.get(MASTERY_SPEC.getByOrder(i));
             masteryClass.setExperience(array[i]);
         }
     }
 
     @Override
-    public void setMasteries(HashMap<MASTERY_SPEC, MasteryClasses> masteries) {
+    public void setMasteries(HashMap<MASTERY_SPEC, MasteryClass> masteries) {
         this.masteryClasses = masteries;
     }
 
     @Override
-    public HashMap<MASTERY_SPEC, MasteryClasses> getMasteries() {
+    public HashMap<MASTERY_SPEC, MasteryClass> getMasteries() {
         return this.masteryClasses;
     }
 
-    private HashMap<MASTERY_SPEC, MasteryClasses> masteryClasses = new HashMap<>();
+    private HashMap<MASTERY_SPEC, MasteryClass> masteryClasses = new HashMap<>();
 
     public Mastery() {
-        masteryClasses.put(MASTERY_SPEC.MINING, new MiningMastery());
-        masteryClasses.put(MASTERY_SPEC.COMBAT, new CombatMastery());
-        masteryClasses.put(MASTERY_SPEC.ALCHEMY, new AlchemyMastery());
-        masteryClasses.put(MASTERY_SPEC.FARMING, new FarmingMastery());
-        masteryClasses.put(MASTERY_SPEC.HUSBANDRY, new HusbandryMastery());
-        masteryClasses.put(MASTERY_SPEC.SURVIVAL, new SurvivalMastery());
-        masteryClasses.put(MASTERY_SPEC.CRAFTING, new CraftingMastery());
-        masteryClasses.put(MASTERY_SPEC.ATHLETICS, new AthleticsMastery());
+        this.masteryClasses.put(MASTERY_SPEC.MINING, new MiningMastery());
+        this.masteryClasses.put(MASTERY_SPEC.COMBAT, new CombatMastery());
+        this.masteryClasses.put(MASTERY_SPEC.ALCHEMY, new AlchemyMastery());
+        this.masteryClasses.put(MASTERY_SPEC.FARMING, new FarmingMastery());
+        this.masteryClasses.put(MASTERY_SPEC.HUSBANDRY, new HusbandryMastery());
+        this.masteryClasses.put(MASTERY_SPEC.SURVIVAL, new SurvivalMastery());
+        this.masteryClasses.put(MASTERY_SPEC.CRAFTING, new CraftingMastery());
+        this.masteryClasses.put(MASTERY_SPEC.ATHLETICS, new AthleticsMastery());
     }
 
 }

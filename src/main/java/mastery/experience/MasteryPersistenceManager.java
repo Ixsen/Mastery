@@ -1,13 +1,14 @@
 package mastery.experience;
 
+import java.util.Map;
+import javax.annotation.Nullable;
+
 import mastery.experience.skillclasses.MASTERY_SPEC;
-import mastery.experience.skillclasses.MasteryClasses;
-import net.minecraft.nbt.*;
+import mastery.experience.skillclasses.MasteryClass;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-
-import javax.annotation.Nullable;
-import java.util.Map;
 
 /**
  * Created by Granis on 15/03/2018.
@@ -22,13 +23,13 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
     @Nullable
     @Override
     public NBTBase writeNBT(Capability<IMastery> capability, IMastery iMastery, EnumFacing enumFacing) {
-        return getNBTMasteryMap(iMastery);
+        return this.getNBTMasteryMap(iMastery);
     }
 
     @Override
     public void readNBT(Capability<IMastery> capability, IMastery iMastery, EnumFacing enumFacing, NBTBase nbtBase) {
         NBTTagCompound masteryMap = (NBTTagCompound) nbtBase;
-        for (Map.Entry<MASTERY_SPEC, MasteryClasses> entry : iMastery.getMasteries().entrySet()) {
+        for (Map.Entry<MASTERY_SPEC, MasteryClass> entry : iMastery.getMasteries().entrySet()) {
             NBTTagCompound specificMasteryMap = masteryMap.getCompoundTag(entry.getValue().getName());
             entry.getValue().setLevel(specificMasteryMap.getInteger(TAG_LEVEL));
             entry.getValue().setExperience(specificMasteryMap.getInteger(TAG_EXPERIENCE));
@@ -38,13 +39,13 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
 
     private NBTTagCompound getNBTMasteryMap(IMastery mastery) {
         NBTTagCompound masteryMap = new NBTTagCompound();
-        for (Map.Entry<MASTERY_SPEC, MasteryClasses> entry : mastery.getMasteries().entrySet()) {
-            masteryMap.setTag(entry.getValue().getName(), getNBTMap(entry.getValue()));
+        for (Map.Entry<MASTERY_SPEC, MasteryClass> entry : mastery.getMasteries().entrySet()) {
+            masteryMap.setTag(entry.getValue().getName(), this.getNBTMap(entry.getValue()));
         }
         return masteryMap;
     }
 
-    private NBTTagCompound getNBTMap(MasteryClasses mastery) {
+    private NBTTagCompound getNBTMap(MasteryClass mastery) {
         NBTTagCompound specificMasteryMap = new NBTTagCompound();
         specificMasteryMap.setString(TAG_NAME, mastery.getName());
         specificMasteryMap.setInteger(TAG_LEVEL, mastery.getLevel());

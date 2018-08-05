@@ -15,7 +15,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 public class MasteryProvider implements ICapabilitySerializable<NBTBase> {
 
     @CapabilityInject(IMastery.class)
-    public static final Capability<IMastery> MASTERY_CAPABILITY = null;
+    public static Capability<IMastery> MASTERY_CAPABILITY;
 
     private IMastery mastery = MASTERY_CAPABILITY.getDefaultInstance();
 
@@ -27,7 +27,7 @@ public class MasteryProvider implements ICapabilitySerializable<NBTBase> {
     @Nullable
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing enumFacing) {
-        return capability == MASTERY_CAPABILITY ? MASTERY_CAPABILITY.<T> cast(mastery) : null;
+        return capability == MASTERY_CAPABILITY ? MASTERY_CAPABILITY.<T>cast(this.mastery) : null;
     }
 
     @Override

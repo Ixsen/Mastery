@@ -1,9 +1,7 @@
 package mastery.eventhandlers;
 
-import mastery.experience.skillclasses.AlchemyMastery;
-import mastery.experience.skillclasses.CombatMastery;
-import mastery.experience.skillclasses.CraftingMastery;
-import mastery.experience.skillclasses.MiningMastery;
+import mastery.experience.skillclasses.*;
+import mastery.util.BlockUtil;
 import mastery.util.ItemTagUtils;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
@@ -14,11 +12,7 @@ import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
-import net.minecraftforge.event.entity.living.AnimalTameEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -43,9 +37,15 @@ public class ExperienceEventsHandler {
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
         if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
             EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
-            MiningMastery miningMastery = MasteryUtils.getMiningMastery(player);
-            miningMastery.increaseExperience();
-            NetworkUtils.sendExpToPlayer(miningMastery, player);
+            if (BlockUtil.shouldGetFarmingExp(breakEvent.getState())) {
+                FarmingMastery farmingMastery = MasteryUtils.getFarmingMastery(player);
+                farmingMastery.increaseExperience();
+                NetworkUtils.sendExpToPlayer(farmingMastery, player);
+            } else {
+                MiningMastery miningMastery = MasteryUtils.getMiningMastery(player);
+                miningMastery.increaseExperience();
+                NetworkUtils.sendExpToPlayer(miningMastery, player);
+            }
         }
     }
 

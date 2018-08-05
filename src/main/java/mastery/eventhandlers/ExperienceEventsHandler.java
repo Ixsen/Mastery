@@ -1,12 +1,12 @@
 package mastery.eventhandlers;
 
-import mastery.experience.IMastery;
-import mastery.experience.MasteryProvider;
-import mastery.experience.skillclasses.MASTERY_SPEC;
-import mastery.experience.skillclasses.MasteryClasses;
-import mastery.networking.MasteryMessage;
-import mastery.networking.PacketHandler;
+import mastery.experience.skillclasses.AlchemyMastery;
+import mastery.experience.skillclasses.CombatMastery;
+import mastery.experience.skillclasses.CraftingMastery;
+import mastery.experience.skillclasses.MiningMastery;
 import mastery.util.ItemTagUtils;
+import mastery.util.MasteryUtils;
+import mastery.util.NetworkUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -28,168 +28,218 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ExperienceEventsHandler {
 
-	private static final String TAG_BREWED_POTION = "isBrewed";
-	private static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
+    private static final String TAG_BREWED_POTION = "isBrewed";
+    private static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
 
-	public ExperienceEventsHandler() {
-	}
+    public ExperienceEventsHandler() {
+    }
 
-	@SubscribeEvent
-	public void breakBlock(BlockEvent.BreakEvent breakEvent) { // TODO MINING and FARMING
-		if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
-			IMastery mastery = breakEvent.getPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-			mastery.getMasteries().get(MASTERY_SPEC.MINING).increaseExperience();
-			EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
-			sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.MINING), player);
-		}
-	}
+    /***
+     * TODO MINING and FARMING
+     *
+     * @param breakEvent --
+     */
+    @SubscribeEvent
+    public void breakBlock(BlockEvent.BreakEvent breakEvent) {
+        if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
+            EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
+            MiningMastery miningMastery = MasteryUtils.getMiningMastery(player);
+            miningMastery.increaseExperience();
+            NetworkUtils.sendExpToPlayer(miningMastery, player);
+        }
+    }
 
-	@SubscribeEvent
-	public void killEntity(LivingDeathEvent deathEvent) { // TODO COMBAT
-		if (!deathEvent.getEntity().getEntityWorld().isRemote
-				&& deathEvent.getSource().getTrueSource() instanceof EntityPlayer) {
-			EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
-			IMastery mastery = player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-			mastery.getMasteries().get(MASTERY_SPEC.COMBAT)
-					.increaseExperience(Math.round(deathEvent.getEntityLiving().getMaxHealth()));
-			sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.COMBAT), player);
-		}
-	}
+    /**
+     * TODO COMBAT
+     *
+     * @param deathEvent --
+     */
+    @SubscribeEvent
+    public void killEntity(LivingDeathEvent deathEvent) {
+        if (!deathEvent.getEntity().getEntityWorld().isRemote && deathEvent.getSource().getTrueSource() instanceof EntityPlayer) {
+            EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            combatMastery.increaseExperience(Math.round(deathEvent.getEntityLiving().getMaxHealth()));
+            NetworkUtils.sendExpToPlayer(combatMastery, player);
+        }
+    }
 
-	@SubscribeEvent
-	public void getHit(LivingHurtEvent livingHurtEvent) { // TODO COMBAT (hit, getting hit), SURVIVAL (falling damage,
-															// drowning, lava, hunger etc)
-		if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer) {
-			IMastery mastery = livingHurtEvent.getSource().getTrueSource()
-					.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-			if (livingHurtEvent.getAmount() >= 1.0) {
-				mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
-			}
-			sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.COMBAT),
-					(EntityPlayerMP) livingHurtEvent.getSource().getTrueSource());
-		}
-		if (livingHurtEvent.getEntity() instanceof EntityPlayer) {
-			IMastery mastery = livingHurtEvent.getEntity().getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-			if (livingHurtEvent.getAmount() >= 1.0) {
-				mastery.getMasteries().get(MASTERY_SPEC.COMBAT).increaseExperience();
-			}
-			sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.COMBAT),
-					(EntityPlayerMP) livingHurtEvent.getEntity());
-		}
-	}
+    /**
+     * TODO COMBAT (hit, getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
+     *
+     * @param livingHurtEvent --
+     */
+    @SubscribeEvent
+    public void getHit(LivingHurtEvent livingHurtEvent) {
+        if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer && livingHurtEvent.getAmount() >= CombatMastery.doDamageExpThreshold) {
+            EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            combatMastery.increaseExperience();
+            NetworkUtils.sendExpToPlayer(combatMastery, player);
+        }
+        if (livingHurtEvent.getEntity() instanceof EntityPlayer && livingHurtEvent.getAmount() >= CombatMastery.getDamagedExpThreshold) {
+            EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getEntity();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            combatMastery.increaseExperience();
+            NetworkUtils.sendExpToPlayer(combatMastery, player);
+        }
+    }
 
-	@SubscribeEvent
-	public void takePotion(PlayerBrewedPotionEvent potionEvent) { // TODO ALCHEMY only limited exp for brewing!
-		if (!potionEvent.getEntityPlayer().getEntityWorld().isRemote) {
-			ItemStack stack = potionEvent.getStack();
+    /**
+     * TODO ALCHEMY only limited exp for brewing!
+     *
+     * @param potionEvent --
+     */
+    @SubscribeEvent
+    public void takePotion(PlayerBrewedPotionEvent potionEvent) {
+        if (!potionEvent.getEntityPlayer().getEntityWorld().isRemote) {
+            ItemStack stack = potionEvent.getStack();
 
-			// Check if stack is marked as 'brewed'
-			if (!ItemTagUtils.hasTag(stack, TAG_BREWED_POTION)) {
-				return;
-			} else {
-				ItemTagUtils.removeTag(stack, TAG_BREWED_POTION);
-				// Add author to potion
-				ItemTagUtils.addTagString(stack, TAG_POTION_AUTHOR,
-						"Brewed by " + potionEvent.getEntityPlayer().getName());
-			}
+            // Check if stack is marked as 'brewed'
+            if (!ItemTagUtils.hasTag(stack, TAG_BREWED_POTION)) {
+                return;
+            } else {
+                ItemTagUtils.removeTag(stack, TAG_BREWED_POTION);
+                // Add author to potion
+                ItemTagUtils.addTagString(stack, TAG_POTION_AUTHOR,
+                        "Brewed by " + potionEvent.getEntityPlayer().getName());
+            }
 
-			PotionType our = PotionUtils.getPotionFromItem(stack);
-			int numberOfExp = 1 * our.getEffects().size();
+            PotionType our = PotionUtils.getPotionFromItem(stack);
+            int numberOfExp = 1 * our.getEffects().size();
 
-			if (numberOfExp > 0) {
-				IMastery mastery = potionEvent.getEntityPlayer().getCapability(MasteryProvider.MASTERY_CAPABILITY,
-						null);
-				mastery.getMasteries().get(MASTERY_SPEC.ALCHEMY).increaseExperience();
-				EntityPlayerMP player = (EntityPlayerMP) potionEvent.getEntityPlayer();
-				sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.ALCHEMY), player);
-			}
-		}
-	}
+            if (numberOfExp > 0) {
+                EntityPlayerMP player = (EntityPlayerMP) potionEvent.getEntityPlayer();
+                AlchemyMastery alchemyMastery = MasteryUtils.getAlchemyMastery(player);
+                alchemyMastery.increaseExperience();
+                NetworkUtils.sendExpToPlayer(alchemyMastery, player);
+            }
+        }
+    }
 
-	@SubscribeEvent
-	public void postBrewedPotion(PotionBrewEvent.Post potionEvent) { // TODO ALCHEMY only limited exp for brewing!
-		ItemStack first = potionEvent.getItem(0);
-		ItemStack second = potionEvent.getItem(1);
-		ItemStack third = potionEvent.getItem(2);
+    /**
+     * TODO ALCHEMY only limited exp for brewing!
+     *
+     * @param potionEvent --
+     */
+    @SubscribeEvent
+    public void postBrewedPotion(PotionBrewEvent.Post potionEvent) {
+        ItemStack first = potionEvent.getItem(0);
+        ItemStack second = potionEvent.getItem(1);
+        ItemStack third = potionEvent.getItem(2);
 
-		// Skip if air
-		if (!first.isEmpty()) {
-			PotionType our = PotionUtils.getPotionFromItem(first);
-			if (!our.getEffects().isEmpty()) {
-				// Tag stack as 'brewed'
-				ItemTagUtils.addTagBoolean(first, TAG_BREWED_POTION, true);
-			}
-		}
-		// Skip if air
-		if (!second.isEmpty()) {
-			PotionType our = PotionUtils.getPotionFromItem(first);
-			if (!our.getEffects().isEmpty()) {
-				// Tag stack as 'brewed'
-				ItemTagUtils.addTagBoolean(second, TAG_BREWED_POTION, true);
-			}
-		}
-		// Skip if air
-		if (!third.isEmpty()) {
-			PotionType our = PotionUtils.getPotionFromItem(first);
-			if (!our.getEffects().isEmpty()) {
-				// Tag stack as 'brewed'
-				ItemTagUtils.addTagBoolean(third, TAG_BREWED_POTION, true);
-			}
-		}
-	}
+        // Skip if air
+        if (!first.isEmpty()) {
+            PotionType our = PotionUtils.getPotionFromItem(first);
+            if (!our.getEffects().isEmpty()) {
+                // Tag stack as 'brewed'
+                ItemTagUtils.addTagBoolean(first, TAG_BREWED_POTION, true);
+            }
+        }
+        // Skip if air
+        if (!second.isEmpty()) {
+            PotionType our = PotionUtils.getPotionFromItem(first);
+            if (!our.getEffects().isEmpty()) {
+                // Tag stack as 'brewed'
+                ItemTagUtils.addTagBoolean(second, TAG_BREWED_POTION, true);
+            }
+        }
+        // Skip if air
+        if (!third.isEmpty()) {
+            PotionType our = PotionUtils.getPotionFromItem(first);
+            if (!our.getEffects().isEmpty()) {
+                // Tag stack as 'brewed'
+                ItemTagUtils.addTagBoolean(third, TAG_BREWED_POTION, true);
+            }
+        }
+    }
 
-	@SubscribeEvent
-	public void useItem(LivingEntityUseItemEvent.Finish useItemEvent) { // TODO ALCHEMY, SURVIVAL
+    /**
+     * TODO ALCHEMY, SURVIVAL
+     *
+     * @param useItemEvent --
+     */
+    @SubscribeEvent
+    public void useItem(LivingEntityUseItemEvent.Finish useItemEvent) {
 
-	}
+    }
 
-	@SubscribeEvent
-	public void harvestCrop(PlayerEvent.HarvestCheck harvestCheck) {// TODO FARMING
+    /**
+     * TODO FARMING
+     *
+     * @param harvestCheck --
+     */
+    @SubscribeEvent
+    public void harvestCrop(PlayerEvent.HarvestCheck harvestCheck) {
 
-	}
+    }
 
-	@SubscribeEvent
-	public void boneEvent(BonemealEvent bonemealEvent) { // TODO FARMING
+    /**
+     * TODO FARMING
+     *
+     * @param bonemealEvent --
+     */
+    @SubscribeEvent
+    public void boneEvent(BonemealEvent bonemealEvent) {
 
-	}
+    }
 
-	@SubscribeEvent
-	public void hoeing(UseHoeEvent useHoeEvent) { // TODO FARMING
+    /**
+     * TODO FARMING
+     *
+     * @param useHoeEvent --
+     */
+    @SubscribeEvent
+    public void hoeing(UseHoeEvent useHoeEvent) {
 
-	}
+    }
 
-	@SubscribeEvent
-	public void animalTame(AnimalTameEvent tameEvent) { // TODO HUSBANDRY
-	}
+    /**
+     * TODO HUSBANDRY
+     *
+     * @param tameEvent --
+     */
+    @SubscribeEvent
+    public void animalTame(AnimalTameEvent tameEvent) {
+    }
 
-	@SubscribeEvent
-	public void feed(PlayerInteractEvent.EntityInteractSpecific interactEvent) {// TODO HUSBANDRY
+    /**
+     * TODO HUSBANDRY
+     *
+     * @param interactEvent --
+     */
+    @SubscribeEvent
+    public void feed(PlayerInteractEvent.EntityInteractSpecific interactEvent) {
 
-	}
+    }
 
-	@SubscribeEvent
-	public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {// TODO
-																													// CRAFTING
-		if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
-			IMastery mastery = itemCraftedEvent.player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
-			mastery.getMasteries().get(MASTERY_SPEC.CRAFTING).increaseExperience();
-			EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
-			sendExpToPlayer(mastery.getMasteries().get(MASTERY_SPEC.CRAFTING), player);
-		}
-	}
+    /**
+     * TODO CRAFTING
+     *
+     * @param itemCraftedEvent --
+     */
+    @SubscribeEvent
+    public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {
+        if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
+            EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
+            CraftingMastery craftingMastery = MasteryUtils.getCraftingMastery(player);
+            craftingMastery.increaseExperience();
+            NetworkUtils.sendExpToPlayer(craftingMastery, player);
+        }
+    }
 
-	@SubscribeEvent
-	public void jump(LivingEvent.LivingJumpEvent jumpEvent) { // TODO ATHLETICS
+    /**
+     * TODO ATHLETICS
+     *
+     * @param jumpEvent --
+     */
+    @SubscribeEvent
+    public void jump(LivingEvent.LivingJumpEvent jumpEvent) {
 
-	}
+    }
 
-	private void sendExpToPlayer(MasteryClasses mastery, EntityPlayerMP player) {
-		MasteryMessage message = new MasteryMessage(mastery.getSkillClass().order, mastery.getLevel(),
-				mastery.getExperience(), true);
-		PacketHandler.INSTANCE.sendTo(message, player);
-	}
 
-	/*
-	 * TODO TNT MINING
-	 */
+    /*
+     * TODO TNT MINING
+     */
 }

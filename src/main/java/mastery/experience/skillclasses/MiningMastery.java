@@ -3,10 +3,10 @@ package mastery.experience.skillclasses;
 /**
  * Created by Granis on 16/03/2018.
  */
-public class MiningMastery extends MasteryClasses {
+public class MiningMastery extends MasteryClass {
 
     public MiningMastery() {
-        name = "Mining";
+        this.name = "Mining";
     }
 
     @Override
@@ -15,8 +15,8 @@ public class MiningMastery extends MasteryClasses {
     }
 
     public float getMiningSpeed(float originalSpeed) {
-        float miningSpeed =  originalSpeed * getLevel();
-        if(miningSpeed == 0.0f) {
+        float miningSpeed = originalSpeed * this.getLevel();
+        if (miningSpeed == 0.0f) {
             miningSpeed = 1.0f;
         }
         return miningSpeed;

@@ -1,8 +1,8 @@
 package mastery.ui;
 
 import mastery.experience.IMastery;
-import mastery.experience.MasteryProvider;
 import mastery.experience.skillclasses.MASTERY_SPEC;
+import mastery.util.MasteryUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -16,7 +16,7 @@ public class LevelUi extends GuiScreen {
 
     public LevelUi() {
         super();
-        setGuiSize(WIDTH, HEIGHT);
+        this.setGuiSize(WIDTH, HEIGHT);
     }
 
     @Override
@@ -26,26 +26,26 @@ public class LevelUi extends GuiScreen {
 
     @Override
     public void initGui() {
-        EntityPlayerSP player = mc.player;
-        IMastery mastery = player.getCapability(MasteryProvider.MASTERY_CAPABILITY,null);
-        GuiButton alchemy = new GuiButton(0,100,21,300,20,mastery.getMasteries().get(MASTERY_SPEC.ALCHEMY).toString());
-        GuiButton athletics = new GuiButton(0,100,42,300,20,mastery.getMasteries().get(MASTERY_SPEC.ATHLETICS).toString());
-        GuiButton combat = new GuiButton(0,100,63,300,20,mastery.getMasteries().get(MASTERY_SPEC.COMBAT).toString());
-        GuiButton crafting = new GuiButton(0,100,84,300,20,mastery.getMasteries().get(MASTERY_SPEC.CRAFTING).toString());
-        GuiButton farming = new GuiButton(0,100,105,300,20,mastery.getMasteries().get(MASTERY_SPEC.FARMING).toString());
-        GuiButton husbandry = new GuiButton(0,100,126,300,20,mastery.getMasteries().get(MASTERY_SPEC.HUSBANDRY).toString());
-        GuiButton mining = new GuiButton(0,100,147,300,20,mastery.getMasteries().get(MASTERY_SPEC.MINING).toString());
-        GuiButton survival = new GuiButton(0,100,168,300,20,mastery.getMasteries().get(MASTERY_SPEC.SURVIVAL).toString());
-        buttonList.add(alchemy);
-        buttonList.add(athletics);
-        buttonList.add(combat);
-        buttonList.add(crafting);
-        buttonList.add(farming);
-        buttonList.add(husbandry);
-        buttonList.add(mining);
-        buttonList.add(survival);
+        EntityPlayerSP player = this.mc.player;
+        IMastery mastery = MasteryUtils.getMasteries(player);
+        GuiButton alchemy = new GuiButton(0, 100, 21, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.ALCHEMY).toString());
+        GuiButton athletics = new GuiButton(0, 100, 42, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.ATHLETICS).toString());
+        GuiButton combat = new GuiButton(0, 100, 63, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.COMBAT).toString());
+        GuiButton crafting = new GuiButton(0, 100, 84, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.CRAFTING).toString());
+        GuiButton farming = new GuiButton(0, 100, 105, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.FARMING).toString());
+        GuiButton husbandry = new GuiButton(0, 100, 126, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.HUSBANDRY).toString());
+        GuiButton mining = new GuiButton(0, 100, 147, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.MINING).toString());
+        GuiButton survival = new GuiButton(0, 100, 168, 300, 20, mastery.getMasteries().get(MASTERY_SPEC.SURVIVAL).toString());
+        this.buttonList.add(alchemy);
+        this.buttonList.add(athletics);
+        this.buttonList.add(combat);
+        this.buttonList.add(crafting);
+        this.buttonList.add(farming);
+        this.buttonList.add(husbandry);
+        this.buttonList.add(mining);
+        this.buttonList.add(survival);
 
-        
+
         //GUILabel(FontRenderer, ID, X, Y, WIDTH, HEIGHT, TEXT_COLOR)
 //        GuiLabel level = new GuiLabel(fontRenderer, 100, 2, 2, 200, 50, 4210752);
 //        level.addLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");

@@ -1,6 +1,6 @@
 package mastery.experience.skillclasses;
 
-public class AlchemyMastery extends MasteryClasses {
+public class AlchemyMastery extends MasteryClass {
 
     @Override
     public MASTERY_SPEC getSkillClass() {
@@ -8,6 +8,6 @@ public class AlchemyMastery extends MasteryClasses {
     }
 
     public AlchemyMastery() {
-        name = "Alchemy";
+        this.name = "Alchemy";
     }
 }

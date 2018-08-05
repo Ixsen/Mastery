@@ -1,8 +1,8 @@
 package mastery.experience.skillclasses;
 
-public class CraftingMastery extends MasteryClasses {
+public class CraftingMastery extends MasteryClass {
     public CraftingMastery() {
-        name = "Crafting";
+        this.name = "Crafting";
     }
 
     @Override

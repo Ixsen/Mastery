@@ -6,19 +6,19 @@ package mastery.experience.skillclasses;
 public class MiningMastery extends MasteryClass {
 
     public MiningMastery() {
-	this.name = "Mining";
+        this.name = "Mining";
     }
 
     @Override
     public MASTERY_SPEC getSkillClass() {
-	return MASTERY_SPEC.MINING;
+        return MASTERY_SPEC.MINING;
     }
 
     public float getMiningSpeed(float originalSpeed) {
-	float miningSpeed = originalSpeed * this.getLevel();
-	if (miningSpeed == 0.0f) {
-	    miningSpeed = 1.0f;
-	}
-	return miningSpeed;
+        float miningSpeed = originalSpeed * this.getLevel();
+        if (miningSpeed == 0.0f) {
+            miningSpeed = 1.0f;
+        }
+        return miningSpeed;
     }
 }

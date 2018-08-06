@@ -25,10 +25,10 @@ public class EffectEventsHandler {
      */
     @SubscribeEvent
     public void harvestBlocks(BlockEvent.HarvestDropsEvent harvestEvent) {
-	if (harvestEvent.getDrops().size() > 0 && harvestEvent.getHarvester() != null) {
-	    int level = MasteryUtils.getMiningMastery(harvestEvent.getHarvester()).getLevel();
-	    harvestEvent.getDrops().get(0).setCount(harvestEvent.getDrops().get(0).getCount() + level);
-	}
+        if (harvestEvent.getDrops().size() > 0 && harvestEvent.getHarvester() != null) {
+            int level = MasteryUtils.getMiningMastery(harvestEvent.getHarvester()).getLevel();
+            harvestEvent.getDrops().get(0).setCount(harvestEvent.getDrops().get(0).getCount() + level);
+        }
     }
 
     /**
@@ -72,16 +72,16 @@ public class EffectEventsHandler {
      */
     @SubscribeEvent
     public void livingHurt(LivingHurtEvent livingHurtEvent) {
-	if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer) {
-	    CombatMastery mastery = MasteryUtils.getCombatMastery(livingHurtEvent.getSource().getTrueSource());
-	    float newDamage = mastery.getAttackDamageEffect(livingHurtEvent.getAmount());
-	    livingHurtEvent.setAmount(newDamage);
-	} else if (livingHurtEvent.getEntity() instanceof EntityPlayer
-		&& livingHurtEvent.getSource().getTrueSource() != null) {
-	    CombatMastery mastery = MasteryUtils.getCombatMastery(livingHurtEvent.getEntity());
-	    float newDamage = mastery.getDefenseDamageEffect(livingHurtEvent.getAmount());
-	    livingHurtEvent.setAmount(newDamage);
-	}
+        if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer) {
+            CombatMastery mastery = MasteryUtils.getCombatMastery(livingHurtEvent.getSource().getTrueSource());
+            float newDamage = mastery.getAttackDamageEffect(livingHurtEvent.getAmount());
+            livingHurtEvent.setAmount(newDamage);
+        } else if (livingHurtEvent.getEntity() instanceof EntityPlayer
+                && livingHurtEvent.getSource().getTrueSource() != null) {
+            CombatMastery mastery = MasteryUtils.getCombatMastery(livingHurtEvent.getEntity());
+            float newDamage = mastery.getDefenseDamageEffect(livingHurtEvent.getAmount());
+            livingHurtEvent.setAmount(newDamage);
+        }
     }
 
     /**
@@ -92,9 +92,9 @@ public class EffectEventsHandler {
      */
     @SubscribeEvent
     public void breakSpeed(PlayerEvent.BreakSpeed breakingSpeed) {
-	MiningMastery miningMastery = MasteryUtils.getMiningMastery(breakingSpeed.getEntityPlayer());
-	float newSpeed = miningMastery.getMiningSpeed(breakingSpeed.getOriginalSpeed());
-	breakingSpeed.setNewSpeed(newSpeed);
+        MiningMastery miningMastery = MasteryUtils.getMiningMastery(breakingSpeed.getEntityPlayer());
+        float newSpeed = miningMastery.getMiningSpeed(breakingSpeed.getOriginalSpeed());
+        breakingSpeed.setNewSpeed(newSpeed);
     }
 
     /**
@@ -105,9 +105,9 @@ public class EffectEventsHandler {
      */
     @SubscribeEvent
     public void onItemCrafted(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent event) {
-	CraftingMastery craftingMastery = (MasteryUtils.getCraftingMastery(event.player));
-	Random random = new Random();
-	event.crafting.setCount(event.crafting.getCount() + (random.nextInt(100) + craftingMastery.getLevel()) / 100);
+        CraftingMastery craftingMastery = (MasteryUtils.getCraftingMastery(event.player));
+        Random random = new Random();
+        event.crafting.setCount(event.crafting.getCount() + (random.nextInt(100) + craftingMastery.getLevel()) / 100);
     }
 
 }

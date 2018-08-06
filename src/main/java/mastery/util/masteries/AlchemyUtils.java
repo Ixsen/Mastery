@@ -24,10 +24,10 @@ public class AlchemyUtils {
      * @return true, whether the stack is a potion stack
      */
     public static boolean isPotion(ItemStack stack) {// Skip if air
-	if (!stack.isEmpty()) {
-	    return false;
-	}
-	return PotionUtils.getPotionFromItem(stack) != null ? true : false;
+        if (!stack.isEmpty()) {
+            return false;
+        }
+        return PotionUtils.getPotionFromItem(stack) != null ? true : false;
     }
 
     /**
@@ -39,15 +39,15 @@ public class AlchemyUtils {
      *         otherwise.
      */
     public static PotionType getPotionType(ItemStack stack) {
-	// Skip if air
-	if (!stack.isEmpty()) {
-	    return null;
-	}
-	if (isPotion(stack)) {
-	    return PotionUtils.getPotionFromItem(stack);
-	} else {
-	    return null;
-	}
+        // Skip if air
+        if (!stack.isEmpty()) {
+            return null;
+        }
+        if (isPotion(stack)) {
+            return PotionUtils.getPotionFromItem(stack);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -58,7 +58,7 @@ public class AlchemyUtils {
      * @return true, whether the potion is useless, flase otherwise.
      */
     public static boolean isUselessPotion(PotionType potion) {
-	return potion.getEffects().isEmpty();
+        return potion.getEffects().isEmpty();
     }
 
     /**
@@ -67,6 +67,6 @@ public class AlchemyUtils {
      * @return returns true if the item contains the tag TAG_BREWED_POTION
      */
     public static boolean hasBrewedTag(ItemStack stack) {
-	return !ItemTagUtils.hasTag(stack, TAG_BREWED_POTION);
+        return !ItemTagUtils.hasTag(stack, TAG_BREWED_POTION);
     }
 }

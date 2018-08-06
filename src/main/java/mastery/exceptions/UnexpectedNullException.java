@@ -6,14 +6,14 @@ package mastery.exceptions;
  */
 public class UnexpectedNullException extends RuntimeException {
     public UnexpectedNullException() {
-	super("Null should not have happened here");
+        super("Null should not have happened here");
     }
 
     public UnexpectedNullException(String message) {
-	super(message);
+        super(message);
     }
 
     public UnexpectedNullException(String message, Throwable cause) {
-	super(message, cause);
+        super(message, cause);
     }
 }

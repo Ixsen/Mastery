@@ -27,12 +27,12 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
-	MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
-	MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
-	MinecraftForge.EVENT_BUS.register(new EffectEventsHandler());
-	MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
-	NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.instance, new GuiProxy());
-	registerCapabilities();
+        MinecraftForge.EVENT_BUS.register(new ExperienceEventsHandler());
+        MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
+        MinecraftForge.EVENT_BUS.register(new EffectEventsHandler());
+        MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.instance, new GuiProxy());
+        registerCapabilities();
     }
 
     public void postInit(FMLPostInitializationEvent event) {
@@ -40,17 +40,17 @@ public class CommonProxy {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-	event.getRegistry().registerAll(MasteryBlocks.ALL_BLOCKS.toArray(new Block[0]));
+        event.getRegistry().registerAll(MasteryBlocks.ALL_BLOCKS.toArray(new Block[0]));
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-	event.getRegistry().registerAll(MasteryItems.ALL_ITEMS.toArray(new Item[0]));
+        event.getRegistry().registerAll(MasteryItems.ALL_ITEMS.toArray(new Item[0]));
     }
 
     private void registerCapabilities() {
-	CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(),
-		mastery.experience.Mastery.class);
+        CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(),
+                mastery.experience.Mastery.class);
     }
 
     /**

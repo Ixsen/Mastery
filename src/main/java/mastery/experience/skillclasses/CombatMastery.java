@@ -8,27 +8,27 @@ import net.minecraft.entity.EntityLivingBase;
 public class CombatMastery extends MasteryClass {
 
     public enum EXP_TYPE {
-	ENTITY_DAMAGED, PLAYER_DAMAGED;
+        ENTITY_DAMAGED, PLAYER_DAMAGED;
     }
 
     public static final double doDamageExpThreshold = 1.0f;
     public static final float getDamagedExpThreshold = 1.0f;
 
     public CombatMastery() {
-	this.name = "Combat";
+        this.name = "Combat";
     }
 
     @Override
     public MASTERY_SPEC getSkillClass() {
-	return MASTERY_SPEC.COMBAT;
+        return MASTERY_SPEC.COMBAT;
     }
 
     public float getAttackDamageEffect(float originalDamage) {
-	return originalDamage + originalDamage * (float) Math.log(this.getLevel() + 1) / 10.0f;
+        return originalDamage + originalDamage * (float) Math.log(this.getLevel() + 1) / 10.0f;
     }
 
     public float getDefenseDamageEffect(float originalDamage) {
-	return originalDamage - originalDamage * (float) Math.log(this.getLevel() + 1) / 20.0f;
+        return originalDamage - originalDamage * (float) Math.log(this.getLevel() + 1) / 20.0f;
     }
 
     /**
@@ -38,7 +38,7 @@ public class CombatMastery extends MasteryClass {
      *            --
      */
     public void increaseExperience_EntitySlain(EntityLivingBase entity) {
-	this.increaseExperience(Math.round(entity.getMaxHealth()));
+        this.increaseExperience(Math.round(entity.getMaxHealth()));
     }
 
     /**
@@ -50,13 +50,13 @@ public class CombatMastery extends MasteryClass {
      *            --
      */
     public void increaseExperience(float amount, EXP_TYPE type) {
-	switch (type) {
-	case ENTITY_DAMAGED:
-	    this.increaseExperience();
-	    break;
-	case PLAYER_DAMAGED:
-	    this.increaseExperience();
-	    break;
-	}
+        switch (type) {
+        case ENTITY_DAMAGED:
+            this.increaseExperience();
+            break;
+        case PLAYER_DAMAGED:
+            this.increaseExperience();
+            break;
+        }
     }
 }

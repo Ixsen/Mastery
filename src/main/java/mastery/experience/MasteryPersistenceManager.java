@@ -23,34 +23,34 @@ public class MasteryPersistenceManager implements Capability.IStorage<IMastery> 
     @Nullable
     @Override
     public NBTBase writeNBT(Capability<IMastery> capability, IMastery iMastery, EnumFacing enumFacing) {
-	return this.getNBTMasteryMap(iMastery);
+        return this.getNBTMasteryMap(iMastery);
     }
 
     @Override
     public void readNBT(Capability<IMastery> capability, IMastery iMastery, EnumFacing enumFacing, NBTBase nbtBase) {
-	NBTTagCompound masteryMap = (NBTTagCompound) nbtBase;
-	for (Map.Entry<MASTERY_SPEC, MasteryClass> entry : iMastery.getMasteries().entrySet()) {
-	    NBTTagCompound specificMasteryMap = masteryMap.getCompoundTag(entry.getValue().getName());
-	    entry.getValue().setLevel(specificMasteryMap.getInteger(TAG_LEVEL));
-	    entry.getValue().setExperience(specificMasteryMap.getInteger(TAG_EXPERIENCE));
-	    entry.getValue().setSpecifics(specificMasteryMap);
-	}
+        NBTTagCompound masteryMap = (NBTTagCompound) nbtBase;
+        for (Map.Entry<MASTERY_SPEC, MasteryClass> entry : iMastery.getMasteries().entrySet()) {
+            NBTTagCompound specificMasteryMap = masteryMap.getCompoundTag(entry.getValue().getName());
+            entry.getValue().setLevel(specificMasteryMap.getInteger(TAG_LEVEL));
+            entry.getValue().setExperience(specificMasteryMap.getInteger(TAG_EXPERIENCE));
+            entry.getValue().setSpecifics(specificMasteryMap);
+        }
     }
 
     private NBTTagCompound getNBTMasteryMap(IMastery mastery) {
-	NBTTagCompound masteryMap = new NBTTagCompound();
-	for (Map.Entry<MASTERY_SPEC, MasteryClass> entry : mastery.getMasteries().entrySet()) {
-	    masteryMap.setTag(entry.getValue().getName(), this.getNBTMap(entry.getValue()));
-	}
-	return masteryMap;
+        NBTTagCompound masteryMap = new NBTTagCompound();
+        for (Map.Entry<MASTERY_SPEC, MasteryClass> entry : mastery.getMasteries().entrySet()) {
+            masteryMap.setTag(entry.getValue().getName(), this.getNBTMap(entry.getValue()));
+        }
+        return masteryMap;
     }
 
     private NBTTagCompound getNBTMap(MasteryClass mastery) {
-	NBTTagCompound specificMasteryMap = new NBTTagCompound();
-	specificMasteryMap.setString(TAG_NAME, mastery.getName());
-	specificMasteryMap.setInteger(TAG_LEVEL, mastery.getLevel());
-	specificMasteryMap.setInteger(TAG_EXPERIENCE, mastery.getExperience());
-	return mastery.getSpecifics(specificMasteryMap);
+        NBTTagCompound specificMasteryMap = new NBTTagCompound();
+        specificMasteryMap.setString(TAG_NAME, mastery.getName());
+        specificMasteryMap.setInteger(TAG_LEVEL, mastery.getLevel());
+        specificMasteryMap.setInteger(TAG_EXPERIENCE, mastery.getExperience());
+        return mastery.getSpecifics(specificMasteryMap);
     }
 
 }

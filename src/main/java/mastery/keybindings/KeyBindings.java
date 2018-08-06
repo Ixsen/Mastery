@@ -10,7 +10,7 @@ public class KeyBindings {
     public static KeyBinding openGuiKey;
 
     public static void init() {
-	openGuiKey = new KeyBinding("Open GUI", Keyboard.KEY_U, "Mastery");
-	ClientRegistry.registerKeyBinding(openGuiKey);
+        openGuiKey = new KeyBinding("Open GUI", Keyboard.KEY_U, "Mastery");
+        ClientRegistry.registerKeyBinding(openGuiKey);
     }
 }

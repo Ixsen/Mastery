@@ -8,15 +8,15 @@ public enum MASTERY_SPEC {
     public int order;
 
     MASTERY_SPEC(int order) {
-	this.order = order;
+        this.order = order;
     }
 
     public static MASTERY_SPEC getByOrder(int order) {
-	for (MASTERY_SPEC mastery_spec : MASTERY_SPEC.values()) {
-	    if (mastery_spec.order == order) {
-		return mastery_spec;
-	    }
-	}
-	throw new RuntimeException("No Enum value for " + order + " found.");
+        for (MASTERY_SPEC mastery_spec : MASTERY_SPEC.values()) {
+            if (mastery_spec.order == order) {
+                return mastery_spec;
+            }
+        }
+        throw new RuntimeException("No Enum value for " + order + " found.");
     }
 }

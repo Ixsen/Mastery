@@ -44,18 +44,18 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
-	if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
-	    EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
-	    if (BlockUtil.shouldGetFarmingExp(breakEvent.getState())) {
-		FarmingMastery farmingMastery = MasteryUtils.getFarmingMastery(player);
-		farmingMastery.increaseExperience();
-		NetworkUtils.sendExpToPlayer(farmingMastery, player);
-	    } else {
-		MiningMastery miningMastery = MasteryUtils.getMiningMastery(player);
-		miningMastery.increaseExperience();
-		NetworkUtils.sendExpToPlayer(miningMastery, player);
-	    }
-	}
+        if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
+            EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
+            if (BlockUtil.shouldGetFarmingExp(breakEvent.getState())) {
+                FarmingMastery farmingMastery = MasteryUtils.getFarmingMastery(player);
+                farmingMastery.increaseExperience();
+                NetworkUtils.sendExpToPlayer(farmingMastery, player);
+            } else {
+                MiningMastery miningMastery = MasteryUtils.getMiningMastery(player);
+                miningMastery.increaseExperience();
+                NetworkUtils.sendExpToPlayer(miningMastery, player);
+            }
+        }
     }
 
     /**
@@ -67,13 +67,13 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void killEntity(LivingDeathEvent deathEvent) {
-	if (!deathEvent.getEntity().getEntityWorld().isRemote
-		&& deathEvent.getSource().getTrueSource() instanceof EntityPlayer) {
-	    EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
-	    CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
-	    combatMastery.increaseExperience_EntitySlain(deathEvent.getEntityLiving());
-	    NetworkUtils.sendExpToPlayer(combatMastery, player);
-	}
+        if (!deathEvent.getEntity().getEntityWorld().isRemote
+                && deathEvent.getSource().getTrueSource() instanceof EntityPlayer) {
+            EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            combatMastery.increaseExperience_EntitySlain(deathEvent.getEntityLiving());
+            NetworkUtils.sendExpToPlayer(combatMastery, player);
+        }
     }
 
     /**
@@ -84,21 +84,21 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void getHit(LivingHurtEvent livingHurtEvent) {
-	if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer
-		&& livingHurtEvent.getAmount() >= CombatMastery.doDamageExpThreshold) {
-	    EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource();
-	    CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
-	    combatMastery.increaseExperience(livingHurtEvent.getAmount(), CombatMastery.EXP_TYPE.ENTITY_DAMAGED);
-	    NetworkUtils.sendExpToPlayer(combatMastery, player);
-	}
-	if (livingHurtEvent.getEntity() instanceof EntityPlayer
-		&& livingHurtEvent.getSource().getTrueSource() instanceof EntityLivingBase
-		&& livingHurtEvent.getAmount() >= CombatMastery.getDamagedExpThreshold) {
-	    EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getEntity();
-	    CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
-	    combatMastery.increaseExperience(livingHurtEvent.getAmount(), CombatMastery.EXP_TYPE.PLAYER_DAMAGED);
-	    NetworkUtils.sendExpToPlayer(combatMastery, player);
-	}
+        if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer
+                && livingHurtEvent.getAmount() >= CombatMastery.doDamageExpThreshold) {
+            EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            combatMastery.increaseExperience(livingHurtEvent.getAmount(), CombatMastery.EXP_TYPE.ENTITY_DAMAGED);
+            NetworkUtils.sendExpToPlayer(combatMastery, player);
+        }
+        if (livingHurtEvent.getEntity() instanceof EntityPlayer
+                && livingHurtEvent.getSource().getTrueSource() instanceof EntityLivingBase
+                && livingHurtEvent.getAmount() >= CombatMastery.getDamagedExpThreshold) {
+            EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getEntity();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            combatMastery.increaseExperience(livingHurtEvent.getAmount(), CombatMastery.EXP_TYPE.PLAYER_DAMAGED);
+            NetworkUtils.sendExpToPlayer(combatMastery, player);
+        }
     }
 
     /**
@@ -109,29 +109,29 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void takePotion(PlayerBrewedPotionEvent potionEvent) {
-	if (!potionEvent.getEntityPlayer().getEntityWorld().isRemote) {
-	    ItemStack stack = potionEvent.getStack();
+        if (!potionEvent.getEntityPlayer().getEntityWorld().isRemote) {
+            ItemStack stack = potionEvent.getStack();
 
-	    // Check if stack is marked as 'brewed'
-	    if (!ItemTagUtils.hasTag(stack, AlchemyUtils.TAG_BREWED_POTION)) {
-		return;
-	    } else {
-		ItemTagUtils.removeTag(stack, AlchemyUtils.TAG_BREWED_POTION);
-		// Add author to potion
-		ItemTagUtils.addTagString(stack, AlchemyUtils.TAG_POTION_AUTHOR,
-			"Brewed by " + potionEvent.getEntityPlayer().getName());
-	    }
+            // Check if stack is marked as 'brewed'
+            if (!ItemTagUtils.hasTag(stack, AlchemyUtils.TAG_BREWED_POTION)) {
+                return;
+            } else {
+                ItemTagUtils.removeTag(stack, AlchemyUtils.TAG_BREWED_POTION);
+                // Add author to potion
+                ItemTagUtils.addTagString(stack, AlchemyUtils.TAG_POTION_AUTHOR,
+                        "Brewed by " + potionEvent.getEntityPlayer().getName());
+            }
 
-	    PotionType our = PotionUtils.getPotionFromItem(stack);
-	    int numberOfExp = 1 * our.getEffects().size();
+            PotionType our = PotionUtils.getPotionFromItem(stack);
+            int numberOfExp = 1 * our.getEffects().size();
 
-	    if (numberOfExp > 0) {
-		EntityPlayerMP player = (EntityPlayerMP) potionEvent.getEntityPlayer();
-		AlchemyMastery alchemyMastery = MasteryUtils.getAlchemyMastery(player);
-		alchemyMastery.increaseExperience();
-		NetworkUtils.sendExpToPlayer(alchemyMastery, player);
-	    }
-	}
+            if (numberOfExp > 0) {
+                EntityPlayerMP player = (EntityPlayerMP) potionEvent.getEntityPlayer();
+                AlchemyMastery alchemyMastery = MasteryUtils.getAlchemyMastery(player);
+                alchemyMastery.increaseExperience();
+                NetworkUtils.sendExpToPlayer(alchemyMastery, player);
+            }
+        }
     }
 
     /**
@@ -142,27 +142,27 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void postBrewedPotion(PotionBrewEvent.Post potionEvent) {
-	ItemStack first = potionEvent.getItem(0);
-	ItemStack second = potionEvent.getItem(1);
-	ItemStack third = potionEvent.getItem(2);
+        ItemStack first = potionEvent.getItem(0);
+        ItemStack second = potionEvent.getItem(1);
+        ItemStack third = potionEvent.getItem(2);
 
-	// First slot
-	PotionType our = AlchemyUtils.getPotionType(first);
-	if (!AlchemyUtils.isUselessPotion(our)) {
-	    ItemTagUtils.addTagBoolean(first, AlchemyUtils.TAG_BREWED_POTION, true);
-	}
+        // First slot
+        PotionType our = AlchemyUtils.getPotionType(first);
+        if (!AlchemyUtils.isUselessPotion(our)) {
+            ItemTagUtils.addTagBoolean(first, AlchemyUtils.TAG_BREWED_POTION, true);
+        }
 
-	// Second slot
-	our = AlchemyUtils.getPotionType(second);
-	if (!AlchemyUtils.isUselessPotion(our)) {
-	    ItemTagUtils.addTagBoolean(second, AlchemyUtils.TAG_BREWED_POTION, true);
-	}
+        // Second slot
+        our = AlchemyUtils.getPotionType(second);
+        if (!AlchemyUtils.isUselessPotion(our)) {
+            ItemTagUtils.addTagBoolean(second, AlchemyUtils.TAG_BREWED_POTION, true);
+        }
 
-	// Third slot
-	our = AlchemyUtils.getPotionType(third);
-	if (!AlchemyUtils.isUselessPotion(our)) {
-	    ItemTagUtils.addTagBoolean(third, AlchemyUtils.TAG_BREWED_POTION, true);
-	}
+        // Third slot
+        our = AlchemyUtils.getPotionType(third);
+        if (!AlchemyUtils.isUselessPotion(our)) {
+            ItemTagUtils.addTagBoolean(third, AlchemyUtils.TAG_BREWED_POTION, true);
+        }
     }
 
     /**
@@ -173,11 +173,12 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void useItem(LivingEntityUseItemEvent.Finish useItemEvent) {
-	ItemStack item = useItemEvent.getItem();
+        ItemStack item = useItemEvent.getItem();
 
-	if (AlchemyUtils.isPotion(item)) {
-	    Minecraft.getMinecraft().player.sendChatMessage("");
-	}
+        // ProjectileLaunchEvent
+        if (AlchemyUtils.isPotion(item)) {
+            Minecraft.getMinecraft().player.sendChatMessage("");
+        }
     }
 
     /**
@@ -242,12 +243,12 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {
-	if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
-	    EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
-	    CraftingMastery craftingMastery = MasteryUtils.getCraftingMastery(player);
-	    craftingMastery.increaseExperience();
-	    NetworkUtils.sendExpToPlayer(craftingMastery, player);
-	}
+        if (!itemCraftedEvent.player.getEntityWorld().isRemote) {
+            EntityPlayerMP player = (EntityPlayerMP) itemCraftedEvent.player;
+            CraftingMastery craftingMastery = MasteryUtils.getCraftingMastery(player);
+            craftingMastery.increaseExperience();
+            NetworkUtils.sendExpToPlayer(craftingMastery, player);
+        }
     }
 
     /**

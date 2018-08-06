@@ -9,14 +9,14 @@ import net.minecraft.util.EnumBlockRenderType;
 public class IngredientTable extends Block {
 
     public IngredientTable(String name, Material materialIn, CreativeTabs tab, float hardness, float resistance,
-	    String tool, int harvest) {
-	super(materialIn);
-	this.setUnlocalizedName(name);
-	this.setRegistryName("ingridienttable");
-	this.setCreativeTab(tab);
-	this.setHardness(hardness);
-	this.setResistance(resistance);
-	this.setHarvestLevel(tool, harvest);
+            String tool, int harvest) {
+        super(materialIn);
+        this.setUnlocalizedName(name);
+        this.setRegistryName("ingridienttable");
+        this.setCreativeTab(tab);
+        this.setHardness(hardness);
+        this.setResistance(resistance);
+        this.setHarvestLevel(tool, harvest);
     }
 
     /**
@@ -30,7 +30,7 @@ public class IngredientTable extends Block {
      */
     @Override
     public EnumBlockRenderType getRenderType(IBlockState iBlockState) {
-	return EnumBlockRenderType.MODEL;
+        return EnumBlockRenderType.MODEL;
     }
 
 }

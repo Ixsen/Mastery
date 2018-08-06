@@ -32,35 +32,35 @@ public class MasteryMod {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-	eventSystem = new MasteryEventHandler();
-	proxy.preInit(event);
-	PacketHandler.registerMasteryExpMessages();
+        eventSystem = new MasteryEventHandler();
+        proxy.preInit(event);
+        PacketHandler.registerMasteryExpMessages();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-	proxy.init(event);
+        proxy.init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-	proxy.postInit(event);
+        proxy.postInit(event);
     }
 
     public static CreativeTabs TAB_MASTERY = new CreativeTabs("tab_mastery") {
-	@Override
-	@SideOnly(Side.CLIENT)
-	public ItemStack getTabIconItem() {
-	    return new ItemStack(MasteryItems.INGRIDIENT_RAINBOW_POWDER);
-	}
+        @Override
+        @SideOnly(Side.CLIENT)
+        public ItemStack getTabIconItem() {
+            return new ItemStack(MasteryItems.INGRIDIENT_RAINBOW_POWDER);
+        }
     };
 
     public static void fireExpEvent(MASTERY_SPEC spec, boolean notifyUI) {
-	instance.eventSystem.fireEvent(new MasteryEvent(MasteryEventType.PLAYER_EXP_CHANGED, spec, notifyUI));
+        instance.eventSystem.fireEvent(new MasteryEvent(MasteryEventType.PLAYER_EXP_CHANGED, spec, notifyUI));
     }
 
     public static MasteryEventHandler getEventHandler() {
-	return instance.eventSystem;
+        return instance.eventSystem;
     }
 
 }

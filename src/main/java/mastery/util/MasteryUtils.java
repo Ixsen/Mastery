@@ -21,44 +21,44 @@ import net.minecraft.entity.Entity;
 public class MasteryUtils {
 
     public static IMastery getMasteries(Entity player) {
-	return player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
+        return player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);
     }
 
     public static MasteryClass getMastery(Entity player, MASTERY_SPEC spec) {
-	return getMasteries(player).getMasteries().get(spec);
+        return getMasteries(player).getMasteries().get(spec);
 
     }
 
     public static AlchemyMastery getAlchemyMastery(Entity player) {
-	return (AlchemyMastery) getMastery(player, MASTERY_SPEC.ALCHEMY);
+        return (AlchemyMastery) getMastery(player, MASTERY_SPEC.ALCHEMY);
     }
 
     public static AthleticsMastery getAthleticsMastery(Entity player) {
-	return (AthleticsMastery) getMastery(player, MASTERY_SPEC.ATHLETICS);
+        return (AthleticsMastery) getMastery(player, MASTERY_SPEC.ATHLETICS);
     }
 
     public static CombatMastery getCombatMastery(Entity player) {
-	return (CombatMastery) getMastery(player, MASTERY_SPEC.COMBAT);
+        return (CombatMastery) getMastery(player, MASTERY_SPEC.COMBAT);
     }
 
     public static CraftingMastery getCraftingMastery(Entity player) {
-	return (CraftingMastery) getMastery(player, MASTERY_SPEC.CRAFTING);
+        return (CraftingMastery) getMastery(player, MASTERY_SPEC.CRAFTING);
     }
 
     public static FarmingMastery getFarmingMastery(Entity player) {
-	return (FarmingMastery) getMastery(player, MASTERY_SPEC.FARMING);
+        return (FarmingMastery) getMastery(player, MASTERY_SPEC.FARMING);
     }
 
     public static HusbandryMastery getHusbandryMastery(Entity player) {
-	return (HusbandryMastery) getMastery(player, MASTERY_SPEC.HUSBANDRY);
+        return (HusbandryMastery) getMastery(player, MASTERY_SPEC.HUSBANDRY);
     }
 
     public static MiningMastery getMiningMastery(Entity player) {
-	return (MiningMastery) getMastery(player, MASTERY_SPEC.MINING);
+        return (MiningMastery) getMastery(player, MASTERY_SPEC.MINING);
     }
 
     public static SurvivalMastery getSurvivalMastery(Entity player) {
-	return (SurvivalMastery) getMastery(player, MASTERY_SPEC.SURVIVAL);
+        return (SurvivalMastery) getMastery(player, MASTERY_SPEC.SURVIVAL);
     }
 
 }

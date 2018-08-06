@@ -23,14 +23,14 @@ public class ItemTagUtils {
      * @return
      */
     private static NBTTagCompound getTagCompound(ItemStack stack) {
-	NBTTagCompound compound;
-	// Get tag library
-	if (stack.hasTagCompound()) {
-	    compound = stack.getTagCompound();
-	} else {
-	    compound = new NBTTagCompound();
-	}
-	return compound;
+        NBTTagCompound compound;
+        // Get tag library
+        if (stack.hasTagCompound()) {
+            compound = stack.getTagCompound();
+        } else {
+            compound = new NBTTagCompound();
+        }
+        return compound;
     }
 
     /**
@@ -41,14 +41,14 @@ public class ItemTagUtils {
      * @return List of all 'TOOLTIP_' tags
      */
     public static List<String> getAllTooltipTags(ItemStack stack) {
-	NBTTagCompound compound = getTagCompound(stack);
-	List<String> allTags = new ArrayList<>();
-	for (String string : compound.getKeySet()) {
-	    if (string.contains(TOOLTIP_TAG)) {
-		allTags.add(string);
-	    }
-	}
-	return allTags;
+        NBTTagCompound compound = getTagCompound(stack);
+        List<String> allTags = new ArrayList<>();
+        for (String string : compound.getKeySet()) {
+            if (string.contains(TOOLTIP_TAG)) {
+                allTags.add(string);
+            }
+        }
+        return allTags;
     }
 
     /**
@@ -58,10 +58,10 @@ public class ItemTagUtils {
      * @param key
      */
     public static void removeTag(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	compound.removeTag(tag);
-	stack.setTagCompound(compound);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        compound.removeTag(tag);
+        stack.setTagCompound(compound);
     }
 
     /**
@@ -71,9 +71,9 @@ public class ItemTagUtils {
      * @param key
      */
     public static boolean hasTag(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	return compound.hasKey(tag);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        return compound.hasKey(tag);
     }
 
     /**
@@ -84,10 +84,10 @@ public class ItemTagUtils {
      * @param value
      */
     public static void addTagInteger(ItemStack stack, String tag, int value) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	compound.setInteger(tag, value);
-	stack.setTagCompound(compound);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        compound.setInteger(tag, value);
+        stack.setTagCompound(compound);
     }
 
     /**
@@ -98,10 +98,10 @@ public class ItemTagUtils {
      * @param value
      */
     public static void addTagString(ItemStack stack, String tag, String value) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	compound.setString(tag, value);
-	stack.setTagCompound(compound);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        compound.setString(tag, value);
+        stack.setTagCompound(compound);
     }
 
     /**
@@ -112,10 +112,10 @@ public class ItemTagUtils {
      * @param value
      */
     public static void addTagBoolean(ItemStack stack, String tag, boolean value) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	compound.setBoolean(tag, value);
-	stack.setTagCompound(compound);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        compound.setBoolean(tag, value);
+        stack.setTagCompound(compound);
     }
 
     /**
@@ -126,10 +126,10 @@ public class ItemTagUtils {
      * @param value
      */
     public static void addTagDouble(ItemStack stack, String tag, double value) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	compound.setDouble(tag, value);
-	stack.setTagCompound(compound);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        compound.setDouble(tag, value);
+        stack.setTagCompound(compound);
     }
 
     /**
@@ -140,10 +140,10 @@ public class ItemTagUtils {
      * @param value
      */
     public static void addTagFloat(ItemStack stack, String tag, float value) {
-	NBTTagCompound compound = getTagCompound(stack);
-	// Set the tag and value
-	compound.setFloat(tag, value);
-	stack.setTagCompound(compound);
+        NBTTagCompound compound = getTagCompound(stack);
+        // Set the tag and value
+        compound.setFloat(tag, value);
+        stack.setTagCompound(compound);
     }
 
     /**
@@ -153,8 +153,8 @@ public class ItemTagUtils {
      * @param tag
      */
     public static String getTagString(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	return compound.getString(tag);
+        NBTTagCompound compound = getTagCompound(stack);
+        return compound.getString(tag);
     }
 
     /**
@@ -164,8 +164,8 @@ public class ItemTagUtils {
      * @param tag
      */
     public static int getTagInteger(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	return compound.getInteger(tag);
+        NBTTagCompound compound = getTagCompound(stack);
+        return compound.getInteger(tag);
     }
 
     /**
@@ -175,8 +175,8 @@ public class ItemTagUtils {
      * @param tag
      */
     public static boolean getTagBoolean(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	return compound.getBoolean(tag);
+        NBTTagCompound compound = getTagCompound(stack);
+        return compound.getBoolean(tag);
     }
 
     /**
@@ -186,8 +186,8 @@ public class ItemTagUtils {
      * @param tag
      */
     public static float getTagFloat(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	return compound.getFloat(tag);
+        NBTTagCompound compound = getTagCompound(stack);
+        return compound.getFloat(tag);
     }
 
     /**
@@ -197,7 +197,7 @@ public class ItemTagUtils {
      * @param tag
      */
     public static double getTagDouble(ItemStack stack, String tag) {
-	NBTTagCompound compound = getTagCompound(stack);
-	return compound.getDouble(tag);
+        NBTTagCompound compound = getTagCompound(stack);
+        return compound.getDouble(tag);
     }
 }

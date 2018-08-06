@@ -22,7 +22,7 @@ public class ItemBase extends Item implements IHasModel {
      *            Name for the item
      */
     public ItemBase(String name) {
-	this(name, CreativeTabs.MATERIALS);
+        this(name, CreativeTabs.MATERIALS);
     }
 
     /**
@@ -34,11 +34,11 @@ public class ItemBase extends Item implements IHasModel {
      *            Tab for the item
      */
     public ItemBase(String name, CreativeTabs tab) {
-	setUnlocalizedName(name);
-	setRegistryName(name);
-	setCreativeTab(tab);
+        setUnlocalizedName(name);
+        setRegistryName(name);
+        setCreativeTab(tab);
 
-	MasteryItems.ALL_ITEMS.add(this);
+        MasteryItems.ALL_ITEMS.add(this);
     }
 
     /*
@@ -48,7 +48,7 @@ public class ItemBase extends Item implements IHasModel {
      */
     @Override
     public void registerModel() {
-	MasteryMod.proxy.registerItemRenderer(this, 0, "inventory");
+        MasteryMod.proxy.registerItemRenderer(this, 0, "inventory");
     }
 
 }

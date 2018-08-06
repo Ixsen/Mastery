@@ -15,20 +15,20 @@ public class MasteryEvent {
     protected Object target;
 
     public MasteryEvent(MasteryEventType _type, Object source, Object target) {
-	this._type = _type;
-	this.source = source;
-	this.target = target;
+        this._type = _type;
+        this.source = source;
+        this.target = target;
     }
 
     public MasteryEventType getType() {
-	return _type;
+        return _type;
     }
 
     public Object getSource() {
-	return source;
+        return source;
     }
 
     public Object getTarget() {
-	return target;
+        return target;
     }
 }

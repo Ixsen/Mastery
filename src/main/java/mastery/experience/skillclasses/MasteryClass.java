@@ -11,6 +11,11 @@ public abstract class MasteryClass {
     private int level = 1;
     protected int nextLevelExperience = 10;
     protected String name = "mastery_placeholder";
+    
+    public MasteryClass() {
+    	//Calculate the first next exp
+        calcNextLevelExp();
+    }
 
     public void setExperience(int experience) {
         this.experience = experience;

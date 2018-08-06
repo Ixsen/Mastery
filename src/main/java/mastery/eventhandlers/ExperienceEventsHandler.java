@@ -10,10 +10,10 @@ import mastery.util.ItemTagUtils;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
 import mastery.util.masteries.AlchemyUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
@@ -166,18 +166,44 @@ public class ExperienceEventsHandler {
     }
 
     /**
-     * TODO ALCHEMY, SURVIVAL
+     * TODO SURVIVAL
      *
      * @param useItemEvent
      *            --
      */
     @SubscribeEvent
-    public void useItem(LivingEntityUseItemEvent.Finish useItemEvent) {
-        ItemStack item = useItemEvent.getItem();
+    public void useItemFinish(LivingEntityUseItemEvent.Finish useItemEvent) {
+        if (!useItemEvent.getEntityLiving().getEntityWorld().isRemote) {
+            ItemStack item = useItemEvent.getItem();
 
-        // ProjectileLaunchEvent
-        if (AlchemyUtils.isPotion(item)) {
-            Minecraft.getMinecraft().player.sendChatMessage("");
+            // ALCHEMY - get exp by drinking potions
+            if (AlchemyUtils.isPotion(item)) {
+                PotionType potionType = AlchemyUtils.getPotionType(item);
+                if (!AlchemyUtils.isUselessPotion(potionType)) {
+                    EntityPlayerMP player = (EntityPlayerMP) useItemEvent.getEntityLiving();
+                    AlchemyMastery alchemyMastery = MasteryUtils.getAlchemyMastery(player);
+                    alchemyMastery.increaseExperience();
+                    NetworkUtils.sendExpToPlayer(alchemyMastery, player);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void interactItemRightClick(PlayerInteractEvent.RightClickItem useItemEvent) {
+        if (!useItemEvent.getEntityLiving().getEntityWorld().isRemote) {
+            ItemStack item = useItemEvent.getItemStack();
+
+            // ALCHEMY - get exp by "throwing" splash potions
+            if (AlchemyUtils.isPotion(item) && item.getItem() instanceof ItemSplashPotion) {
+                PotionType potionType = AlchemyUtils.getPotionType(item);
+                if (!AlchemyUtils.isUselessPotion(potionType)) {
+                    EntityPlayerMP player = (EntityPlayerMP) useItemEvent.getEntityLiving();
+                    AlchemyMastery alchemyMastery = MasteryUtils.getAlchemyMastery(player);
+                    alchemyMastery.increaseExperience();
+                    NetworkUtils.sendExpToPlayer(alchemyMastery, player);
+                }
+            }
         }
     }
 

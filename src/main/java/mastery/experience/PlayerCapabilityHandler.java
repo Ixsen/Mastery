@@ -17,14 +17,14 @@ public class PlayerCapabilityHandler {
 
     @SubscribeEvent
     public void attachCapability(AttachCapabilitiesEvent event) {
-        if (event.getObject() instanceof EntityPlayer) {
-            event.addCapability(MASTERY_CAPABILITY, new MasteryProvider());
-        }
+	if (event.getObject() instanceof EntityPlayer) {
+	    event.addCapability(MASTERY_CAPABILITY, new MasteryProvider());
+	}
     }
 
     @SubscribeEvent
     public void persistAcrossDeath(PlayerEvent.Clone respawnEvent) {
-        IMastery originalMastery = MasteryUtils.getMasteries(respawnEvent.getOriginal());
-        MasteryUtils.getMasteries(respawnEvent.getEntityPlayer()).setMasteries(originalMastery.getMasteries());
+	IMastery originalMastery = MasteryUtils.getMasteries(respawnEvent.getOriginal());
+	MasteryUtils.getMasteries(respawnEvent.getEntityPlayer()).setMasteries(originalMastery.getMasteries());
     }
 }

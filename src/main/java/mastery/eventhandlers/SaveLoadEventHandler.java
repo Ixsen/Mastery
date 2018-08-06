@@ -15,16 +15,16 @@ public class SaveLoadEventHandler {
 
     @SubscribeEvent
     public void joinWorld(EntityJoinWorldEvent joinWorldEvent) {
-        if ((joinWorldEvent.getEntity() instanceof EntityPlayer)
-                && !joinWorldEvent.getEntity().getEntityWorld().isRemote) {
-            EntityPlayerMP player = (EntityPlayerMP) joinWorldEvent.getEntity();
-            IMastery mastery = MasteryUtils.getMasteries(player);
-            for (MASTERY_SPEC mastSpec : MASTERY_SPEC.values()) {
-                MasteryClass masteryClass = mastery.getMasteries().get(mastSpec);
-                MasteryMessage message = new MasteryMessage(masteryClass.getSkillClass().order,
-                        masteryClass.getLevel(), masteryClass.getExperience(), false);
-                PacketHandler.INSTANCE.sendTo(message, player);
-            }
-        }
+	if ((joinWorldEvent.getEntity() instanceof EntityPlayer)
+		&& !joinWorldEvent.getEntity().getEntityWorld().isRemote) {
+	    EntityPlayerMP player = (EntityPlayerMP) joinWorldEvent.getEntity();
+	    IMastery mastery = MasteryUtils.getMasteries(player);
+	    for (MASTERY_SPEC mastSpec : MASTERY_SPEC.values()) {
+		MasteryClass masteryClass = mastery.getMasteries().get(mastSpec);
+		MasteryMessage message = new MasteryMessage(masteryClass.getSkillClass().order, masteryClass.getLevel(),
+			masteryClass.getExperience(), false);
+		PacketHandler.INSTANCE.sendTo(message, player);
+	    }
+	}
     }
 }

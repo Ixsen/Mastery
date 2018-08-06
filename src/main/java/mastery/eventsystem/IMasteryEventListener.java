@@ -8,5 +8,5 @@ package mastery.eventsystem;
  */
 public interface IMasteryEventListener {
 
-	void performEvent(MasteryEvent event);
+    void performEvent(MasteryEvent event);
 }

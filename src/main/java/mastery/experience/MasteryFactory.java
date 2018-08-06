@@ -9,7 +9,7 @@ public class MasteryFactory implements Callable<MasteryPersistenceManager> {
 
     @Override
     public MasteryPersistenceManager call() throws Exception {
-        return new MasteryPersistenceManager();
+	return new MasteryPersistenceManager();
     }
 
 }

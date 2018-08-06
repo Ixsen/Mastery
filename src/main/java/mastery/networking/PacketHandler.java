@@ -9,19 +9,20 @@ public class PacketHandler {
     public static SimpleNetworkWrapper INSTANCE;
 
     public static int nextID() {
-        return packetId++;
+	return packetId++;
     }
 
     public static void registerMessages(String channelName) {
-        INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
-        registerMessages();
+	INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+	registerMessages();
     }
 
     public static void registerMessages() {
-        INSTANCE.registerMessage(MasteryMessage.MasteryMessageHandler.class, MasteryMessage.class, nextID(), Side.CLIENT);
+	INSTANCE.registerMessage(MasteryMessage.MasteryMessageHandler.class, MasteryMessage.class, nextID(),
+		Side.CLIENT);
     }
 
     public static void registerMasteryExpMessages() {
-        registerMessages("mastery");
+	registerMessages("mastery");
     }
 }

@@ -15,40 +15,40 @@ import net.minecraft.item.Item;
  */
 public class ItemBase extends Item implements IHasModel {
 
-	/**
-	 * Creates an item in the {@linkplain CreativeTabs.MATERIAL} tab.
-	 * 
-	 * @param name
-	 *            Name for the item
-	 */
-	public ItemBase(String name) {
-		this(name, CreativeTabs.MATERIALS);
-	}
+    /**
+     * Creates an item in the {@linkplain CreativeTabs.MATERIAL} tab.
+     * 
+     * @param name
+     *            Name for the item
+     */
+    public ItemBase(String name) {
+	this(name, CreativeTabs.MATERIALS);
+    }
 
-	/**
-	 * Creates an item in the given {@linkplain CreativeTabs} tab.
-	 * 
-	 * @param name
-	 *            Name for the item
-	 * @param tab
-	 *            Tab for the item
-	 */
-	public ItemBase(String name, CreativeTabs tab) {
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		setCreativeTab(tab);
+    /**
+     * Creates an item in the given {@linkplain CreativeTabs} tab.
+     * 
+     * @param name
+     *            Name for the item
+     * @param tab
+     *            Tab for the item
+     */
+    public ItemBase(String name, CreativeTabs tab) {
+	setUnlocalizedName(name);
+	setRegistryName(name);
+	setCreativeTab(tab);
 
-		MasteryItems.ALL_ITEMS.add(this);
-	}
+	MasteryItems.ALL_ITEMS.add(this);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see mastery.util.IHasModel#registerModel()
-	 */
-	@Override
-	public void registerModel() {
-		MasteryMod.proxy.registerItemRenderer(this, 0, "inventory");
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see mastery.util.IHasModel#registerModel()
+     */
+    @Override
+    public void registerModel() {
+	MasteryMod.proxy.registerItemRenderer(this, 0, "inventory");
+    }
 
 }

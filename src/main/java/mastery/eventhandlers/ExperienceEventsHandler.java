@@ -5,6 +5,7 @@ import mastery.util.BlockUtil;
 import mastery.util.ItemTagUtils;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -50,7 +51,7 @@ public class ExperienceEventsHandler {
     }
 
     /**
-     * TODO COMBAT
+     * Fired when an entity dies. If the true source of death is the player, gets increased experience
      *
      * @param deathEvent --
      */
@@ -59,13 +60,13 @@ public class ExperienceEventsHandler {
         if (!deathEvent.getEntity().getEntityWorld().isRemote && deathEvent.getSource().getTrueSource() instanceof EntityPlayer) {
             EntityPlayerMP player = (EntityPlayerMP) deathEvent.getSource().getTrueSource();
             CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
-            combatMastery.increaseExperience(Math.round(deathEvent.getEntityLiving().getMaxHealth()));
+            combatMastery.increaseExperience_EntitySlain(deathEvent.getEntityLiving());
             NetworkUtils.sendExpToPlayer(combatMastery, player);
         }
     }
 
     /**
-     * TODO COMBAT (hit, getting hit), SURVIVAL (falling damage, drowning, lava, hunger etc)
+     * TODO SURVIVAL (falling damage, drowning, lava, hunger etc)
      *
      * @param livingHurtEvent --
      */
@@ -74,13 +75,15 @@ public class ExperienceEventsHandler {
         if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer && livingHurtEvent.getAmount() >= CombatMastery.doDamageExpThreshold) {
             EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getSource().getTrueSource();
             CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
-            combatMastery.increaseExperience();
+            combatMastery.increaseExperience(livingHurtEvent.getAmount(), CombatMastery.EXP_TYPE.ENTITY_DAMAGED);
             NetworkUtils.sendExpToPlayer(combatMastery, player);
         }
-        if (livingHurtEvent.getEntity() instanceof EntityPlayer && livingHurtEvent.getAmount() >= CombatMastery.getDamagedExpThreshold) {
+        if (livingHurtEvent.getEntity() instanceof EntityPlayer &&
+                livingHurtEvent.getSource().getTrueSource() instanceof EntityLivingBase &&
+                livingHurtEvent.getAmount() >= CombatMastery.getDamagedExpThreshold) {
             EntityPlayerMP player = (EntityPlayerMP) livingHurtEvent.getEntity();
             CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
-            combatMastery.increaseExperience();
+            combatMastery.increaseExperience(livingHurtEvent.getAmount(), CombatMastery.EXP_TYPE.PLAYER_DAMAGED);
             NetworkUtils.sendExpToPlayer(combatMastery, player);
         }
     }

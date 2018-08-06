@@ -1,5 +1,6 @@
-package mastery.util;
+package mastery.util.masteries;
 
+import mastery.util.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeetroot;
 import net.minecraft.block.BlockCactus;
@@ -11,7 +12,7 @@ import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.BlockReed;
 import net.minecraft.block.state.IBlockState;
 
-public class BlockUtil {
+public class FarmingUtils {
 
     private static boolean beetrootCheck(IBlockState state) {
         return state.getBlock() instanceof BlockBeetroot
@@ -36,12 +37,8 @@ public class BlockUtil {
 
     private static boolean genericCheck(IBlockState state) {
         Block block = state.getBlock();
-        return isCrop(state) && !(block instanceof BlockBeetroot)
+        return BlockUtils.isCrop(state) && !(block instanceof BlockBeetroot)
                 && state.getProperties().get(BlockCrops.AGE).equals(7);
-    }
-
-    public static boolean isCrop(IBlockState state) {
-        return state.getBlock() instanceof BlockCrops;
     }
 
     /**

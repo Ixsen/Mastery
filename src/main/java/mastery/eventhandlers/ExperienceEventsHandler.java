@@ -5,11 +5,11 @@ import mastery.experience.skillclasses.CombatMastery;
 import mastery.experience.skillclasses.CraftingMastery;
 import mastery.experience.skillclasses.FarmingMastery;
 import mastery.experience.skillclasses.MiningMastery;
-import mastery.util.BlockUtil;
 import mastery.util.ItemTagUtils;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
 import mastery.util.masteries.AlchemyUtils;
+import mastery.util.masteries.FarmingUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -46,7 +46,7 @@ public class ExperienceEventsHandler {
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
         if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
             EntityPlayerMP player = (EntityPlayerMP) breakEvent.getPlayer();
-            if (BlockUtil.shouldGetFarmingExp(breakEvent.getState())) {
+            if (FarmingUtils.shouldGetFarmingExp(breakEvent.getState())) {
                 FarmingMastery farmingMastery = MasteryUtils.getFarmingMastery(player);
                 farmingMastery.increaseExperience();
                 NetworkUtils.sendExpToPlayer(farmingMastery, player);

@@ -257,24 +257,20 @@ public class ExperienceEventsHandler {
 
     @SubscribeEvent
     public void jump(LivingEvent.LivingJumpEvent jumpEvent) {
-        if (!jumpEvent.getEntity().getEntityWorld().isRemote) {
-            if (jumpEvent.getEntity() instanceof EntityPlayerMP) {
-                EntityPlayerMP player = (EntityPlayerMP) jumpEvent.getEntity();
-                if (!player.isInWater() && !player.isInLava()) {
-                    AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
-                    athleticsMastery.increaseExperience(AthleticsUtils.EXP_JUMP);
-                    NetworkUtils.sendExpToPlayer(athleticsMastery, player);
-                }
+        if (!jumpEvent.getEntity().getEntityWorld().isRemote && jumpEvent.getEntity() instanceof EntityPlayerMP) {
+            EntityPlayerMP player = (EntityPlayerMP) jumpEvent.getEntity();
+            if (!player.isInWater() && !player.isInLava()) {
+                AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
+                athleticsMastery.increaseExperience(AthleticsUtils.EXP_JUMP);
+                NetworkUtils.sendExpToPlayer(athleticsMastery, player);
             }
         }
     }
 
     @SubscribeEvent
     public void spawnPlayer(EntityJoinWorldEvent spawnEvent) {
-        if (!spawnEvent.getEntity().getEntityWorld().isRemote) {
-            if (spawnEvent.getEntity() instanceof EntityPlayerMP) {
-                lastPlayerPosition = spawnEvent.getEntity().getPosition();
-            }
+        if (!spawnEvent.getEntity().getEntityWorld().isRemote && spawnEvent.getEntity() instanceof EntityPlayerMP) {
+            this.lastPlayerPosition = spawnEvent.getEntity().getPosition();
         }
     }
 
@@ -284,35 +280,32 @@ public class ExperienceEventsHandler {
 
     @SubscribeEvent
     public void moveLivingEvent(LivingEvent.LivingUpdateEvent updateEvent) {
-        if (!updateEvent.getEntity().getEntityWorld().isRemote) {
-            if (updateEvent.getEntity() instanceof EntityPlayerMP) {
-                EntityPlayerMP player = (EntityPlayerMP) updateEvent.getEntity();
-                if (this.lastPlayerPosition == null) {
-                    this.lastPlayerPosition = player.getPosition();
-                } else {
-                    if (!player.getPosition().equals(this.lastPlayerPosition)) {
-                        double movedDistance = calculateVector(lastPlayerPosition, player.getPosition());
-                        if (player.isInWater()) {
-                            this.currentLength += movedDistance * 8;
-                        } else if (player.isInLava()) {
-                            this.currentLength += movedDistance * 10;
-                        } else if (player.isRiding()) {
-                            this.currentLength += movedDistance * 0.2f;
-                        } else if (player.isElytraFlying()) {
-                            this.currentLength += movedDistance * 0.5f;
-                        } else {
-                            this.currentLength += movedDistance;
-                        }
-                        if (this.currentLength >= this.minimumLengthForExp) {
-                            AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
-                            athleticsMastery.increaseExperience(AthleticsUtils.EXP_OTHER);
-                            NetworkUtils.sendExpToPlayer(athleticsMastery, player);
-                            this.currentLength -= this.minimumLengthForExp;
-                        }
-                        this.lastPlayerPosition = player.getPosition();
+        if (!updateEvent.getEntity().getEntityWorld().isRemote && updateEvent.getEntity() instanceof EntityPlayerMP) {
+            EntityPlayerMP player = (EntityPlayerMP) updateEvent.getEntity();
+            if (this.lastPlayerPosition == null) {
+                this.lastPlayerPosition = player.getPosition();
+            } else {
+                if (!player.getPosition().equals(this.lastPlayerPosition)) {
+                    double movedDistance = this.calculateVector(this.lastPlayerPosition, player.getPosition());
+                    if (player.isInWater()) {
+                        this.currentLength += movedDistance * 8;
+                    } else if (player.isInLava()) {
+                        this.currentLength += movedDistance * 10;
+                    } else if (player.isRiding()) {
+                        this.currentLength += movedDistance * 0.2f;
+                    } else if (player.isElytraFlying()) {
+                        this.currentLength += movedDistance * 0.5f;
+                    } else {
+                        this.currentLength += movedDistance;
                     }
+                    if (this.currentLength >= this.minimumLengthForExp) {
+                        AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
+                        athleticsMastery.increaseExperience(AthleticsUtils.EXP_OTHER);
+                        NetworkUtils.sendExpToPlayer(athleticsMastery, player);
+                        this.currentLength -= this.minimumLengthForExp;
+                    }
+                    this.lastPlayerPosition = player.getPosition();
                 }
-
             }
         }
     }

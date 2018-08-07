@@ -67,8 +67,8 @@ public class AlchemyUtils {
     /**
      * Returns whether a potion is considered "useless" meaning having no effect.
      * 
-     * @param stack
-     *            Given potion type.
+     * Given potion type.
+     * 
      * @return true, whether the potion is useless, flase otherwise.
      */
     public static boolean isUselessPotion(PotionType potion) {

@@ -148,19 +148,19 @@ public class ExperienceEventsHandler {
 
         // First slot
         PotionType our = AlchemyUtils.getPotionType(first);
-        if (!AlchemyUtils.isUselessPotion(our)) {
+        if (our != null && !AlchemyUtils.isUselessPotion(our)) {
             ItemTagUtils.addTagBoolean(first, AlchemyUtils.TAG_BREWED_POTION, true);
         }
 
         // Second slot
         our = AlchemyUtils.getPotionType(second);
-        if (!AlchemyUtils.isUselessPotion(our)) {
+        if (our != null && !AlchemyUtils.isUselessPotion(our)) {
             ItemTagUtils.addTagBoolean(second, AlchemyUtils.TAG_BREWED_POTION, true);
         }
 
         // Third slot
         our = AlchemyUtils.getPotionType(third);
-        if (!AlchemyUtils.isUselessPotion(our)) {
+        if (our != null && !AlchemyUtils.isUselessPotion(our)) {
             ItemTagUtils.addTagBoolean(third, AlchemyUtils.TAG_BREWED_POTION, true);
         }
     }

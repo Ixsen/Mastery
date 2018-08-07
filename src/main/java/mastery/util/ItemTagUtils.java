@@ -1,10 +1,10 @@
 package mastery.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Can be used to manage the tags for an item stack.
@@ -55,7 +55,6 @@ public class ItemTagUtils {
      * Removes a tag and it's value from the item stack.
      * 
      * @param stack
-     * @param key
      */
     public static void removeTag(ItemStack stack, String tag) {
         NBTTagCompound compound = getTagCompound(stack);
@@ -68,7 +67,6 @@ public class ItemTagUtils {
      * Determines whether the stack contains the given tag.
      * 
      * @param stack
-     * @param key
      */
     public static boolean hasTag(ItemStack stack, String tag) {
         NBTTagCompound compound = getTagCompound(stack);
@@ -80,7 +78,6 @@ public class ItemTagUtils {
      * Adds a new tag with a given integer value to the item stack.
      * 
      * @param stack
-     * @param key
      * @param value
      */
     public static void addTagInteger(ItemStack stack, String tag, int value) {
@@ -94,7 +91,6 @@ public class ItemTagUtils {
      * Adds a new tag with a given integer value to the item stack.
      * 
      * @param stack
-     * @param key
      * @param value
      */
     public static void addTagString(ItemStack stack, String tag, String value) {
@@ -108,7 +104,6 @@ public class ItemTagUtils {
      * Adds a new tag with a given integer value to the item stack.
      * 
      * @param stack
-     * @param key
      * @param value
      */
     public static void addTagBoolean(ItemStack stack, String tag, boolean value) {
@@ -122,7 +117,6 @@ public class ItemTagUtils {
      * Adds a new tag with a given integer value to the item stack.
      * 
      * @param stack
-     * @param key
      * @param value
      */
     public static void addTagDouble(ItemStack stack, String tag, double value) {
@@ -136,7 +130,6 @@ public class ItemTagUtils {
      * Adds a new tag with a given integer value to the item stack.
      * 
      * @param stack
-     * @param key
      * @param value
      */
     public static void addTagFloat(ItemStack stack, String tag, float value) {

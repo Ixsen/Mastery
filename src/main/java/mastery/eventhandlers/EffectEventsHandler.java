@@ -1,7 +1,5 @@
 package mastery.eventhandlers;
 
-import java.util.Random;
-
 import mastery.experience.skillclasses.CombatMastery;
 import mastery.experience.skillclasses.CraftingMastery;
 import mastery.experience.skillclasses.MiningMastery;
@@ -11,9 +9,13 @@ import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.Random;
 
 public class EffectEventsHandler {
 
@@ -108,6 +110,28 @@ public class EffectEventsHandler {
         CraftingMastery craftingMastery = (MasteryUtils.getCraftingMastery(event.player));
         Random random = new Random();
         event.crafting.setCount(event.crafting.getCount() + (random.nextInt(100) + craftingMastery.getLevel()) / 100);
+    }
+
+    /**
+     * TODO FARMING
+     *
+     * @param bonemealEvent
+     *            --
+     */
+    @SubscribeEvent
+    public void boneEvent(BonemealEvent bonemealEvent) {
+
+    }
+
+    /**
+     * TODO FARMING
+     *
+     * @param useHoeEvent
+     *            --
+     */
+    @SubscribeEvent
+    public void hoeing(UseHoeEvent useHoeEvent) {
+
     }
 
 }

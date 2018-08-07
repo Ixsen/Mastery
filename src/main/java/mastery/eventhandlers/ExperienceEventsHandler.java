@@ -4,6 +4,7 @@ import mastery.experience.skillclasses.AlchemyMastery;
 import mastery.experience.skillclasses.CombatMastery;
 import mastery.experience.skillclasses.CraftingMastery;
 import mastery.experience.skillclasses.FarmingMastery;
+import mastery.experience.skillclasses.HusbandryMastery;
 import mastery.experience.skillclasses.MiningMastery;
 import mastery.util.BlockUtil;
 import mastery.util.ItemTagUtils;
@@ -20,14 +21,12 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
+import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.BonemealEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -182,46 +181,17 @@ public class ExperienceEventsHandler {
     }
 
     /**
-     * TODO FARMING
-     *
-     * @param harvestCheck
-     *            --
-     */
-    @SubscribeEvent
-    public void harvestCrop(PlayerEvent.HarvestCheck harvestCheck) {
-
-    }
-
-    /**
-     * TODO FARMING
-     *
-     * @param bonemealEvent
-     *            --
-     */
-    @SubscribeEvent
-    public void boneEvent(BonemealEvent bonemealEvent) {
-
-    }
-
-    /**
-     * TODO FARMING
-     *
-     * @param useHoeEvent
-     *            --
-     */
-    @SubscribeEvent
-    public void hoeing(UseHoeEvent useHoeEvent) {
-
-    }
-
-    /**
-     * TODO HUSBANDRY
+     * Triggers server-side only
      *
      * @param tameEvent
      *            --
      */
     @SubscribeEvent
     public void animalTame(AnimalTameEvent tameEvent) {
+        EntityPlayerMP player = (EntityPlayerMP) tameEvent.getTamer();
+        HusbandryMastery husbandryMastery = MasteryUtils.getHusbandryMastery(player);
+        husbandryMastery.increaseExperience(HusbandryMastery.EXP_TYPE.ENTITY_TAMED);
+        NetworkUtils.sendExpToPlayer(husbandryMastery, player);
     }
 
     /**
@@ -231,8 +201,30 @@ public class ExperienceEventsHandler {
      *            --
      */
     @SubscribeEvent
-    public void feed(PlayerInteractEvent.EntityInteractSpecific interactEvent) {
+    public void animalInteraction(PlayerInteractEvent.EntityInteractSpecific interactEvent) {
+        if (!interactEvent.getEntityPlayer().getEntityWorld().isRemote) {
+            System.out.println(interactEvent.getEntityPlayer().getHeldEquipment()); // check HAND HELD WHERE WHEAT IS ->
+                                                                                    // amount
+        }
 
+    }
+
+    @SubscribeEvent
+    public void interAct(PlayerInteractEvent.EntityInteract entityInteract) {
+    }
+
+    /**
+     * Triggers server-side only
+     * 
+     * @param babyEntitySpawnEvent
+     *            --
+     */
+    @SubscribeEvent
+    public void spawnBaby(BabyEntitySpawnEvent babyEntitySpawnEvent) {
+        EntityPlayerMP player = (EntityPlayerMP) babyEntitySpawnEvent.getCausedByPlayer();
+        HusbandryMastery husbandryMastery = MasteryUtils.getHusbandryMastery(player);
+        husbandryMastery.increaseExperience(HusbandryMastery.EXP_TYPE.ANIMAL_CHILD_SPAWN);
+        NetworkUtils.sendExpToPlayer(husbandryMastery, player);
     }
 
     /**

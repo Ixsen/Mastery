@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 public class CombatMastery extends MasteryClass {
 
     public enum EXP_TYPE {
-        ENTITY_DAMAGED, PLAYER_DAMAGED;
+        ENTITY_DAMAGED, PLAYER_DAMAGED
     }
 
     public static final double doDamageExpThreshold = 1.0f;

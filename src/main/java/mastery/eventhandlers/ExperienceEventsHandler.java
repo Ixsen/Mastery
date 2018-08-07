@@ -20,9 +20,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -255,17 +255,10 @@ public class ExperienceEventsHandler {
         }
     }
 
-    /**
-     * TODO ATHLETICS
-     *
-     * @param jumpEvent
-     *            --
-     */
     @SubscribeEvent
     public void jump(LivingEvent.LivingJumpEvent jumpEvent) {
         if (!jumpEvent.getEntity().getEntityWorld().isRemote) {
             if (jumpEvent.getEntity() instanceof EntityPlayerMP) {
-
                 EntityPlayerMP player = (EntityPlayerMP) jumpEvent.getEntity();
                 if (!player.isInWater() && !player.isInLava()) {
                     AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
@@ -276,54 +269,57 @@ public class ExperienceEventsHandler {
         }
     }
 
+    @SubscribeEvent
+    public void spawnPlayer(EntityJoinWorldEvent spawnEvent) {
+        if (!spawnEvent.getEntity().getEntityWorld().isRemote) {
+            if (spawnEvent.getEntity() instanceof EntityPlayerMP) {
+                lastPlayerPosition = spawnEvent.getEntity().getPosition();
+            }
+        }
+    }
+
     private BlockPos lastPlayerPosition = null;
     private float currentLength = 0;
     private float minimumLengthForExp = 15;
 
-    /**
-     * TODO ATHLETICS
-     *
-     * @param jumpEvent
-     *            --
-     */
     @SubscribeEvent
-    public void move(LivingEvent.LivingUpdateEvent updateEvent) {
+    public void moveLivingEvent(LivingEvent.LivingUpdateEvent updateEvent) {
         if (!updateEvent.getEntity().getEntityWorld().isRemote) {
             if (updateEvent.getEntity() instanceof EntityPlayerMP) {
                 EntityPlayerMP player = (EntityPlayerMP) updateEvent.getEntity();
-                if (lastPlayerPosition == null) {
-                    lastPlayerPosition = player.getPosition();
+                if (this.lastPlayerPosition == null) {
+                    this.lastPlayerPosition = player.getPosition();
                 } else {
-                    if (!player.getPosition().equals(lastPlayerPosition)) {
-                        double movedDistance = player.getPosition().distanceSq(lastPlayerPosition);
-                        // Means player moved
-                        if (player.isInWater() && player.isWet()) {
-                            currentLength += movedDistance * 8;
-                            player.sendMessage(new TextComponentString("Diving"));
-                        } else if (player.isInWater() && !player.isWet()) {
-                            currentLength += movedDistance * 4;
-                            player.sendMessage(new TextComponentString("OnWater"));
+                    if (!player.getPosition().equals(this.lastPlayerPosition)) {
+                        double movedDistance = calculateVector(lastPlayerPosition, player.getPosition());
+                        if (player.isInWater()) {
+                            this.currentLength += movedDistance * 8;
                         } else if (player.isInLava()) {
-                            currentLength += movedDistance * 10;
-                            player.sendMessage(new TextComponentString("InLava"));
+                            this.currentLength += movedDistance * 10;
+                        } else if (player.isRiding()) {
+                            this.currentLength += movedDistance * 0.2f;
+                        } else if (player.isElytraFlying()) {
+                            this.currentLength += movedDistance * 0.5f;
                         } else {
-                            currentLength += movedDistance;
-                            player.sendMessage(new TextComponentString("SprintingWalk"));
+                            this.currentLength += movedDistance;
                         }
-
-                        // Grant exp for given
-                        if (currentLength >= minimumLengthForExp) {
+                        if (this.currentLength >= this.minimumLengthForExp) {
                             AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
-                            athleticsMastery.increaseExperience(AthleticsUtils.EXP_RUN);
+                            athleticsMastery.increaseExperience(1);
                             NetworkUtils.sendExpToPlayer(athleticsMastery, player);
-                            currentLength -= minimumLengthForExp;
+                            this.currentLength -= this.minimumLengthForExp;
                         }
-                        lastPlayerPosition = player.getPosition();
+                        this.lastPlayerPosition = player.getPosition();
                     }
                 }
 
             }
         }
+    }
+
+    private double calculateVector(BlockPos first, BlockPos second) {
+        return Math.sqrt(Math.pow(second.getX() - first.getX(), 2) + Math.pow(second.getY() - first.getY(), 2)
+                + Math.pow(second.getZ() - first.getZ(), 2));
     }
 
     /*

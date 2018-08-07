@@ -1,6 +1,7 @@
 package mastery.eventhandlers;
 
 import mastery.experience.skillclasses.AlchemyMastery;
+import mastery.experience.skillclasses.AthleticsMastery;
 import mastery.experience.skillclasses.CombatMastery;
 import mastery.experience.skillclasses.CraftingMastery;
 import mastery.experience.skillclasses.FarmingMastery;
@@ -9,6 +10,7 @@ import mastery.util.ItemTagUtils;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
 import mastery.util.masteries.AlchemyUtils;
+import mastery.util.masteries.AthleticsUtils;
 import mastery.util.masteries.FarmingUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,8 +19,10 @@ import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -277,15 +281,64 @@ public class ExperienceEventsHandler {
         }
     }
 
-    /**
-     * TODO ATHLETICS
-     *
-     * @param jumpEvent
-     *            --
-     */
     @SubscribeEvent
     public void jump(LivingEvent.LivingJumpEvent jumpEvent) {
+        if (!jumpEvent.getEntity().getEntityWorld().isRemote && jumpEvent.getEntity() instanceof EntityPlayerMP) {
+            EntityPlayerMP player = (EntityPlayerMP) jumpEvent.getEntity();
+            if (!player.isInWater() && !player.isInLava()) {
+                AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
+                athleticsMastery.increaseExperience(AthleticsUtils.EXP_JUMP);
+                NetworkUtils.sendExpToPlayer(athleticsMastery, player);
+            }
+        }
+    }
 
+    @SubscribeEvent
+    public void spawnPlayer(EntityJoinWorldEvent spawnEvent) {
+        if (!spawnEvent.getEntity().getEntityWorld().isRemote && spawnEvent.getEntity() instanceof EntityPlayerMP) {
+            this.lastPlayerPosition = spawnEvent.getEntity().getPosition();
+        }
+    }
+
+    private BlockPos lastPlayerPosition = null;
+    private float currentLength = 0;
+    private float minimumLengthForExp = 15;
+
+    @SubscribeEvent
+    public void moveLivingEvent(LivingEvent.LivingUpdateEvent updateEvent) {
+        if (!updateEvent.getEntity().getEntityWorld().isRemote && updateEvent.getEntity() instanceof EntityPlayerMP) {
+            EntityPlayerMP player = (EntityPlayerMP) updateEvent.getEntity();
+            if (this.lastPlayerPosition == null) {
+                this.lastPlayerPosition = player.getPosition();
+            } else {
+                if (!player.getPosition().equals(this.lastPlayerPosition)) {
+                    double movedDistance = this.calculateVector(this.lastPlayerPosition, player.getPosition());
+                    if (player.isInWater()) {
+                        this.currentLength += movedDistance * 8;
+                    } else if (player.isInLava()) {
+                        this.currentLength += movedDistance * 10;
+                    } else if (player.isRiding()) {
+                        this.currentLength += movedDistance * 0.2f;
+                    } else if (player.isElytraFlying()) {
+                        this.currentLength += movedDistance * 0.5f;
+                    } else {
+                        this.currentLength += movedDistance;
+                    }
+                    if (this.currentLength >= this.minimumLengthForExp) {
+                        AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
+                        athleticsMastery.increaseExperience(AthleticsUtils.EXP_OTHER);
+                        NetworkUtils.sendExpToPlayer(athleticsMastery, player);
+                        this.currentLength -= this.minimumLengthForExp;
+                    }
+                    this.lastPlayerPosition = player.getPosition();
+                }
+            }
+        }
+    }
+
+    private double calculateVector(BlockPos first, BlockPos second) {
+        return Math.sqrt(Math.pow(second.getX() - first.getX(), 2) + Math.pow(second.getY() - first.getY(), 2)
+                + Math.pow(second.getZ() - first.getZ(), 2));
     }
 
     /*

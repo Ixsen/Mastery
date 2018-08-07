@@ -24,9 +24,23 @@ public class AlchemyUtils {
      * @return true, whether the stack is a potion stack
      */
     public static boolean isPotion(ItemStack stack) {// Skip if air
-        if (!stack.isEmpty()) {
+        if (stack.isEmpty()) {
             return false;
         }
+        return PotionUtils.getPotionFromItem(stack) != null ? true : false;
+    }
+
+    /**
+     * @param stack
+     *            Given item stack
+     * @return true, whether the stack is a potion stack
+     */
+    public static boolean isSplashPotion(ItemStack stack) {// Skip if air
+        if (stack.isEmpty()) {
+            return false;
+        }
+        PotionType type = PotionUtils.getPotionFromItem(stack);
+
         return PotionUtils.getPotionFromItem(stack) != null ? true : false;
     }
 
@@ -40,7 +54,7 @@ public class AlchemyUtils {
      */
     public static PotionType getPotionType(ItemStack stack) {
         // Skip if air
-        if (!stack.isEmpty()) {
+        if (stack.isEmpty()) {
             return null;
         }
         if (isPotion(stack)) {
@@ -53,8 +67,8 @@ public class AlchemyUtils {
     /**
      * Returns whether a potion is considered "useless" meaning having no effect.
      * 
-     * @param stack
-     *            Given potion type.
+     * Given potion type.
+     * 
      * @return true, whether the potion is useless, flase otherwise.
      */
     public static boolean isUselessPotion(PotionType potion) {

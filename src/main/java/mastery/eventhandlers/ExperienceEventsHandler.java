@@ -305,7 +305,7 @@ public class ExperienceEventsHandler {
                         }
                         if (this.currentLength >= this.minimumLengthForExp) {
                             AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
-                            athleticsMastery.increaseExperience(1);
+                            athleticsMastery.increaseExperience(AthleticsUtils.EXP_OTHER);
                             NetworkUtils.sendExpToPlayer(athleticsMastery, player);
                             this.currentLength -= this.minimumLengthForExp;
                         }

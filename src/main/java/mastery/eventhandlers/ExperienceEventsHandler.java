@@ -1,6 +1,7 @@
 package mastery.eventhandlers;
 
 import mastery.experience.skillclasses.AlchemyMastery;
+import mastery.experience.skillclasses.AthleticsMastery;
 import mastery.experience.skillclasses.CombatMastery;
 import mastery.experience.skillclasses.CraftingMastery;
 import mastery.experience.skillclasses.FarmingMastery;
@@ -9,6 +10,7 @@ import mastery.util.ItemTagUtils;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
 import mastery.util.masteries.AlchemyUtils;
+import mastery.util.masteries.AthleticsUtils;
 import mastery.util.masteries.FarmingUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +19,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.brewing.PlayerBrewedPotionEvent;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
@@ -259,7 +263,67 @@ public class ExperienceEventsHandler {
      */
     @SubscribeEvent
     public void jump(LivingEvent.LivingJumpEvent jumpEvent) {
+        if (!jumpEvent.getEntity().getEntityWorld().isRemote) {
+            if (jumpEvent.getEntity() instanceof EntityPlayerMP) {
 
+                EntityPlayerMP player = (EntityPlayerMP) jumpEvent.getEntity();
+                if (!player.isInWater() && !player.isInLava()) {
+                    AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
+                    athleticsMastery.increaseExperience(AthleticsUtils.EXP_JUMP);
+                    NetworkUtils.sendExpToPlayer(athleticsMastery, player);
+                }
+            }
+        }
+    }
+
+    private BlockPos lastPlayerPosition = null;
+    private float currentLength = 0;
+    private float minimumLengthForExp = 15;
+
+    /**
+     * TODO ATHLETICS
+     *
+     * @param jumpEvent
+     *            --
+     */
+    @SubscribeEvent
+    public void move(LivingEvent.LivingUpdateEvent updateEvent) {
+        if (!updateEvent.getEntity().getEntityWorld().isRemote) {
+            if (updateEvent.getEntity() instanceof EntityPlayerMP) {
+                EntityPlayerMP player = (EntityPlayerMP) updateEvent.getEntity();
+                if (lastPlayerPosition == null) {
+                    lastPlayerPosition = player.getPosition();
+                } else {
+                    if (!player.getPosition().equals(lastPlayerPosition)) {
+                        double movedDistance = player.getPosition().distanceSq(lastPlayerPosition);
+                        // Means player moved
+                        if (player.isInWater() && player.isWet()) {
+                            currentLength += movedDistance * 8;
+                            player.sendMessage(new TextComponentString("Diving"));
+                        } else if (player.isInWater() && !player.isWet()) {
+                            currentLength += movedDistance * 4;
+                            player.sendMessage(new TextComponentString("OnWater"));
+                        } else if (player.isInLava()) {
+                            currentLength += movedDistance * 10;
+                            player.sendMessage(new TextComponentString("InLava"));
+                        } else {
+                            currentLength += movedDistance;
+                            player.sendMessage(new TextComponentString("SprintingWalk"));
+                        }
+
+                        // Grant exp for given
+                        if (currentLength >= minimumLengthForExp) {
+                            AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
+                            athleticsMastery.increaseExperience(AthleticsUtils.EXP_RUN);
+                            NetworkUtils.sendExpToPlayer(athleticsMastery, player);
+                            currentLength -= minimumLengthForExp;
+                        }
+                        lastPlayerPosition = player.getPosition();
+                    }
+                }
+
+            }
+        }
     }
 
     /*

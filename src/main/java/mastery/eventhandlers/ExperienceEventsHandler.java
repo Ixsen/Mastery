@@ -13,6 +13,7 @@ import mastery.util.NetworkUtils;
 import mastery.util.masteries.AlchemyUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -61,8 +62,7 @@ public class ExperienceEventsHandler {
      * Fired when an entity dies. If the true source of death is the player, gets
      * increased experience
      *
-     * @param deathEvent
-     *            --
+     * @param deathEvent --
      */
     @SubscribeEvent
     public void killEntity(LivingDeathEvent deathEvent) {
@@ -78,8 +78,7 @@ public class ExperienceEventsHandler {
     /**
      * TODO SURVIVAL (falling damage, drowning, lava, hunger etc)
      *
-     * @param livingHurtEvent
-     *            --
+     * @param livingHurtEvent --
      */
     @SubscribeEvent
     public void getHit(LivingHurtEvent livingHurtEvent) {
@@ -103,8 +102,7 @@ public class ExperienceEventsHandler {
     /**
      * TODO ALCHEMY only limited exp for brewing!
      *
-     * @param potionEvent
-     *            --
+     * @param potionEvent --
      */
     @SubscribeEvent
     public void takePotion(PlayerBrewedPotionEvent potionEvent) {
@@ -136,8 +134,7 @@ public class ExperienceEventsHandler {
     /**
      * TODO ALCHEMY only limited exp for brewing!
      *
-     * @param potionEvent
-     *            --
+     * @param potionEvent --
      */
     @SubscribeEvent
     public void postBrewedPotion(PotionBrewEvent.Post potionEvent) {
@@ -167,8 +164,7 @@ public class ExperienceEventsHandler {
     /**
      * TODO ALCHEMY, SURVIVAL
      *
-     * @param useItemEvent
-     *            --
+     * @param useItemEvent --
      */
     @SubscribeEvent
     public void useItem(LivingEntityUseItemEvent.Finish useItemEvent) {
@@ -183,8 +179,7 @@ public class ExperienceEventsHandler {
     /**
      * Triggers server-side only
      *
-     * @param tameEvent
-     *            --
+     * @param tameEvent --
      */
     @SubscribeEvent
     public void animalTame(AnimalTameEvent tameEvent) {
@@ -194,19 +189,26 @@ public class ExperienceEventsHandler {
         NetworkUtils.sendExpToPlayer(husbandryMastery, player);
     }
 
-    /**
-     * TODO HUSBANDRY
-     *
-     * @param interactEvent
-     *            --
-     */
+    private Iterable<ItemStack> heldEquipment;
+    private boolean secondTrigger = false;
+
     @SubscribeEvent
     public void animalInteraction(PlayerInteractEvent.EntityInteractSpecific interactEvent) {
         if (!interactEvent.getEntityPlayer().getEntityWorld().isRemote) {
-            System.out.println(interactEvent.getEntityPlayer().getHeldEquipment()); // check HAND HELD WHERE WHEAT IS ->
-                                                                                    // amount
+            EntityPlayer entityPlayer = interactEvent.getEntityPlayer();
+            if (this.secondTrigger) {
+                this.secondTrigger = false;
+                if (!this.heldEquipment.equals(interactEvent.getEntityLiving().getHeldEquipment())
+                        && interactEvent.getTarget() instanceof EntityAnimal) {
+                    HusbandryMastery husbandryMastery = MasteryUtils.getHusbandryMastery(entityPlayer);
+                    husbandryMastery.increaseExperience(HusbandryMastery.EXP_TYPE.ANIMAL_FED);
+                    NetworkUtils.sendExpToPlayer(husbandryMastery, (EntityPlayerMP) entityPlayer);
+                }
+            } else {
+                this.secondTrigger = true;
+                this.heldEquipment = interactEvent.getEntityPlayer().getHeldEquipment();
+            }
         }
-
     }
 
     @SubscribeEvent
@@ -215,9 +217,8 @@ public class ExperienceEventsHandler {
 
     /**
      * Triggers server-side only
-     * 
-     * @param babyEntitySpawnEvent
-     *            --
+     *
+     * @param babyEntitySpawnEvent --
      */
     @SubscribeEvent
     public void spawnBaby(BabyEntitySpawnEvent babyEntitySpawnEvent) {
@@ -230,8 +231,7 @@ public class ExperienceEventsHandler {
     /**
      * TODO CRAFTING
      *
-     * @param itemCraftedEvent
-     *            --
+     * @param itemCraftedEvent --
      */
     @SubscribeEvent
     public void craftItem(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent itemCraftedEvent) {
@@ -246,8 +246,7 @@ public class ExperienceEventsHandler {
     /**
      * TODO ATHLETICS
      *
-     * @param jumpEvent
-     *            --
+     * @param jumpEvent --
      */
     @SubscribeEvent
     public void jump(LivingEvent.LivingJumpEvent jumpEvent) {

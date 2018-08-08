@@ -1,7 +1,7 @@
 package mastery.resource;
 
 import mastery.MasteryMod;
-import mastery.experience.skillclasses.MASTERY_SPEC;
+import mastery.capability.skillclasses.MasterySpec;
 import net.minecraft.util.ResourceLocation;
 
 public class MasteryImageLoader {
@@ -30,7 +30,7 @@ public class MasteryImageLoader {
      *            The requested mastery image
      * @return ResourceLocation pointing to the image for the mastery.
      */
-    public static ResourceLocation getImage(MASTERY_SPEC mastery) {
+    public static ResourceLocation getImage(MasterySpec mastery) {
         switch (mastery) {
         case ALCHEMY:
             return alchemy;

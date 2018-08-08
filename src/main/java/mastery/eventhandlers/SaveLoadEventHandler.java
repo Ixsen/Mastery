@@ -1,8 +1,8 @@
 package mastery.eventhandlers;
 
-import mastery.experience.IMastery;
-import mastery.experience.skillclasses.MASTERY_SPEC;
-import mastery.experience.skillclasses.MasteryClass;
+import mastery.capability.IMastery;
+import mastery.capability.skillclasses.MasteryClass;
+import mastery.capability.skillclasses.MasterySpec;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
 import mastery.util.MasteryUtils;
@@ -19,7 +19,7 @@ public class SaveLoadEventHandler {
                 && !joinWorldEvent.getEntity().getEntityWorld().isRemote) {
             EntityPlayerMP player = (EntityPlayerMP) joinWorldEvent.getEntity();
             IMastery mastery = MasteryUtils.getMasteries(player);
-            for (MASTERY_SPEC mastSpec : MASTERY_SPEC.values()) {
+            for (MasterySpec mastSpec : MasterySpec.values()) {
                 MasteryClass masteryClass = mastery.getMasteries().get(mastSpec);
                 MasteryMessage message = new MasteryMessage(masteryClass.getSkillClass().order, masteryClass.getLevel(),
                         masteryClass.getExperience(), false);

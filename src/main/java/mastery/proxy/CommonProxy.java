@@ -3,12 +3,12 @@ package mastery.proxy;
 import mastery.MasteryBlocks;
 import mastery.MasteryItems;
 import mastery.MasteryMod;
+import mastery.capability.IMastery;
+import mastery.capability.MasteryPersistenceManager;
+import mastery.capability.PlayerCapabilityHandler;
 import mastery.eventhandlers.EffectEventsHandler;
 import mastery.eventhandlers.ExperienceEventsHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
-import mastery.experience.IMastery;
-import mastery.experience.MasteryPersistenceManager;
-import mastery.experience.PlayerCapabilityHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,7 +32,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new EffectEventsHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
         NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.instance, new GuiProxy());
-        registerCapabilities();
+        this.registerCapabilities();
     }
 
     public void postInit(FMLPostInitializationEvent event) {
@@ -50,7 +50,7 @@ public class CommonProxy {
 
     private void registerCapabilities() {
         CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(),
-                mastery.experience.Mastery.class);
+                mastery.capability.Mastery.class);
     }
 
     /**

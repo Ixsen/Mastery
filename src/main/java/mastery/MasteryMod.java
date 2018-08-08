@@ -1,9 +1,9 @@
 package mastery;
 
+import mastery.capability.skillclasses.MasterySpec;
 import mastery.eventsystem.MasteryEvent;
 import mastery.eventsystem.MasteryEventHandler;
 import mastery.eventsystem.MasteryEventType;
-import mastery.experience.skillclasses.MASTERY_SPEC;
 import mastery.networking.PacketHandler;
 import mastery.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
@@ -32,7 +32,7 @@ public class MasteryMod {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        eventSystem = new MasteryEventHandler();
+        this.eventSystem = new MasteryEventHandler();
         proxy.preInit(event);
         PacketHandler.registerMasteryExpMessages();
     }
@@ -55,7 +55,7 @@ public class MasteryMod {
         }
     };
 
-    public static void fireExpEvent(MASTERY_SPEC spec, boolean notifyUI) {
+    public static void fireExpEvent(MasterySpec spec, boolean notifyUI) {
         instance.eventSystem.fireEvent(new MasteryEvent(MasteryEventType.PLAYER_EXP_CHANGED, spec, notifyUI));
     }
 

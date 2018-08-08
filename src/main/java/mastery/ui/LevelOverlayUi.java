@@ -1,14 +1,12 @@
 package mastery.ui;
 
-import org.lwjgl.opengl.GL11;
-
 import mastery.MasteryMod;
+import mastery.capability.IMastery;
+import mastery.capability.skillclasses.MasteryClass;
+import mastery.capability.skillclasses.MasterySpec;
 import mastery.configuration.MasteryConfiguration;
 import mastery.eventsystem.IMasteryEventListener;
 import mastery.eventsystem.MasteryEvent;
-import mastery.experience.IMastery;
-import mastery.experience.skillclasses.MASTERY_SPEC;
-import mastery.experience.skillclasses.MasteryClass;
 import mastery.resource.MasteryImageLoader;
 import mastery.util.MasteryUtils;
 import net.minecraft.client.Minecraft;
@@ -17,6 +15,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.opengl.GL11;
 
 public class LevelOverlayUi extends Gui implements IMasteryEventListener {
     // Resources - Area
@@ -40,7 +39,7 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
     private long currentTimeStamp = 0;
 
     // UI Input - Area
-    private MASTERY_SPEC currentMastery = MASTERY_SPEC.MINING;
+    private MasterySpec currentMastery = MasterySpec.MINING;
 
     public LevelOverlayUi() {
         super();
@@ -74,7 +73,7 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
         }
     }
 
-    private void drawOverlay(Minecraft mc, IMastery mastery, MASTERY_SPEC activeMastery) {
+    private void drawOverlay(Minecraft mc, IMastery mastery, MasterySpec activeMastery) {
         // Get mastery
         MasteryClass masteryInstance = mastery.getMasteries().get(activeMastery);
 
@@ -147,7 +146,7 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
         }
     }
 
-    private void show(MASTERY_SPEC spec) {
+    private void show(MasterySpec spec) {
         if (MasteryConfiguration.UI_OVERLAY.isActive) {
             this.visible = true;
             this.currentTimeStamp = System.currentTimeMillis();
@@ -167,11 +166,11 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
     public void performEvent(MasteryEvent event) {
         switch (event.getType()) {
         case PLAYER_EXP_CHANGED:
-            if (event.getSource() instanceof MASTERY_SPEC) {
+            if (event.getSource() instanceof MasterySpec) {
                 if (event.getTarget() instanceof Boolean) {
                     boolean showUI = (Boolean) event.getTarget();
                     if (showUI) {
-                        this.show((MASTERY_SPEC) event.getSource());
+                        this.show((MasterySpec) event.getSource());
                     }
                 }
             }

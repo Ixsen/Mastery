@@ -1,10 +1,8 @@
 package mastery.eventhandlers;
 
-import java.util.Random;
-
-import mastery.experience.skillclasses.CombatMastery;
-import mastery.experience.skillclasses.CraftingMastery;
-import mastery.experience.skillclasses.MiningMastery;
+import mastery.capability.skillclasses.CombatMastery;
+import mastery.capability.skillclasses.CraftingMastery;
+import mastery.capability.skillclasses.MiningMastery;
 import mastery.util.MasteryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
@@ -14,6 +12,8 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.util.Random;
 
 public class EffectEventsHandler {
 

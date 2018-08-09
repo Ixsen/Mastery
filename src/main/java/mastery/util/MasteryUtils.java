@@ -15,8 +15,7 @@ import mastery.capability.skillclasses.SurvivalMastery;
 import net.minecraft.entity.Entity;
 
 /**
- * Gives utitlity methods for getting materies. Does not check whether or not
- * the giving entity even has masteries
+ * Gives utitlity methods for getting materies. Does not check whether or not the giving entity even has masteries
  */
 public class MasteryUtils {
 

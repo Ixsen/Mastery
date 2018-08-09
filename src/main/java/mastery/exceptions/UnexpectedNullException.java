@@ -1,8 +1,7 @@
 package mastery.exceptions;
 
 /**
- * This class differenciates from the NullPointerException, since it is only for
- * situation where null should not have happened but did.
+ * This class differenciates from the NullPointerException, since it is only for situation where null should not have happened but did.
  */
 public class UnexpectedNullException extends RuntimeException {
     public UnexpectedNullException() {

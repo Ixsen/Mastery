@@ -18,8 +18,7 @@ public class MasteryConfiguration {
     @Mod.EventBusSubscriber(modid = MasteryMod.modid)
     private static class ConfigurationSyncingHandler {
         /**
-         * Inject the new values and save to the config file when the config has been
-         * changed from the GUI.
+         * Inject the new values and save to the config file when the config has been changed from the GUI.
          *
          * @param event
          *            The event

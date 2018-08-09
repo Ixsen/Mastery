@@ -34,8 +34,7 @@ public class ItemTagUtils {
     }
 
     /**
-     * Retrieves all tags that begin with 'TOOLTIP_'. These should be displayed in
-     * the tooltip.
+     * Retrieves all tags that begin with 'TOOLTIP_'. These should be displayed in the tooltip.
      * 
      * @param stack
      * @return List of all 'TOOLTIP_' tags

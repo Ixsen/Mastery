@@ -20,9 +20,8 @@ public class IngredientTable extends Block {
     }
 
     /**
-     * render using a BakedModel (mbe01_block_simple.json -->
-     * mbe01_block_simple_model.json) not strictly required because the default
-     * (super method) is MODEL.
+     * render using a BakedModel (mbe01_block_simple.json --> mbe01_block_simple_model.json) not strictly required because the default (super
+     * method) is MODEL.
      *
      * @param iBlockState
      *            --

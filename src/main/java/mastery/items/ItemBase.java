@@ -7,9 +7,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 /**
- * Is the superclass for all custom items of the mastery mod. Makes life easier
- * by providing a common naming structure for items and by implmenting the
- * {@linkplain IHasModel} interface.
+ * Is the superclass for all custom items of the mastery mod. Makes life easier by providing a common naming structure for items and by
+ * implmenting the {@linkplain IHasModel} interface.
  * 
  * @author Subaro
  */

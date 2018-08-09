@@ -158,9 +158,7 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
     /*
      * (non-Javadoc)
      *
-     * @see
-     * mastery.eventsystem.IMasteryEventListener#performEvent(mastery.eventsystem.
-     * MasteryEvent)
+     * @see mastery.eventsystem.IMasteryEventListener#performEvent(mastery.eventsystem. MasteryEvent)
      */
     @Override
     public void performEvent(MasteryEvent event) {

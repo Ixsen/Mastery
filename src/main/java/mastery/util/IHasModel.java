@@ -8,8 +8,7 @@ package mastery.util;
 public interface IHasModel {
 
     /**
-     * This method is called if the client proxy is ready to receive registrations
-     * for models.
+     * This method is called if the client proxy is ready to receive registrations for models.
      */
     public void registerModel();
 }

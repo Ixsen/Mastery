@@ -15,17 +15,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
 /**
- * Is the superclass for all custom blocks of the mastery mod. Makes life easier
- * by providing a common naming structure for items and by implmenting the
- * {@linkplain IHasModel} interface.
+ * Is the superclass for all custom blocks of the mastery mod. Makes life easier by providing a common naming structure for items and by
+ * implmenting the {@linkplain IHasModel} interface.
  * 
  * @author Subaro
  */
 public class BlockBase extends Block implements IHasModel {
 
     /**
-     * Creates a new block with the given parameter in the
-     * {@linkplain CreativeTabs.BUILDING_BLOCKS} tab.
+     * Creates a new block with the given parameter in the {@linkplain CreativeTabs.BUILDING_BLOCKS} tab.
      */
     public BlockBase(String name, Material materialIn, SoundType type, float hardness, float resistance,
             String harvestTool, int harvestLevel) {
@@ -33,8 +31,7 @@ public class BlockBase extends Block implements IHasModel {
     }
 
     /**
-     * Creates a new block with the given parameter in the
-     * {@linkplain CreativeTabs.BUILDING_BLOCKS} tab.
+     * Creates a new block with the given parameter in the {@linkplain CreativeTabs.BUILDING_BLOCKS} tab.
      */
     public BlockBase(String name, Material materialIn, SoundType type, float hardness, float resistance,
             String harvestTool, int harvestLevel, float lightLevel) {

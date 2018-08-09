@@ -68,8 +68,7 @@ public abstract class MasteryClass {
     }
 
     /**
-     * Overwrite this method if a mastery needs specifics saved. Only used for
-     * persistency
+     * Overwrite this method if a mastery needs specifics saved. Only used for persistency
      *
      * @param map
      *            Add specifics to this map

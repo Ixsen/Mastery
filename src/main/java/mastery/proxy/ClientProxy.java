@@ -56,8 +56,7 @@ public class ClientProxy extends CommonProxy {
     /*
      * (non-Javadoc)
      * 
-     * @see mastery.proxy.CommonProxy#registerItemRenderer(net.minecraft.item.Item,
-     * int, java.lang.String)
+     * @see mastery.proxy.CommonProxy#registerItemRenderer(net.minecraft.item.Item, int, java.lang.String)
      */
     @Override
     public void registerItemRenderer(Item item, int meta, String id) {

@@ -42,8 +42,7 @@ public class FarmingUtils {
     }
 
     /**
-     * Return whether or not the current harvest state should give capability for
-     * farming
+     * Return whether or not the current harvest state should give capability for farming
      *
      * @param state
      *            --

@@ -4,6 +4,7 @@
 package mastery.eventhandlers.alchemy;
 
 import mastery.util.ItemTagUtils;
+import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
@@ -36,12 +37,12 @@ public class AlchemyUtils {
      * @return true, whether the stack is a potion stack
      */
     public static boolean isSplashPotion(ItemStack stack) {// Skip if air
-        if (stack.isEmpty()) {
+        if (!isPotion(stack)) {
             return false;
         }
         PotionType type = PotionUtils.getPotionFromItem(stack);
 
-        return PotionUtils.getPotionFromItem(stack) != null ? true : false;
+        return type != null && stack.getItem() instanceof ItemSplashPotion ? true : false;
     }
 
     /**
@@ -49,8 +50,7 @@ public class AlchemyUtils {
      * 
      * @param stack
      *            Given potion stack.
-     * @return the potion type of the potions if the stack contains potions, null
-     *         otherwise.
+     * @return the potion type of the potions if the stack contains potions, null otherwise.
      */
     public static PotionType getPotionType(ItemStack stack) {
         return PotionUtils.getPotionFromItem(stack);

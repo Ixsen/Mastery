@@ -1,9 +1,12 @@
 package mastery.eventhandlers.alchemy;
 
+import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_BREW;
+import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_DRINK;
+import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_THROW;
+
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import mastery.util.ItemTagUtils;
-import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
@@ -12,10 +15,6 @@ import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_BREW;
-import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_DRINK;
-import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_THROW;
 
 public class AlchemyExperience extends AbstractExperienceHandler {
 
@@ -93,7 +92,7 @@ public class AlchemyExperience extends AbstractExperienceHandler {
             ItemStack item = useItemEvent.getItemStack();
 
             // ALCHEMY - get exp by "throwing" splash potions
-            if (AlchemyUtils.isPotion(item) && item.getItem() instanceof ItemSplashPotion) {
+            if (AlchemyUtils.isSplashPotion(item)) {
                 PotionType potionType = AlchemyUtils.getPotionType(item);
                 if (!AlchemyUtils.isUselessPotion(potionType)) {
                     this.addExperience(useItemEvent.getEntity(), ALCHEMY_THROW);

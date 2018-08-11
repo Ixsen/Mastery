@@ -59,7 +59,7 @@ class MiningUtils {
                 .mapToInt(blockPos -> expAmountForBlock(getBlockFromPosition(blockPos), false)).sum();
     }
 
-    static boolean hasEnchantedTool(EntityPlayer player) {
+    static boolean hasSilkTouchEnchantedTool(EntityPlayer player) {
         return EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
     }
 }

@@ -1,8 +1,0 @@
-Forge Versionsfiles schon per GITHUB aktualisiert. DU musst nur noch folgendes ausführen:
-
-run:
-gradle setupDecompWorkspace 
-gradle eclipse ODER
-gradle idea
-
-Den Rest macht er von allein.

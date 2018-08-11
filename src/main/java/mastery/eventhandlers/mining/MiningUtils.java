@@ -9,7 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.IGrowable;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraftforge.common.IPlantable;
@@ -39,8 +42,8 @@ class MiningUtils {
         return Minecraft.getMinecraft().world.getBlockState(pos).getBlock();
     }
 
-    static int expAmountForBlock(Block block) {
-        if (block instanceof BlockOre || block == Blocks.REDSTONE_ORE) {
+    static int expAmountForBlock(Block block, boolean hasSilkTouch) {
+        if (block instanceof BlockOre || block == Blocks.REDSTONE_ORE && !hasSilkTouch) {
             Integer expAmount = expMap.get(block) != null ? expMap.get(block)
                     : (1 + block.getHarvestLevel(block.getDefaultState()));
             return MINING_ORE.getValue() * expAmount;
@@ -53,6 +56,10 @@ class MiningUtils {
 
     static int expForExplosion(Explosion explosion) {
         return explosion.getAffectedBlockPositions().stream()
-                .mapToInt(blockPos -> expAmountForBlock(getBlockFromPosition(blockPos))).sum();
+                .mapToInt(blockPos -> expAmountForBlock(getBlockFromPosition(blockPos), false)).sum();
+    }
+
+    static boolean hasEnchantedTool(EntityPlayer player) {
+        return EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
     }
 }

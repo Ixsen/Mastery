@@ -16,7 +16,8 @@ public class MiningExperience extends AbstractExperienceHandler {
     @SubscribeEvent
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
         if (!breakEvent.getPlayer().getEntityWorld().isRemote) {
-            this.addExperience(breakEvent.getPlayer(), MiningUtils.expAmountForBlock(breakEvent.getState().getBlock()));
+            this.addExperience(breakEvent.getPlayer(), MiningUtils.expAmountForBlock(breakEvent.getState().getBlock(),
+                    MiningUtils.hasEnchantedTool(breakEvent.getPlayer())));
         }
     }
 

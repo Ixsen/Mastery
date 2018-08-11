@@ -4,7 +4,7 @@ import mastery.MasteryBlocks;
 import mastery.MasteryItems;
 import mastery.MasteryMod;
 import mastery.capability.IMastery;
-import mastery.capability.MasteryFactory;
+import mastery.capability.Mastery;
 import mastery.capability.MasteryPersistenceManager;
 import mastery.capability.PlayerCapabilityHandler;
 import mastery.eventhandlers.SaveLoadEventHandler;
@@ -80,8 +80,7 @@ public class CommonProxy {
     }
 
     private void registerCapabilities() {
-        CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(),
-                new MasteryFactory());
+        CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(), Mastery::new);
     }
 
     /**

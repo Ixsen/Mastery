@@ -1,6 +1,3 @@
-/**
- * 
- */
 package mastery.eventhandlers.athletics;
 
 /**
@@ -8,5 +5,5 @@ package mastery.eventhandlers.athletics;
  * 
  * @author Subaro
  */
-public class AthleticsUtils {
+class AthleticsUtils {
 }

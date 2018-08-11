@@ -13,8 +13,8 @@ import net.minecraft.potion.PotionUtils;
  */
 class AlchemyUtils {
 
-    private static final String TAG_BREWED_POTION = "isBrewed";
-    private static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
+    static final String TAG_BREWED_POTION = "isBrewed";
+    static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
 
     /**
      * @param stack

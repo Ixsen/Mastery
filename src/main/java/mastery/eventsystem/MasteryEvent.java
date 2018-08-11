@@ -10,9 +10,9 @@ package mastery.eventsystem;
  */
 public class MasteryEvent {
 
-    protected MasteryEventType _type;
-    protected Object source;
-    protected Object target;
+    private MasteryEventType _type;
+    private Object source;
+    private Object target;
 
     public MasteryEvent(MasteryEventType _type, Object source, Object target) {
         this._type = _type;
@@ -21,14 +21,14 @@ public class MasteryEvent {
     }
 
     public MasteryEventType getType() {
-        return _type;
+        return this._type;
     }
 
     public Object getSource() {
-        return source;
+        return this.source;
     }
 
     public Object getTarget() {
-        return target;
+        return this.target;
     }
 }

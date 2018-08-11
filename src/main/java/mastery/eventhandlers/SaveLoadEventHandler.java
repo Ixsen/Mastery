@@ -21,6 +21,7 @@ public class SaveLoadEventHandler {
             IMastery mastery = MasteryUtils.getMasteries(player);
             for (MasterySpec mastSpec : MasterySpec.values()) {
                 MasteryClass masteryClass = mastery.getMasteries().get(mastSpec);
+                masteryClass.setPlayer(player);
                 MasteryMessage message = new MasteryMessage(masteryClass.getSkillClass().order, masteryClass.getLevel(),
                         masteryClass.getExperience(), false);
                 PacketHandler.INSTANCE.sendTo(message, player);

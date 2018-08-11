@@ -1,11 +1,12 @@
 package mastery.ui;
 
+import org.lwjgl.opengl.GL11;
+
 import mastery.MasteryMod;
 import mastery.capability.IMastery;
 import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.configuration.MasteryConfiguration;
-import mastery.eventsystem.IMasteryEventListener;
 import mastery.eventsystem.MasteryEvent;
 import mastery.resource.MasteryImageLoader;
 import mastery.util.MasteryUtils;
@@ -15,9 +16,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
 
-public class LevelOverlayUi extends Gui implements IMasteryEventListener {
+public class LevelOverlayUi extends Gui {
     // Resources - Area
     private final ResourceLocation bar = new ResourceLocation(MasteryMod.modid, "textures/gui/expbarsheet.png");
 
@@ -43,7 +43,7 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
 
     public LevelOverlayUi() {
         super();
-        MasteryMod.getEventHandler().addListener(this);
+        MasteryMod.getEventHandler().addListener(this::performEvent);
     }
 
     @SubscribeEvent
@@ -155,13 +155,7 @@ public class LevelOverlayUi extends Gui implements IMasteryEventListener {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see mastery.eventsystem.IMasteryEventListener#performEvent(mastery.eventsystem. MasteryEvent)
-     */
-    @Override
-    public void performEvent(MasteryEvent event) {
+    private void performEvent(MasteryEvent event) {
         switch (event.getType()) {
         case PLAYER_EXP_CHANGED:
             if (event.getSource() instanceof MasterySpec) {

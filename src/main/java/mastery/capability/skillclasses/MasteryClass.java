@@ -1,5 +1,7 @@
 package mastery.capability.skillclasses;
 
+import mastery.MasteryMod;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -9,8 +11,9 @@ public abstract class MasteryClass {
 
     private int experience = 0;
     private int level = 1;
-    protected int nextLevelExperience = 10;
+    private int nextLevelExperience = 10;
     protected String name = "mastery_placeholder";
+    private EntityPlayer player;
 
     public MasteryClass() {
         // Calculate the first next exp
@@ -28,6 +31,7 @@ public abstract class MasteryClass {
     public void increaseExperience(int amount) {
         this.experience += amount;
         if (this.experience >= this.nextLevelExperience) {
+            MasteryMod.fireLevelUpEvent(this.getSkillClass(), this.player);
             this.level++;
             int nextLevel = this.nextLevelExperience;
             this.calcNextLevelExp();
@@ -86,5 +90,13 @@ public abstract class MasteryClass {
      */
     public void setSpecifics(NBTTagCompound map) {
 
+    }
+
+    public EntityPlayer getPlayer() {
+        return this.player;
+    }
+
+    public void setPlayer(EntityPlayer player) {
+        this.player = player;
     }
 }

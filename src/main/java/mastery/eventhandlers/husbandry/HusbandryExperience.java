@@ -29,7 +29,7 @@ public class HusbandryExperience extends AbstractExperienceHandler {
     }
 
     @SubscribeEvent
-    public void useItemEven(PlayerInteractEvent.EntityInteract event) {
+    public void useItem(PlayerInteractEvent.EntityInteract event) {
         if (!event.getEntityPlayer().getEntityWorld().isRemote) {
             if (HusbandryUtils.isShearable(event.getTarget(), event.getItemStack().getItem())) {
                 this.addExperience(event.getEntityPlayer(), HUSBANDRY_ENTITY_HARVESTED);

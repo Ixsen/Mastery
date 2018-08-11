@@ -16,7 +16,7 @@ public class PlayerCapabilityHandler {
     public static final ResourceLocation MASTERY_CAPABILITY = new ResourceLocation(MasteryMod.modid, "mastery");
 
     @SubscribeEvent
-    public void attachCapability(AttachCapabilitiesEvent event) {
+    public void attachCapability(@SuppressWarnings("rawtypes") AttachCapabilitiesEvent event) {
         if (event.getObject() instanceof EntityPlayer) {
             event.addCapability(MASTERY_CAPABILITY, new MasteryProvider());
         }

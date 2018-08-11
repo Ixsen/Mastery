@@ -12,7 +12,7 @@ import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.BlockReed;
 import net.minecraft.block.state.IBlockState;
 
-public class FarmingUtils {
+class FarmingUtils {
 
     private static boolean beetrootCheck(IBlockState state) {
         return state.getBlock() instanceof BlockBeetroot
@@ -48,7 +48,7 @@ public class FarmingUtils {
      *            --
      * @return --
      */
-    public static boolean shouldGetFarmingExp(IBlockState state) {
+    static boolean shouldGetFarmingExp(IBlockState state) {
         return beetrootCheck(state) || cactusCheck(state) || sugarCaneCheck(state) || netherWartCheck(state)
                 || cocoaCheck(state) || genericCheck(state) || state.getBlock() instanceof BlockMelon
                 || state.getBlock() instanceof BlockPumpkin;

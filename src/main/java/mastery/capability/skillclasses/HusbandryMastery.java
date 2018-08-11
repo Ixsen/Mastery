@@ -10,4 +10,5 @@ public class HusbandryMastery extends MasteryClass {
     public MasterySpec getSkillClass() {
         return MasterySpec.HUSBANDRY;
     }
+
 }

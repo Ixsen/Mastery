@@ -1,6 +1,3 @@
-/**
- * 
- */
 package mastery.eventhandlers.alchemy;
 
 import mastery.util.ItemTagUtils;
@@ -14,17 +11,17 @@ import net.minecraft.potion.PotionUtils;
  * 
  * @author Subaro
  */
-public class AlchemyUtils {
+class AlchemyUtils {
 
-    public static final String TAG_BREWED_POTION = "isBrewed";
-    public static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
+    private static final String TAG_BREWED_POTION = "isBrewed";
+    private static final String TAG_POTION_AUTHOR = ItemTagUtils.TOOLTIP_TAG + "Author";
 
     /**
      * @param stack
      *            Given item stack
      * @return true, whether the stack is a potion stack
      */
-    public static boolean isPotion(ItemStack stack) {// Skip if air
+    static boolean isPotion(ItemStack stack) {// Skip if air
         if (stack.isEmpty()) {
             return false;
         }
@@ -36,7 +33,7 @@ public class AlchemyUtils {
      *            Given item stack
      * @return true, whether the stack is a potion stack
      */
-    public static boolean isSplashPotion(ItemStack stack) {// Skip if air
+    static boolean isSplashPotion(ItemStack stack) {// Skip if air
         if (!isPotion(stack)) {
             return false;
         }
@@ -52,7 +49,7 @@ public class AlchemyUtils {
      *            Given potion stack.
      * @return the potion type of the potions if the stack contains potions, null otherwise.
      */
-    public static PotionType getPotionType(ItemStack stack) {
+    static PotionType getPotionType(ItemStack stack) {
         return PotionUtils.getPotionFromItem(stack);
     }
 
@@ -63,7 +60,7 @@ public class AlchemyUtils {
      * 
      * @return true, whether the potion is useless, flase otherwise.
      */
-    public static boolean isUselessPotion(PotionType potion) {
+    static boolean isUselessPotion(PotionType potion) {
         return potion.getEffects().isEmpty();
     }
 
@@ -72,7 +69,7 @@ public class AlchemyUtils {
      *            Given item stack
      * @return returns true if the item contains the tag TAG_BREWED_POTION
      */
-    public static boolean hasBrewedTag(ItemStack stack) {
+    static boolean hasBrewedTag(ItemStack stack) {
         return !ItemTagUtils.hasTag(stack, TAG_BREWED_POTION);
     }
 }

@@ -4,7 +4,6 @@ import static mastery.eventsystem.MasteryEventType.PLAYER_LEVEL_UP;
 import static net.minecraft.entity.EntityLivingBase.SWIM_SPEED;
 import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 import mastery.MasteryMod;

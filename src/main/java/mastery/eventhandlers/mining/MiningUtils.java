@@ -43,7 +43,7 @@ class MiningUtils {
     }
 
     static int expAmountForBlock(Block block, boolean hasSilkTouch) {
-        if (block instanceof BlockOre || block == Blocks.REDSTONE_ORE && !hasSilkTouch) {
+        if ((block instanceof BlockOre || block == Blocks.REDSTONE_ORE) && !hasSilkTouch) {
             Integer expAmount = expMap.get(block) != null ? expMap.get(block)
                     : (1 + block.getHarvestLevel(block.getDefaultState()));
             return MINING_ORE.getValue() * expAmount;

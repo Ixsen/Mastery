@@ -1,17 +1,21 @@
 package mastery.capability;
 
+import java.util.HashMap;
+
 import mastery.capability.skillclasses.AlchemyMastery;
 import mastery.capability.skillclasses.AthleticsMastery;
 import mastery.capability.skillclasses.CombatMastery;
 import mastery.capability.skillclasses.CraftingMastery;
 import mastery.capability.skillclasses.FarmingMastery;
+import mastery.capability.skillclasses.FishingMastery;
 import mastery.capability.skillclasses.HusbandryMastery;
 import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.capability.skillclasses.MiningMastery;
+import mastery.capability.skillclasses.ScavengingMastery;
+import mastery.capability.skillclasses.SneakingMastery;
 import mastery.capability.skillclasses.SurvivalMastery;
-
-import java.util.HashMap;
+import mastery.capability.skillclasses.TradingMastery;
 
 /**
  * Created by Granis on 16/03/2018.
@@ -56,6 +60,14 @@ public class Mastery implements IMastery {
         this.masteryClasses.put(MasterySpec.SURVIVAL, new SurvivalMastery());
         this.masteryClasses.put(MasterySpec.CRAFTING, new CraftingMastery());
         this.masteryClasses.put(MasterySpec.ATHLETICS, new AthleticsMastery());
+        this.masteryClasses.put(MasterySpec.TRADING, new TradingMastery());
+        this.masteryClasses.put(MasterySpec.SNEAKING, new SneakingMastery());
+        this.masteryClasses.put(MasterySpec.SCAVENGING, new ScavengingMastery());
+        this.masteryClasses.put(MasterySpec.FISHING, new FishingMastery());
     }
 
+    @Override
+    public MasteryClass getMasteryClass(MasterySpec spec) {
+        return this.masteryClasses.get(spec);
+    }
 }

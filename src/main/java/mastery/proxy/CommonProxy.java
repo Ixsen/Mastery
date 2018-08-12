@@ -18,12 +18,20 @@ import mastery.eventhandlers.crafting.CraftingEffects;
 import mastery.eventhandlers.crafting.CraftingExperience;
 import mastery.eventhandlers.farming.FarmingEffects;
 import mastery.eventhandlers.farming.FarmingExperience;
+import mastery.eventhandlers.fishing.FishingEffects;
+import mastery.eventhandlers.fishing.FishingExperience;
 import mastery.eventhandlers.husbandry.HusbandryEffects;
 import mastery.eventhandlers.husbandry.HusbandryExperience;
 import mastery.eventhandlers.mining.MiningEffects;
 import mastery.eventhandlers.mining.MiningExperience;
+import mastery.eventhandlers.scavenging.ScavengingEffects;
+import mastery.eventhandlers.scavenging.ScavengingExperience;
+import mastery.eventhandlers.sneaking.SneakingEffects;
+import mastery.eventhandlers.sneaking.SneakingExperience;
 import mastery.eventhandlers.survival.SurvivalEffects;
 import mastery.eventhandlers.survival.SurvivalExperience;
+import mastery.eventhandlers.trading.TradingEffects;
+import mastery.eventhandlers.trading.TradingExperience;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,6 +58,10 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new HusbandryExperience());
         MinecraftForge.EVENT_BUS.register(new MiningExperience());
         MinecraftForge.EVENT_BUS.register(new SurvivalExperience());
+        MinecraftForge.EVENT_BUS.register(new TradingExperience());
+        MinecraftForge.EVENT_BUS.register(new SneakingExperience());
+        MinecraftForge.EVENT_BUS.register(new ScavengingExperience());
+        MinecraftForge.EVENT_BUS.register(new FishingExperience());
 
         MinecraftForge.EVENT_BUS.register(new AlchemyEffects());
         MinecraftForge.EVENT_BUS.register(new AthleticsEffects());
@@ -59,6 +71,10 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new HusbandryEffects());
         MinecraftForge.EVENT_BUS.register(new MiningEffects());
         MinecraftForge.EVENT_BUS.register(new SurvivalEffects());
+        MinecraftForge.EVENT_BUS.register(new TradingEffects());
+        MinecraftForge.EVENT_BUS.register(new SneakingEffects());
+        MinecraftForge.EVENT_BUS.register(new ScavengingEffects());
+        MinecraftForge.EVENT_BUS.register(new FishingEffects());
 
         MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());

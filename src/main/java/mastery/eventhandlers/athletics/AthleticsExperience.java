@@ -1,13 +1,5 @@
 package mastery.eventhandlers.athletics;
 
-import mastery.capability.skillclasses.MasterySpec;
-import mastery.eventhandlers.AbstractExperienceHandler;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_DISTANCE;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_FLYING;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_JUMP;
@@ -15,6 +7,14 @@ import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_LAVA;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_RIDING;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_WALKING;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_WATER;
+
+import mastery.capability.skillclasses.MasterySpec;
+import mastery.eventhandlers.AbstractExperienceHandler;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class AthleticsExperience extends AbstractExperienceHandler {
 

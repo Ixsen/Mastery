@@ -7,11 +7,15 @@ import mastery.capability.skillclasses.AthleticsMastery;
 import mastery.capability.skillclasses.CombatMastery;
 import mastery.capability.skillclasses.CraftingMastery;
 import mastery.capability.skillclasses.FarmingMastery;
+import mastery.capability.skillclasses.FishingMastery;
 import mastery.capability.skillclasses.HusbandryMastery;
 import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.capability.skillclasses.MiningMastery;
+import mastery.capability.skillclasses.ScavengingMastery;
+import mastery.capability.skillclasses.SneakingMastery;
 import mastery.capability.skillclasses.SurvivalMastery;
+import mastery.capability.skillclasses.TradingMastery;
 import net.minecraft.entity.Entity;
 
 /**
@@ -58,6 +62,22 @@ public class MasteryUtils {
 
     public static SurvivalMastery getSurvivalMastery(Entity player) {
         return (SurvivalMastery) getMastery(player, MasterySpec.SURVIVAL);
+    }
+
+    public static TradingMastery getTradingMastery(Entity player) {
+        return (TradingMastery) getMastery(player, MasterySpec.TRADING);
+    }
+
+    public static SneakingMastery getSneakingMastery(Entity player) {
+        return (SneakingMastery) getMastery(player, MasterySpec.SNEAKING);
+    }
+
+    public static ScavengingMastery getScavengingMastery(Entity player) {
+        return (ScavengingMastery) getMastery(player, MasterySpec.SCAVENGING);
+    }
+
+    public static FishingMastery getFishingMastery(Entity player) {
+        return (FishingMastery) getMastery(player, MasterySpec.FISHING);
     }
 
 }

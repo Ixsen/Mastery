@@ -1,6 +1,3 @@
-/**
- * 
- */
 package mastery.block;
 
 import mastery.MasteryBlocks;
@@ -45,14 +42,14 @@ public class BlockBase extends Block implements IHasModel {
     public BlockBase(String name, Material materialIn, CreativeTabs tab, SoundType type, float hardness,
             float resistance, String harvestTool, int harvestLevel, float lightLevel) {
         super(materialIn);
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        setCreativeTab(tab);
-        setSoundType(type);
-        setHardness(hardness);
-        setResistance(resistance);
-        setHarvestLevel(harvestTool, harvestLevel);
-        setLightLevel(lightLevel);
+        this.setUnlocalizedName(name);
+        this.setRegistryName(name);
+        this.setCreativeTab(tab);
+        this.setSoundType(type);
+        this.setHardness(hardness);
+        this.setResistance(resistance);
+        this.setHarvestLevel(harvestTool, harvestLevel);
+        this.setLightLevel(lightLevel);
         MasteryBlocks.ALL_BLOCKS.add(this);
         MasteryItems.ALL_ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));
     }

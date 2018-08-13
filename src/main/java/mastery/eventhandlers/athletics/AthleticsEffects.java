@@ -10,10 +10,9 @@ import mastery.MasteryMod;
 import mastery.capability.skillclasses.AthleticsMastery;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.eventsystem.MasteryEvent;
+import mastery.util.AttributeUtils;
 import mastery.util.MasteryUtils;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -40,21 +39,11 @@ public class AthleticsEffects {
             AthleticsMastery athleticsMastery = MasteryUtils.getAthleticsMastery(player);
             AbstractAttributeMap attributeMap = player.getAttributeMap();
 
-            this.applyModifier(athleticsMastery.getSpeedModifier(), attributeMap.getAttributeInstance(MOVEMENT_SPEED),
-                    "Mastery Athletics Speed Modifier");
-            this.applyModifier(athleticsMastery.getSwimModifier(), attributeMap.getAttributeInstance(SWIM_SPEED),
-                    "Mastery Swimming Speed Modifier");
+            AttributeUtils.applyModifier(athleticsMastery.getSpeedModifier(),
+                    attributeMap.getAttributeInstance(MOVEMENT_SPEED), "Mastery Athletics Speed Modifier",
+                    this.modifierUid);
+            AttributeUtils.applyModifier(athleticsMastery.getSwimModifier(),
+                    attributeMap.getAttributeInstance(SWIM_SPEED), "Mastery Swimming Speed Modifier", this.modifierUid);
         }
     }
-
-    private void applyModifier(double modifierValue, IAttributeInstance attribute, String attributeName) {
-        AttributeModifier modifier = attribute.getModifier(this.modifierUid);
-        if (modifier != null) {
-            attribute.removeModifier(modifier);
-        }
-        AttributeModifier attributeSpeedModifier = new AttributeModifier(this.modifierUid, attributeName, modifierValue,
-                0);
-        attribute.applyModifier(attributeSpeedModifier);
-    }
-
 }

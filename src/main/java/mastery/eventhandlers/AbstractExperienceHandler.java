@@ -11,9 +11,9 @@ public class AbstractExperienceHandler {
     protected MasterySpec spec;
 
     protected void addExperience(Entity player, int amount) {
-    	if(amount <= 0) {
-    		return;
-    	}
+        if (amount <= 0) {
+            return;
+        }
         MasteryClass mastery = MasteryUtils.getMastery(player, this.spec);
         mastery.increaseExperience(amount);
         NetworkUtils.sendExpToPlayer(mastery, (EntityPlayerMP) player);

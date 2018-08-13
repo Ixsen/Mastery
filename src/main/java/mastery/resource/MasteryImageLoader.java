@@ -22,6 +22,14 @@ public class MasteryImageLoader {
             "textures/gui/masteries/mining.png");
     private static final ResourceLocation survival = new ResourceLocation(MasteryMod.modid,
             "textures/gui/masteries/survival.png");
+    private static final ResourceLocation trading = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/masteries/survival.png");
+    private static final ResourceLocation sneaking = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/masteries/survival.png");
+    private static final ResourceLocation scavenging = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/masteries/survival.png");
+    private static final ResourceLocation fishing = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/masteries/survival.png");
 
     /**
      * Returns the resource location for the mastery image
@@ -46,6 +54,14 @@ public class MasteryImageLoader {
             return husbandry;
         case MINING:
             return mining;
+        case TRADING:
+            return trading;
+        case SNEAKING:
+            return sneaking;
+        case SCAVENGING:
+            return scavenging;
+        case FISHING:
+            return fishing;
         default:
             return survival;
         }

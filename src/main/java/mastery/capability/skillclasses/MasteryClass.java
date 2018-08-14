@@ -64,7 +64,7 @@ public abstract class MasteryClass {
 
     @Override
     public String toString() {
-        return this.name + " -> Level: " + this.getLevel() + " Exp: " + this.getExperience();
+        return String.format("%12s Level: %5d EXP: %7d", this.name, this.getLevel(), this.getExperience());
     }
 
     /**

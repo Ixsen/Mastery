@@ -5,9 +5,6 @@ package mastery.capability.skillclasses;
  */
 public class CombatMastery extends MasteryClass {
 
-    public static final double doDamageExpThreshold = 1.0f;
-    public static final float getDamagedExpThreshold = 1.0f;
-
     public CombatMastery() {
         this.name = "Combat";
     }
@@ -17,12 +14,19 @@ public class CombatMastery extends MasteryClass {
         return MasterySpec.COMBAT;
     }
 
-    public float getAttackDamageEffect(float originalDamage) {
-        return originalDamage + originalDamage * (float) Math.log(this.getLevel() + 1) / 10.0f;
+    public double getAttackModifier() {
+        return this.getLevel();
     }
 
-    public float getDefenseDamageEffect(float originalDamage) {
-        return originalDamage - originalDamage * (float) Math.log(this.getLevel() + 1) / 20.0f;
+    public float getDamageTaken(float amount) {
+        return amount - amount * (float) Math.log(this.getLevel() + 1) / 20.0f;
     }
 
+    public double getHealthModifier() {
+        return this.getLevel();
+    }
+
+    public double getAttackSpeedModifier() {
+        return this.getLevel();
+    }
 }

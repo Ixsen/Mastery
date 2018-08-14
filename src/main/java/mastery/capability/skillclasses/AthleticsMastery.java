@@ -12,7 +12,7 @@ public class AthleticsMastery extends MasteryClass {
     }
 
     public double getSpeedModifier() {
-        return Math.min(this.getLevel(), 1D);
+        return 0.1D;
     }
 
     public double getSwimModifier() {
@@ -20,7 +20,7 @@ public class AthleticsMastery extends MasteryClass {
     }
 
     public double getJumpModifier() {
-        return Math.min(this.getLevel(), 3D);
+        return Math.min(this.getLevel(), 1D);
     }
 
 }

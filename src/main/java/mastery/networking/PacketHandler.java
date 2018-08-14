@@ -5,8 +5,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketHandler {
-    private static int packetId = 0;
     public static SimpleNetworkWrapper INSTANCE;
+    private static int packetId = 0;
 
     public static int nextID() {
         return packetId++;

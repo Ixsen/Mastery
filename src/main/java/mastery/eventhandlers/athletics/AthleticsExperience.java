@@ -80,5 +80,4 @@ public class AthleticsExperience extends AbstractExperienceHandler {
         return Math.sqrt(Math.pow(second.getX() - first.getX(), 2) + Math.pow(second.getY() - first.getY(), 2)
                 + Math.pow(second.getZ() - first.getZ(), 2));
     }
-
 }

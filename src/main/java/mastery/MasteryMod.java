@@ -7,6 +7,7 @@ import mastery.eventsystem.MasteryEventType;
 import mastery.networking.PacketHandler;
 import mastery.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -57,6 +58,10 @@ public class MasteryMod {
 
     public static void fireExpEvent(MasterySpec spec, boolean notifyUI) {
         instance.eventSystem.fireEvent(new MasteryEvent(MasteryEventType.PLAYER_EXP_CHANGED, spec, notifyUI));
+    }
+
+    public static void fireLevelUpEvent(MasterySpec spec, EntityPlayer player) {
+        instance.eventSystem.fireEvent(new MasteryEvent(MasteryEventType.PLAYER_LEVEL_UP, spec, player));
     }
 
     public static MasteryEventHandler getEventHandler() {

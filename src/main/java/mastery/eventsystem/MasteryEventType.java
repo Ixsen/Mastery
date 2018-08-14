@@ -1,11 +1,8 @@
-/**
- * 
- */
 package mastery.eventsystem;
 
 /**
  * @author Subaro
  */
 public enum MasteryEventType {
-    PLAYER_EXP_CHANGED
+    PLAYER_EXP_CHANGED, PLAYER_LEVEL_UP
 }

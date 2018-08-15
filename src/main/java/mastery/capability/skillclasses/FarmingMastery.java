@@ -15,12 +15,10 @@ public class FarmingMastery extends MasteryClass {
     }
 
     public boolean applyQuadDrop() {
-        return Math.random() <= ((this.getLevel() * FarmingMastery.QUAD_CHANCE_PER_LEVEL) > 1 ? 1
-                : (this.getLevel() * FarmingMastery.QUAD_CHANCE_PER_LEVEL));
+        return Math.random() <= Math.min(this.getLevel() * FarmingMastery.QUAD_CHANCE_PER_LEVEL, 1);
     }
 
     public boolean applyDoubleDrop() {
-        return Math.random() <= ((this.getLevel() * FarmingMastery.DOUBLE_CHANCE_PER_LEVEL) > 1 ? 1
-                : (this.getLevel() * FarmingMastery.DOUBLE_CHANCE_PER_LEVEL));
+        return Math.random() <= Math.min(this.getLevel() * FarmingMastery.DOUBLE_CHANCE_PER_LEVEL, 1);
     }
 }

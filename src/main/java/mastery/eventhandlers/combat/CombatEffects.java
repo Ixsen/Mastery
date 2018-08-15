@@ -1,25 +1,55 @@
 package mastery.eventhandlers.combat;
 
+import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_SPEED;
+import static net.minecraft.entity.SharedMonsterAttributes.MAX_HEALTH;
+
+import java.util.UUID;
+
+import mastery.MasteryMod;
 import mastery.capability.skillclasses.CombatMastery;
+import mastery.capability.skillclasses.MasterySpec;
+import mastery.eventsystem.MasteryEvent;
+import mastery.eventsystem.MasteryEventType;
+import mastery.util.AttributeUtils;
 import mastery.util.MasteryUtils;
+import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CombatEffects {
 
+    private final UUID modifierUid = UUID.fromString("3ba0a923-a53f-4df4-9c32-6a7750b76007");
+
+    public CombatEffects() {
+        MasteryMod.getEventHandler().addListener(this::onLevelUp);
+    }
+
     @SubscribeEvent
     public void livingHurt(LivingHurtEvent livingHurtEvent) {
-        if (livingHurtEvent.getSource().getTrueSource() instanceof EntityPlayer) {
-            CombatMastery mastery = MasteryUtils.getCombatMastery(livingHurtEvent.getSource().getTrueSource());
-            float newDamage = mastery.getAttackDamageEffect(livingHurtEvent.getAmount());
-            livingHurtEvent.setAmount(newDamage);
-        } else if (livingHurtEvent.getEntity() instanceof EntityPlayer
+        if (livingHurtEvent.getEntity() instanceof EntityPlayer
                 && livingHurtEvent.getSource().getTrueSource() != null) {
-            CombatMastery mastery = MasteryUtils.getCombatMastery(livingHurtEvent.getEntity());
-            float newDamage = mastery.getDefenseDamageEffect(livingHurtEvent.getAmount());
-            livingHurtEvent.setAmount(newDamage);
+            float damageTaken = MasteryUtils.getCombatMastery(livingHurtEvent.getEntity())
+                    .getDamageTaken(livingHurtEvent.getAmount());
+            livingHurtEvent.setAmount(damageTaken);
         }
     }
 
+    private void onLevelUp(MasteryEvent masteryEvent) {
+        if (masteryEvent.getType() == MasteryEventType.PLAYER_LEVEL_UP
+                && masteryEvent.getSource() == MasterySpec.COMBAT) {
+            EntityPlayer player = (EntityPlayer) masteryEvent.getTarget();
+            CombatMastery combatMastery = MasteryUtils.getCombatMastery(player);
+            AbstractAttributeMap attributeMap = player.getAttributeMap();
+
+            AttributeUtils.applyModifier(combatMastery.getAttackModifier(),
+                    attributeMap.getAttributeInstance(ATTACK_DAMAGE), "Mastery Attack Modifier", this.modifierUid);
+            AttributeUtils.applyModifier(combatMastery.getAttackSpeedModifier(),
+                    attributeMap.getAttributeInstance(ATTACK_SPEED), "Mastery Attack-Speed Modifier", this.modifierUid);
+            AttributeUtils.applyModifier(combatMastery.getHealthModifier(),
+                    attributeMap.getAttributeInstance(MAX_HEALTH), "Mastery Health Modifier", this.modifierUid);
+
+        }
+    }
 }

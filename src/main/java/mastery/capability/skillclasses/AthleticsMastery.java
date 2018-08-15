@@ -10,4 +10,17 @@ public class AthleticsMastery extends MasteryClass {
     public MasterySpec getSkillClass() {
         return MasterySpec.ATHLETICS;
     }
+
+    public double getSpeedModifier() {
+        return 0.1D;
+    }
+
+    public double getSwimModifier() {
+        return this.getSpeedModifier();
+    }
+
+    public double getJumpModifier() {
+        return Math.min(this.getLevel(), 1D);
+    }
+
 }

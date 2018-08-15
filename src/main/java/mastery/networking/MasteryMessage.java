@@ -3,6 +3,7 @@ package mastery.networking;
 import io.netty.buffer.ByteBuf;
 import mastery.MasteryMod;
 import mastery.capability.IMastery;
+import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.util.MasteryUtils;
 import net.minecraft.client.Minecraft;
@@ -50,9 +51,13 @@ public class MasteryMessage implements IMessage {
         public IMessage onMessage(MasteryMessage message, MessageContext context) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 IMastery mastery = MasteryUtils.getMasteries(Minecraft.getMinecraft().player);
-                mastery.getMasteries().get(MasterySpec.getByOrder(message.masteryID)).setLevel(message.level);
-                mastery.getMasteries().get(MasterySpec.getByOrder(message.masteryID)).calcNextLevelExp();
-                mastery.getMasteries().get(MasterySpec.getByOrder(message.masteryID)).setExperience(message.experience);
+                MasteryClass masteryClass = mastery.getMasteries().get(MasterySpec.getByOrder(message.masteryID));
+                if (masteryClass.getPlayer() == null) {
+                    masteryClass.setPlayer(Minecraft.getMinecraft().player);
+                }
+                masteryClass.setLevel(message.level);
+                masteryClass.calcNextLevelExp();
+                masteryClass.setExperience(message.experience);
                 MasteryMod.fireExpEvent(MasterySpec.getByOrder(message.masteryID), message.notifyUI);
             });
             return null;

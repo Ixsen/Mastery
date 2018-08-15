@@ -8,7 +8,6 @@ import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -36,9 +35,6 @@ public class SurvivalExperience extends AbstractExperienceHandler {
             ItemStack itemStack = event.getItem();
             if (itemStack.getItem() instanceof ItemFood) {
                 ItemFood itemFood = (ItemFood) itemStack.getItem();
-                player.sendMessage(
-                        new TextComponentString("ESSEN:" + itemFood.getSaturationModifier(itemStack) + " and exp:"
-                                + (int) (SURVIVAL_EATING.getValue() * itemFood.getSaturationModifier(itemStack))));
                 this.addExperience(player,
                         (int) (SURVIVAL_EATING.getValue() * itemFood.getSaturationModifier(itemStack)));
             }

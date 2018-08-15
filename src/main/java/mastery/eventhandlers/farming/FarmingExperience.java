@@ -14,7 +14,7 @@ public class FarmingExperience extends AbstractExperienceHandler {
     @SubscribeEvent
     public void breakBlock(BlockEvent.BreakEvent breakEvent) {
         if (!breakEvent.getPlayer().getEntityWorld().isRemote
-                && FarmingUtils.shouldGetFarmingExp(breakEvent.getState())) {
+                && FarmingUtils.shouldApplyFarming(breakEvent.getState())) {
             this.addExperience(breakEvent.getPlayer(), 1);
         }
     }

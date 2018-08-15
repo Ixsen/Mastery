@@ -23,13 +23,13 @@ public class MasteryImageLoader {
     private static final ResourceLocation survival = new ResourceLocation(MasteryMod.modid,
             "textures/gui/masteries/survival.png");
     private static final ResourceLocation trading = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/masteries/survival.png");
+            "textures/gui/masteries/trading.png");
     private static final ResourceLocation sneaking = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/masteries/survival.png");
+            "textures/gui/masteries/sneaking.png");
     private static final ResourceLocation scavenging = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/masteries/survival.png");
+            "textures/gui/masteries/scavenging.png");
     private static final ResourceLocation fishing = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/masteries/survival.png");
+            "textures/gui/masteries/fishing.png");
 
     /**
      * Returns the resource location for the mastery image

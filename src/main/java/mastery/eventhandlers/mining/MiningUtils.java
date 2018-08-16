@@ -8,13 +8,13 @@ import java.util.HashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.IGrowable;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 
 class MiningUtils {
@@ -38,8 +38,8 @@ class MiningUtils {
 
     }
 
-    private static Block getBlockFromPosition(BlockPos pos) {
-        return Minecraft.getMinecraft().world.getBlockState(pos).getBlock();
+    private static Block getBlockFromPosition(BlockPos pos, World world) {
+        return world.getBlockState(pos).getBlock();
     }
 
     static int expAmountForBlock(Block block, boolean hasSilkTouch) {
@@ -54,9 +54,9 @@ class MiningUtils {
         return 0;
     }
 
-    static int expForExplosion(Explosion explosion) {
+    static int expForExplosion(Explosion explosion, World world) {
         return explosion.getAffectedBlockPositions().stream()
-                .mapToInt(blockPos -> expAmountForBlock(getBlockFromPosition(blockPos), false)).sum();
+                .mapToInt(blockPos -> expAmountForBlock(getBlockFromPosition(blockPos, world), false)).sum();
     }
 
     static boolean hasSilkTouchEnchantedTool(EntityPlayer player) {

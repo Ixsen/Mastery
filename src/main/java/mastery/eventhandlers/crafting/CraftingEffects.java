@@ -1,16 +1,23 @@
 package mastery.eventhandlers.crafting;
 
-import java.util.Random;
-
 import mastery.capability.skillclasses.CraftingMastery;
+import mastery.ui.utils.UIPopupUtils;
 import mastery.util.MasteryUtils;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class CraftingEffects {
+
     @SubscribeEvent
     public void onItemCrafted(net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent event) {
-        CraftingMastery craftingMastery = (MasteryUtils.getCraftingMastery(event.player));
-        Random random = new Random();
-        event.crafting.setCount(event.crafting.getCount() + (random.nextInt(100) + craftingMastery.getLevel()) / 100);
+        if (event.player != null && !event.player.getEntityWorld().isRemote) {
+            CraftingMastery craftingMastery = (MasteryUtils.getCraftingMastery(event.player));
+            if (craftingMastery.isDoubleCraft()) {
+                // sends the item to the inventory. If all slots are full the items will be dropped before the player into the world ;)
+                ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(event.crafting.getItem()));
+                UIPopupUtils.notifyPopup(event.player, "Yeah double craft :)");
+            }
+        }
     }
 }

@@ -10,6 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MasteryMessage implements IMessage {
     private int level;
@@ -48,6 +50,7 @@ public class MasteryMessage implements IMessage {
 
     public static class MasteryMessageHandler implements IMessageHandler<MasteryMessage, IMessage> {
         @Override
+        @SideOnly(Side.CLIENT)
         public IMessage onMessage(MasteryMessage message, MessageContext context) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 IMastery mastery = MasteryUtils.getMasteries(Minecraft.getMinecraft().player);

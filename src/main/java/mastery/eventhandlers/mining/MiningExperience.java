@@ -26,7 +26,7 @@ public class MiningExperience extends AbstractExperienceHandler {
         if (event.getExplosion().getExplosivePlacedBy() instanceof EntityPlayer
                 && !event.getExplosion().getExplosivePlacedBy().getEntityWorld().isRemote) {
             this.addExperience(event.getExplosion().getExplosivePlacedBy(),
-                    MiningUtils.expForExplosion(event.getExplosion()));
+                    MiningUtils.expForExplosion(event.getExplosion(), event.getWorld()));
         }
     }
 }

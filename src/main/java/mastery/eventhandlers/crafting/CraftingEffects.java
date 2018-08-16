@@ -16,7 +16,7 @@ public class CraftingEffects {
             if (craftingMastery.isDoubleCraft()) {
                 // sends the item to the inventory. If all slots are full the items will be dropped before the player into the world ;)
                 ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(event.crafting.getItem()));
-                UIPopupUtils.notifyPopup("Yeah double craft :)");
+                UIPopupUtils.notifyPopup(event.player, "Yeah double craft :)");
             }
         }
     }

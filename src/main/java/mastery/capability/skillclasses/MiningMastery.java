@@ -25,10 +25,10 @@ public class MiningMastery extends MasteryClass {
         return miningSpeed;
     }
 
-    public int getExtraDropIfLucky(boolean rareBlock) {
+    public int getExtraDropIfLucky() {
         if (Math.random() <= Math.min(1, APPLY_ENDLESS_FORTUNE_EFFECT * this.getLevel())) {
             // Drop additionally items depending on the returned value
-            return (int) (Math.random() * (2 + (int) (getLevel() / LEVEL_DIVISOR_FOR_EXTRA_ITEMS)));
+            return (int) (Math.random() * (2 + (int) (this.getLevel() / LEVEL_DIVISOR_FOR_EXTRA_ITEMS)));
         }
         return 0;
     }

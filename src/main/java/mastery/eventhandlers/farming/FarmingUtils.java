@@ -11,7 +11,7 @@ import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.BlockReed;
 import net.minecraft.block.state.IBlockState;
 
-class FarmingUtils {
+public class FarmingUtils {
 
     /**
      * Return whether or not the current harvest state should give capability for farming
@@ -20,7 +20,7 @@ class FarmingUtils {
      *            --
      * @return --
      */
-    static boolean shouldApplyFarming(IBlockState state) {
+    public static boolean shouldApplyFarming(IBlockState state) {
         return isFullGrownBeetroot(state) || isFullGrownCactus(state) || isFullGrownSugarCane(state)
                 || isFullGrownNetherWart(state) || isFullGrownCocoa(state) || isFullGrownBlockCrop(state)
                 || isMelon(state) || isPumpkin(state);

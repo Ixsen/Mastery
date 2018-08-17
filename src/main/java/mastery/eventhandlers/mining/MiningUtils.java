@@ -43,7 +43,7 @@ class MiningUtils {
     }
 
     static int expAmountForBlock(Block block, boolean hasSilkTouch) {
-        if ((block instanceof BlockOre || block == Blocks.REDSTONE_ORE) && !hasSilkTouch) {
+        if (isOre(block, false) && !hasSilkTouch) {
             Integer expAmount = expMap.get(block) != null ? expMap.get(block)
                     : (1 + block.getHarvestLevel(block.getDefaultState()));
             return MINING_ORE.getValue() * expAmount;
@@ -61,5 +61,12 @@ class MiningUtils {
 
     static boolean hasSilkTouchEnchantedTool(EntityPlayer player) {
         return EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
+    }
+
+    static boolean isOre(Block block, boolean ignoreBlockDrops) {
+        return ignoreBlockDrops
+                ? block != Blocks.GOLD_ORE && block != Blocks.IRON_ORE
+                        && (block instanceof BlockOre || block == Blocks.REDSTONE_ORE)
+                : block instanceof BlockOre || block == Blocks.REDSTONE_ORE;
     }
 }

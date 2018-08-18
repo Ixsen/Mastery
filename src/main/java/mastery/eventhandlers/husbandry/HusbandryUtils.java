@@ -3,6 +3,7 @@ package mastery.eventhandlers.husbandry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +22,13 @@ class HusbandryUtils {
     }
 
     static boolean isFeedable(Entity target, EntityPlayer entityPlayer, EnumHand hand) {
-        return target.processInitialInteract(entityPlayer, hand) && !((EntityAgeable) target).isChild()
-                && !(target instanceof AbstractHorse) && !(target instanceof EntityTameable);
+        return (target instanceof EntityAnimal) && ((EntityAnimal) target).processInteract(entityPlayer, hand)
+                && !((EntityAgeable) target).isChild() && !(target instanceof AbstractHorse)
+                && !(target instanceof EntityTameable);
+    }
+
+    static boolean isTameable(Entity target, EntityPlayer player, EnumHand hand) {
+        return (target instanceof EntityTameable) && ((EntityTameable) target).processInteract(player, hand)
+                && !((EntityTameable) target).isTamed();
     }
 }

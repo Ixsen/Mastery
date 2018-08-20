@@ -1,6 +1,7 @@
 package mastery.oldui;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Point;
 
 import mastery.MasteryMod;
 import mastery.capability.IMastery;
@@ -78,14 +79,16 @@ public class LevelOverlayUi extends Gui {
         MasteryClass masteryInstance = mastery.getMasteries().get(activeMastery);
 
         // Draw the icon for the mastery
-        mc.renderEngine.bindTexture(MasteryImageLoader.getImage(activeMastery));
+        mc.renderEngine.bindTexture(MasteryImageLoader.masteryClassIconPlain);
         GL11.glPushMatrix();
         GL11.glScalef(this.ICON_SCALE, this.ICON_SCALE, this.ICON_SCALE);
         GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
         int xOffset = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetX * (1 / this.ICON_SCALE));
         int yOffset = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetY * (1 / this.ICON_SCALE));
-        drawModalRectWithCustomSizedTexture(xOffset, yOffset, 0, 0, this.ICON_SIZE, this.ICON_SIZE, this.ICON_SIZE,
-                this.ICON_SIZE);
+        Point masteryUV = MasteryImageLoader.getMasteryUV(activeMastery);
+        drawModalRectWithCustomSizedTexture(xOffset, yOffset, masteryUV.getX(), masteryUV.getY(), this.ICON_SIZE,
+                this.ICON_SIZE, MasteryImageLoader.MASTERY_CLASS_ATLAS_SIZE,
+                MasteryImageLoader.MASTERY_CLASS_ATLAS_SIZE);
         GL11.glPopMatrix();
 
         // Draw the exp bar
@@ -94,12 +97,12 @@ public class LevelOverlayUi extends Gui {
         GL11.glScalef(1, 1, 1);
         GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
         this.drawTexturedModalRect(MasteryConfiguration.UI_OVERLAY.uiOffsetX,
-                MasteryConfiguration.UI_OVERLAY.uiOffsetY + (this.ICON_SCALE * this.ICON_SIZE), 0, 0, this.BACK_WIDTH,
+                MasteryConfiguration.UI_OVERLAY.uiOffsetY + this.ICON_SCALE * this.ICON_SIZE, 0, 0, this.BACK_WIDTH,
                 this.BACK_HEIGHT);
         double quotient = masteryInstance.getExperience() / (float) masteryInstance.getNextLevelExp();
         int currentBarWidth = (int) (this.BAR_WIDTH * quotient);
         this.drawTexturedModalRect(MasteryConfiguration.UI_OVERLAY.uiOffsetX + 1,
-                MasteryConfiguration.UI_OVERLAY.uiOffsetY + (this.ICON_SCALE * this.ICON_SIZE) + 1, 1,
+                MasteryConfiguration.UI_OVERLAY.uiOffsetY + this.ICON_SCALE * this.ICON_SIZE + 1, 1,
                 this.BACK_HEIGHT + 1, currentBarWidth, this.BAR_HEIGHT);
         GL11.glPopMatrix();
 
@@ -107,7 +110,7 @@ public class LevelOverlayUi extends Gui {
         GL11.glPushMatrix();
         GL11.glScalef(1, 1, 1);
         GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
-        this.drawTexturedModalRect(MasteryConfiguration.UI_OVERLAY.uiOffsetX + (this.ICON_SCALE * this.ICON_SIZE),
+        this.drawTexturedModalRect(MasteryConfiguration.UI_OVERLAY.uiOffsetX + this.ICON_SCALE * this.ICON_SIZE,
                 MasteryConfiguration.UI_OVERLAY.uiOffsetY, 0, 2 * this.BACK_HEIGHT, this.LEVEL_WIDTH, this.LEVEL_HEIGH);
         GL11.glPopMatrix();
 
@@ -116,7 +119,7 @@ public class LevelOverlayUi extends Gui {
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
-        int levelX = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetX + (this.ICON_SCALE * this.ICON_SIZE) + 2) * 2;
+        int levelX = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetX + this.ICON_SCALE * this.ICON_SIZE + 2) * 2;
         int levelY = (MasteryConfiguration.UI_OVERLAY.uiOffsetY + 2) * 2 + 1;
         this.drawString(mc.fontRenderer, level, levelX, levelY, 0xFFFFFFFF);
         GL11.glPopMatrix();
@@ -127,7 +130,7 @@ public class LevelOverlayUi extends Gui {
             GL11.glPushMatrix();
             GL11.glScalef(0.5f, 0.5f, 0.5f);
             GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
-            int titleX = (int) ((MasteryConfiguration.UI_OVERLAY.uiOffsetX + (this.ICON_SCALE * this.ICON_SIZE) + 2)
+            int titleX = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetX + this.ICON_SCALE * this.ICON_SIZE + 2
                     + this.LEVEL_WIDTH) * 2;
             int titleY = (MasteryConfiguration.UI_OVERLAY.uiOffsetY + 2) * 2 + 1;
             this.drawString(mc.fontRenderer, title, titleX, titleY, 0xFFFFFFFF);
@@ -140,7 +143,7 @@ public class LevelOverlayUi extends Gui {
             GL11.glScalef(0.5f, 0.5f, 0.5f);
             GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
             int expX = (MasteryConfiguration.UI_OVERLAY.uiOffsetX + 2) * 2;
-            int expY = (int) ((MasteryConfiguration.UI_OVERLAY.uiOffsetY + (this.ICON_SCALE * this.ICON_SIZE) + 2) * 2);
+            int expY = (int) ((MasteryConfiguration.UI_OVERLAY.uiOffsetY + this.ICON_SCALE * this.ICON_SIZE + 2) * 2);
             this.drawString(mc.fontRenderer, exp, expX, expY, 0xFFFFFFFF);
             GL11.glPopMatrix();
         }

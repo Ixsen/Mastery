@@ -51,7 +51,7 @@ public class FreeformLayout implements Layout {
                     maxWidth = lData.x + minSize.getWidth();
                 }
                 if (lData.y + minSize.getHeight() > maxHeight) {
-                    maxWidth = lData.y + minSize.getHeight();
+                    maxHeight = lData.y + minSize.getHeight();
                 }
             }
         }

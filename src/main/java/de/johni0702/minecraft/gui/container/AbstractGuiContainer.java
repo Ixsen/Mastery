@@ -24,8 +24,23 @@
  */
 package de.johni0702.minecraft.gui.container;
 
+import static com.google.common.base.Preconditions.checkState;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.tuple.Pair;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableColor;
+import org.lwjgl.util.ReadableDimension;
+import org.lwjgl.util.ReadablePoint;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
+
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.OffsetGuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
@@ -38,18 +53,9 @@ import de.johni0702.minecraft.gui.layout.LayoutData;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
-import org.apache.commons.lang3.tuple.Pair;
-import org.lwjgl.util.Point;
-import org.lwjgl.util.ReadableColor;
-import org.lwjgl.util.ReadableDimension;
-import org.lwjgl.util.ReadablePoint;
 
-import java.util.*;
-
-import static com.google.common.base.Preconditions.checkState;
-
-public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
-        extends AbstractComposedGuiElement<T> implements GuiContainer<T> {
+public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>> extends AbstractComposedGuiElement<T>
+        implements GuiContainer<T> {
 
     private static final Layout DEFAULT_LAYOUT = new HorizontalLayout();
 
@@ -71,39 +77,39 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
     @Override
     public T setLayout(Layout layout) {
         this.layout = layout;
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public Layout getLayout() {
-        return layout;
+        return this.layout;
     }
 
     @Override
     public void convertFor(GuiElement element, Point point) {
-        convertFor(element, point, element.getLayer());
+        this.convertFor(element, point, element.getLayer());
     }
 
     @Override
     public void convertFor(GuiElement element, Point point, int relativeLayer) {
-        checkState(layedOutElements != null, "Cannot convert position unless rendered at least once.");
-        Pair<ReadablePoint, ReadableDimension> pair = layedOutElements.get(element);
+        checkState(this.layedOutElements != null, "Cannot convert position unless rendered at least once.");
+        Pair<ReadablePoint, ReadableDimension> pair = this.layedOutElements.get(element);
         checkState(pair != null, "Element " + element + " not part of " + this);
         ReadablePoint pos = pair.getKey();
-        if (getContainer() != null) {
-            getContainer().convertFor(this, point, relativeLayer + getLayer());
+        if (this.getContainer() != null) {
+            this.getContainer().convertFor(this, point, relativeLayer + this.getLayer());
         }
         point.translate(-pos.getX(), -pos.getY());
     }
 
     @Override
     public Collection<GuiElement> getChildren() {
-        return Collections.unmodifiableCollection(elements.keySet());
+        return Collections.unmodifiableCollection(this.elements.keySet());
     }
 
     @Override
     public Map<GuiElement, LayoutData> getElements() {
-        return Collections.unmodifiableMap(elements);
+        return Collections.unmodifiableMap(this.elements);
     }
 
     @Override
@@ -115,37 +121,37 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
             this.elements.put(element, layoutData);
             element.setContainer(this);
         }
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public T removeElement(GuiElement element) {
-        if (elements.remove(element) != null) {
+        if (this.elements.remove(element) != null) {
             element.setContainer(null);
-            if (layedOutElements != null) {
-                layedOutElements.remove(element);
+            if (this.layedOutElements != null) {
+                this.layedOutElements.remove(element);
             }
         }
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
         super.draw(renderer, size, renderInfo);
         try {
-            layedOutElements = layout.layOut(this, size);
+            this.layedOutElements = this.layout.layOut(this, size);
         } catch (Exception ex) {
             CrashReport crashReport = CrashReport.makeCrashReport(ex, "Gui Layout");
             renderInfo.addTo(crashReport);
             CrashReportCategory category = crashReport.makeCategory("Gui container details");
             category.addDetail("Container", this::toString);
-            category.addDetail("Layout", layout::toString);
+            category.addDetail("Layout", this.layout::toString);
             throw new ReportedException(crashReport);
         }
-        if (backgroundColor != null && renderInfo.getLayer() == 0) {
-            renderer.drawRect(0, 0, size.getWidth(), size.getHeight(), backgroundColor);
+        if (this.backgroundColor != null && renderInfo.getLayer() == 0) {
+            renderer.drawRect(0, 0, size.getWidth(), size.getHeight(), this.backgroundColor);
         }
-        for (final Map.Entry<GuiElement, Pair<ReadablePoint, ReadableDimension>> e : layedOutElements.entrySet()) {
+        for (final Map.Entry<GuiElement, Pair<ReadablePoint, ReadableDimension>> e : this.layedOutElements.entrySet()) {
             GuiElement element = e.getKey();
             boolean strict;
             if (element instanceof ComposedGuiElement) {
@@ -174,7 +180,7 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
                 category.addDetail("Container", this::toString);
                 category.addCrashSection("Width", size.getWidth());
                 category.addCrashSection("Height", size.getHeight());
-                category.addDetail("Layout", layout::toString);
+                category.addDetail("Layout", this.layout::toString);
                 category = crashReport.makeCategory("Gui element details");
                 category.addDetail("Element", () -> e.getKey().toString());
                 category.addDetail("Position", ePosition::toString);
@@ -189,12 +195,12 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
 
     @Override
     public ReadableDimension calcMinSize() {
-        return layout.calcMinSize(this);
+        return this.layout.calcMinSize(this);
     }
 
     @Override
     public T sortElements() {
-        sortElements(new Comparator<GuiElement>() {
+        this.sortElements(new Comparator<GuiElement>() {
             @SuppressWarnings("unchecked")
             @Override
             public int compare(GuiElement o1, GuiElement o2) {
@@ -204,7 +210,7 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
                 return o1.hashCode() - o2.hashCode();
             }
         });
-        return getThis();
+        return this.getThis();
     }
 
     @Override
@@ -215,24 +221,25 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>>
                 return comparator.compare(left.getKey(), right.getKey());
             }
         };
-        if (!ordering.isOrdered(elements.entrySet())) {
-            ImmutableList<Map.Entry<GuiElement, LayoutData>> sorted = ordering.immutableSortedCopy(elements.entrySet());
-            elements.clear();
+        if (!ordering.isOrdered(this.elements.entrySet())) {
+            ImmutableList<Map.Entry<GuiElement, LayoutData>> sorted = ordering
+                    .immutableSortedCopy(this.elements.entrySet());
+            this.elements.clear();
             for (Map.Entry<GuiElement, LayoutData> entry : sorted) {
-                elements.put(entry.getKey(), entry.getValue());
+                this.elements.put(entry.getKey(), entry.getValue());
             }
         }
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public ReadableColor getBackgroundColor() {
-        return backgroundColor;
+        return this.backgroundColor;
     }
 
     @Override
     public T setBackgroundColor(ReadableColor backgroundColor) {
         this.backgroundColor = backgroundColor;
-        return getThis();
+        return this.getThis();
     }
 }

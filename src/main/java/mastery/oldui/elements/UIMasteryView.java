@@ -1,4 +1,4 @@
-package mastery.ui.elements;
+package mastery.oldui.elements;
 
 import org.lwjgl.opengl.GL11;
 
@@ -53,15 +53,15 @@ public class UIMasteryView extends Gui implements IUIElement {
     public void drawElement(Minecraft mc, int mouseX, int mouseY) {
         // Get player and mastery class
         EntityPlayerSP player = mc.player;
-        MasteryClass masteryClass = MasteryUtils.getMastery(player, spec);
+        MasteryClass masteryClass = MasteryUtils.getMastery(player, this.spec);
 
         // Draw the icon for the mastery
         mc.renderEngine.bindTexture(MasteryImageLoader.getImage(masteryClass.getSkillClass()));
         GL11.glPushMatrix();
         GL11.glScalef(this.ICON_SCALE, this.ICON_SCALE, this.ICON_SCALE);
-        GL11.glColor4d(1, 1, 1, alpha);
-        int xOffset = (int) (globalXOffset * (1 / this.ICON_SCALE));
-        int yOffset = (int) (globalYOffset * (1 / this.ICON_SCALE));
+        GL11.glColor4d(1, 1, 1, this.alpha);
+        int xOffset = (int) (this.globalXOffset * (1 / this.ICON_SCALE));
+        int yOffset = (int) (this.globalYOffset * (1 / this.ICON_SCALE));
         drawModalRectWithCustomSizedTexture(xOffset, yOffset, 0, 0, this.ICON_SIZE, this.ICON_SIZE, this.ICON_SIZE,
                 this.ICON_SIZE);
         GL11.glPopMatrix();
@@ -70,20 +70,20 @@ public class UIMasteryView extends Gui implements IUIElement {
         mc.renderEngine.bindTexture(this.bar);
         GL11.glPushMatrix();
         GL11.glScalef(1, 1, 1);
-        GL11.glColor4d(1, 1, 1, alpha);
-        this.drawTexturedModalRect(globalXOffset, globalYOffset + (this.ICON_SCALE * this.ICON_SIZE), 0, 0,
+        GL11.glColor4d(1, 1, 1, this.alpha);
+        this.drawTexturedModalRect(this.globalXOffset, this.globalYOffset + (this.ICON_SCALE * this.ICON_SIZE), 0, 0,
                 this.BACK_WIDTH, this.BACK_HEIGHT);
         double quotient = masteryClass.getExperience() / (float) masteryClass.getNextLevelExp();
         int currentBarWidth = (int) (this.BAR_WIDTH * quotient);
-        this.drawTexturedModalRect(globalXOffset + 1, globalYOffset + (this.ICON_SCALE * this.ICON_SIZE) + 1, 1,
-                this.BACK_HEIGHT + 1, currentBarWidth, this.BAR_HEIGHT);
+        this.drawTexturedModalRect(this.globalXOffset + 1, this.globalYOffset + (this.ICON_SCALE * this.ICON_SIZE) + 1,
+                1, this.BACK_HEIGHT + 1, currentBarWidth, this.BAR_HEIGHT);
         GL11.glPopMatrix();
 
         // Draw the level box
         GL11.glPushMatrix();
         GL11.glScalef(1, 1, 1);
-        GL11.glColor4d(1, 1, 1, alpha);
-        this.drawTexturedModalRect(globalXOffset + (this.ICON_SCALE * this.ICON_SIZE), globalYOffset, 0,
+        GL11.glColor4d(1, 1, 1, this.alpha);
+        this.drawTexturedModalRect(this.globalXOffset + (this.ICON_SCALE * this.ICON_SIZE), this.globalYOffset, 0,
                 2 * this.BACK_HEIGHT, this.LEVEL_WIDTH, this.LEVEL_HEIGH);
         GL11.glPopMatrix();
 
@@ -91,31 +91,31 @@ public class UIMasteryView extends Gui implements IUIElement {
         String level = "" + masteryClass.getLevel();
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        GL11.glColor4d(1, 1, 1, alpha);
-        int levelX = (int) (globalXOffset + (this.ICON_SCALE * this.ICON_SIZE) + 2) * 2;
-        int levelY = (globalYOffset + 2) * 2 + 1;
+        GL11.glColor4d(1, 1, 1, this.alpha);
+        int levelX = (int) (this.globalXOffset + (this.ICON_SCALE * this.ICON_SIZE) + 2) * 2;
+        int levelY = (this.globalYOffset + 2) * 2 + 1;
         this.drawString(mc.fontRenderer, level, levelX, levelY, 0xFFFFFFFF);
         GL11.glPopMatrix();
 
-        if (showUITitle) {
+        if (this.showUITitle) {
             // Draw current level
             String title = "" + masteryClass.getName();
             GL11.glPushMatrix();
             GL11.glScalef(0.5f, 0.5f, 0.5f);
-            GL11.glColor4d(1, 1, 1, alpha);
-            int titleX = (int) ((globalXOffset + (this.ICON_SCALE * this.ICON_SIZE) + 2) + this.LEVEL_WIDTH) * 2;
-            int titleY = (globalYOffset + 2) * 2 + 1;
+            GL11.glColor4d(1, 1, 1, this.alpha);
+            int titleX = (int) ((this.globalXOffset + (this.ICON_SCALE * this.ICON_SIZE) + 2) + this.LEVEL_WIDTH) * 2;
+            int titleY = (this.globalYOffset + 2) * 2 + 1;
             this.drawString(mc.fontRenderer, title, titleX, titleY, 0xFFFFFFFF);
             GL11.glPopMatrix();
         }
-        if (showCurrentExp) {
+        if (this.showCurrentExp) {
             // Draw current exp
             String exp = "" + masteryClass.getExperience() + " / " + masteryClass.getNextLevelExp();
             GL11.glPushMatrix();
             GL11.glScalef(0.5f, 0.5f, 0.5f);
-            GL11.glColor4d(1, 1, 1, alpha);
-            int expX = (globalXOffset + 2) * 2;
-            int expY = (int) ((globalYOffset + (this.ICON_SCALE * this.ICON_SIZE) + 2) * 2);
+            GL11.glColor4d(1, 1, 1, this.alpha);
+            int expX = (this.globalXOffset + 2) * 2;
+            int expY = (int) ((this.globalYOffset + (this.ICON_SCALE * this.ICON_SIZE) + 2) * 2);
             this.drawString(mc.fontRenderer, exp, expX, expY, 0xFFFFFFFF);
             GL11.glPopMatrix();
         }

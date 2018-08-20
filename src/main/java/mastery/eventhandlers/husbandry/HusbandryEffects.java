@@ -7,7 +7,7 @@ import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 import java.util.UUID;
 
 import mastery.capability.skillclasses.HusbandryMastery;
-import mastery.ui.utils.UIPopupUtils;
+import mastery.oldui.utils.UIPopupUtils;
 import mastery.util.AttributeUtils;
 import mastery.util.MasteryUtils;
 import net.minecraft.entity.EntityAgeable;

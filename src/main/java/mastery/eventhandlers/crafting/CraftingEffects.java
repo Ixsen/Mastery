@@ -1,7 +1,7 @@
 package mastery.eventhandlers.crafting;
 
 import mastery.capability.skillclasses.CraftingMastery;
-import mastery.ui.utils.UIPopupUtils;
+import mastery.oldui.utils.UIPopupUtils;
 import mastery.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

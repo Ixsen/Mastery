@@ -1,4 +1,4 @@
-package mastery.ui.elements;
+package mastery.oldui.elements;
 
 import net.minecraft.client.Minecraft;
 

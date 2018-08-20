@@ -1,7 +1,7 @@
 package mastery.eventhandlers.mining;
 
 import mastery.capability.skillclasses.MiningMastery;
-import mastery.ui.utils.UIPopupUtils;
+import mastery.oldui.utils.UIPopupUtils;
 import mastery.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;

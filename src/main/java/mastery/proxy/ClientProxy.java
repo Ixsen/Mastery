@@ -6,7 +6,7 @@ import mastery.configuration.MasteryConfiguration;
 import mastery.eventhandlers.TooltipEventHandler;
 import mastery.keybindings.InputHandler;
 import mastery.keybindings.KeyBindings;
-import mastery.ui.LevelOverlayUi;
+import mastery.oldui.LevelOverlayUi;
 import mastery.util.IHasModel;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

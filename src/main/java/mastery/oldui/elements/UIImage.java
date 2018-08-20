@@ -1,4 +1,4 @@
-package mastery.ui.elements;
+package mastery.oldui.elements;
 
 import org.lwjgl.opengl.GL11;
 
@@ -80,7 +80,7 @@ public class UIImage extends GuiButton {
             GL11.glPushMatrix();
             mc.renderEngine.bindTexture(this.resource);
             GL11.glScalef(this.scaleFactor, this.scaleFactor, 1);
-            GL11.glColor4d(1, 1, 1, transparency);
+            GL11.glColor4d(1, 1, 1, this.transparency);
             drawModalRectWithCustomSizedTexture(this.x, this.y, 0, 0, this.width, this.height, this.textureWidth,
                     this.textureHeight);
             if (!this.displayString.equals("")) {

@@ -2,7 +2,7 @@ package mastery.proxy;
 
 import javax.annotation.Nullable;
 
-import mastery.ui.LevelUi;
+import mastery.ui.views.LevelUi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;

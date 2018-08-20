@@ -1,4 +1,4 @@
-package mastery.ui.utils;
+package mastery.oldui.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

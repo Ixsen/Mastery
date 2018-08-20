@@ -1,4 +1,4 @@
-package mastery.ui;
+package mastery.oldui;
 
 import org.lwjgl.opengl.GL11;
 

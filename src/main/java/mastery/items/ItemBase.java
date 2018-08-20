@@ -33,9 +33,9 @@ public class ItemBase extends Item implements IHasModel {
      *            Tab for the item
      */
     public ItemBase(String name, CreativeTabs tab) {
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        setCreativeTab(tab);
+        this.setUnlocalizedName(name);
+        this.setRegistryName(name);
+        this.setCreativeTab(tab);
 
         MasteryItems.ALL_ITEMS.add(this);
     }

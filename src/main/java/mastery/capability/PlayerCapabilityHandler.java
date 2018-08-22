@@ -2,6 +2,9 @@ package mastery.capability;
 
 import mastery.MasteryMod;
 import mastery.util.MasteryUtils;
+import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -24,7 +27,16 @@ public class PlayerCapabilityHandler {
 
     @SubscribeEvent
     public void persistAcrossDeath(PlayerEvent.Clone respawnEvent) {
-        IMastery originalMastery = MasteryUtils.getMasteries(respawnEvent.getOriginal());
-        MasteryUtils.getMasteries(respawnEvent.getEntityPlayer()).setMasteries(originalMastery.getMasteries());
+        EntityPlayer originalPlayer = respawnEvent.getOriginal();
+        EntityPlayer newPlayer = respawnEvent.getEntityPlayer();
+
+        AbstractAttributeMap attributeMap = newPlayer.getAttributeMap();
+        for (IAttributeInstance attribute : originalPlayer.getAttributeMap().getAllAttributes()) {
+            for (AttributeModifier modifier : attribute.getModifiers()) {
+                attributeMap.getAttributeInstance(attribute.getAttribute()).applyModifier(modifier);
+            }
+        }
+        IMastery originalMastery = MasteryUtils.getMasteries(originalPlayer);
+        MasteryUtils.getMasteries(newPlayer).setMasteries(originalMastery.getMasteries());
     }
 }

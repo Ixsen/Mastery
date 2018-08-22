@@ -63,8 +63,8 @@ public class LevelUi extends GuiScreen {
         // Init the dofferent panels
         this.skillPanel = this.initSkillTree();
         this.infoPanel = this.initLorePanel();
-        this.creditsPanel = this.initAuthorPanel();
         this.settingsPanel = this.initSettingsPanel();
+        this.creditsPanel = this.initAuthorPanel();
 
         // Connect slots to panels
         this.creditsSlot.onActiveChanged(this::clickSlotCredits);
@@ -148,10 +148,10 @@ public class LevelUi extends GuiScreen {
         this.infoSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
         this.infoSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
                 MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-        this.infoSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getY());
-        this.infoSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getY());
+        this.infoSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getX(),
+                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getY());
+        this.infoSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getX(),
+                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getY());
         this.infoSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
                 MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
         this.infoSlot.setSize(SLOT_SIZE, SLOT_SIZE);
@@ -161,10 +161,10 @@ public class LevelUi extends GuiScreen {
         this.creditsSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
         this.creditsSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
                 MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-        this.creditsSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getY());
-        this.creditsSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getY());
+        this.creditsSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getX(),
+                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getY());
+        this.creditsSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getX(),
+                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getY());
         this.creditsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
                 MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
         this.creditsSlot.setSize(SLOT_SIZE, SLOT_SIZE);

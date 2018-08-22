@@ -57,7 +57,6 @@ public class UIMasteryPreview extends GuiPanel {
 
     private void init() {
         this.setLayout(new FreeformLayout());
-        this.setBackgroundColor(ReadableColor.LTGREY);
 
         int x = 0;
         // Add Mastery Image
@@ -69,10 +68,6 @@ public class UIMasteryPreview extends GuiPanel {
         GuiPanel infoGroup = this.initMasteryInfoGroup();
         this.addElements(new FreeformLayout.Data(x, 0), infoGroup);
         x += infoGroup.getMinSize().getWidth();
-
-        // Add Button
-        GuiTexturedButton button = this.initButton();
-        this.addElements(new FreeformLayout.Data(x, 0), button);
 
         // Add all elements to the panel
         this.setSize(this.calcMinSize());
@@ -110,7 +105,7 @@ public class UIMasteryPreview extends GuiPanel {
         // Add progressbar
         this.componentBar = new UIMasteryProgressBar(this.masteryClass, 255, false);
         this.componentBar.setProgressColor(Colors.CYAN);
-        this.componentBar.setBackgroundColor(new Color(150, 150, 150, 255));
+        this.componentBar.setBackgroundColor(new Color(110, 110, 110, 255));
         this.componentBar.setSize(PREVIEW_WIDTH - 2 * PREVIEW_HEIGHT, PREVIEW_HEIGHT - INFO_HEIGHT).setBorderSize(0);
         infoGroup.addElements(new FreeformLayout.Data(0, INFO_HEIGHT), this.componentBar);
 
@@ -139,7 +134,7 @@ public class UIMasteryPreview extends GuiPanel {
     private GuiPanel initLevelPanel() {
         GuiPanel levelInfo = new GuiPanel();
         levelInfo.setLayout(new FreeformLayout());
-        levelInfo.setBackgroundColor(new Color(150, 150, 150, 255));
+        levelInfo.setBackgroundColor(new Color(110, 110, 110, 255));
 
         UILabel level = new UILabel(UILabelAlignment.MIDDLE_CENTER);
         level.setText("" + this.masteryClass.getLevel());

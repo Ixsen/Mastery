@@ -46,7 +46,7 @@ public class UIProgressBar extends AbstractGuiProgressBar<UIProgressBar> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see de.johni0702.minecraft.gui.element.advanced.AbstractGuiProgressBar#setProgress(float)
      */
     @Override
@@ -58,35 +58,40 @@ public class UIProgressBar extends AbstractGuiProgressBar<UIProgressBar> {
             progress = 0;
         }
         super.setProgress(progress);
-        return getThis();
+        return this.getThis();
     }
 
     public void increaseBy(float value) {
-        setProgress(getProgress() + value);
+        this.setProgress(this.getProgress() + value);
     }
 
     public void decreaseBy(float value) {
-        setProgress(getProgress() - value);
+        this.setProgress(this.getProgress() - value);
     }
 
     public void setBorderSize(int value) {
-        borderSize = value;
+        this.borderSize = value;
     }
 
     @Override
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
-        FontRenderer fontRenderer = getMinecraft().fontRenderer;
-        int width = size.getWidth();
-        int height = size.getHeight();
-        int barTotalWidth = width - 2 * borderSize;
-        int barDoneWidth = (int) (barTotalWidth * getProgress());
+        if (this.isVisible()) {
+            FontRenderer fontRenderer = this.getMinecraft().fontRenderer;
+            int width = size.getWidth();
+            int height = size.getHeight();
+            int barTotalWidth = width - 2 * this.borderSize;
+            int barDoneWidth = (int) (barTotalWidth * this.getProgress());
 
-        renderer.drawRect(0, 0, width, height, borderColor); // Border
-        renderer.drawRect(borderSize, borderSize, barTotalWidth, height - 2 * borderSize, backgroundColor); // Background
-        renderer.drawRect(borderSize, borderSize, barDoneWidth, height - 2 * borderSize, progressColor); // Progress
+            renderer.drawRect(0, 0, width, height, this.borderColor); // Border
+            renderer.drawRect(this.borderSize, this.borderSize, barTotalWidth, height - 2 * this.borderSize,
+                    this.backgroundColor); // Background
+            renderer.drawRect(this.borderSize, this.borderSize, barDoneWidth, height - 2 * this.borderSize,
+                    this.progressColor); // Progress
 
-        String text = String.format(getLabel(), (int) (getProgress() * 100));
-        renderer.drawCenteredString(width / 2, size.getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2, textColor, text);
+            String text = String.format(this.getLabel(), (int) (this.getProgress() * 100));
+            renderer.drawCenteredString(width / 2, size.getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2, this.textColor,
+                    text);
+        }
     }
 
 }

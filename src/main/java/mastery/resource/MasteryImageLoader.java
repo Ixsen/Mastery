@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class MasteryImageLoader {
 
+    // Masteries
     public static final ResourceLocation masteryClassIconPlain = new ResourceLocation(MasteryMod.modid,
             "textures/gui/classicons/masteriesplain.png");
 
@@ -47,4 +48,26 @@ public class MasteryImageLoader {
             return new Point(0, 0);
         }
     }
+
+    // Mastery Background
+    public static final ResourceLocation masteryOverviewBackground = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/masteries/masterybackground.png");
+    public static final Point MASTERY_OVERVIEW_BACKGROUND_SIZE = new Point(388, 512);
+    public static final int MASTERY_OVERVIEW_BACKGROUND_TEXTURE_SIZE = 512;
+
+    public static final ResourceLocation masteryOverviewBackgroundSlots = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/masteries/masteryslots.png");
+    public static final int MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE = 512;
+
+    // Mastery Background Slots
+    public static final Point MASTERY_OVERVIEW_SLOT_SIZE = new Point(106, 106);
+    public static final Point MASTERY_OVERVIEW_SLOT_TREE_DEACTIVE_UV = new Point(106, 0);
+    public static final Point MASTERY_OVERVIEW_SLOT_TREE_ACTIVE_UV = new Point(0, 0);
+    public static final Point MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV = new Point(106, 106);
+    public static final Point MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV = new Point(0, 106);
+    public static final Point MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV = new Point(106, 212);
+    public static final Point MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV = new Point(0, 212);
+    public static final Point MASTERY_OVERVIEW_SLOT_SETTINGS_DEACTIVE_UV = new Point(106, 318);
+    public static final Point MASTERY_OVERVIEW_SLOT_SETTINGS_ACTIVE_UV = new Point(0, 318);
+
 }

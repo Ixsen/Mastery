@@ -66,26 +66,29 @@ public class UIMasteryProgressBar extends UIProgressBar {
 
     @Override
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
-        FontRenderer fontRenderer = this.getMinecraft().fontRenderer;
-        int width = size.getWidth();
-        int height = size.getHeight();
-        int barTotalWidth = width - 2 * this.borderSize;
-        int barDoneWidth = (int) (barTotalWidth * this.getProgress());
+        if (this.isVisible()) {
+            FontRenderer fontRenderer = this.getMinecraft().fontRenderer;
+            int width = size.getWidth();
+            int height = size.getHeight();
+            int barTotalWidth = width - 2 * this.borderSize;
+            int barDoneWidth = (int) (barTotalWidth * this.getProgress());
+            Color progressColor = new Color((int) (this.getProgress() * 255f), 0, 0, 255);
 
-        if (this.getBorderSize() > 0) {
-            renderer.drawRect(0, 0, width, height, this.borderColor); // Border
-            renderer.drawRect(this.borderSize - 1, this.borderSize - 1, barTotalWidth, height - 2 * this.borderSize,
-                    this.backgroundColor); // Background
-            renderer.drawRect(this.borderSize, this.borderSize, barDoneWidth, height - 2 * this.borderSize,
-                    this.progressColor); // Progress
-        } else {
-            renderer.drawRect(0, 0, width, height, this.backgroundColor); // Background
-            renderer.drawRect(0, 0, barDoneWidth, height, this.progressColor); // Progress
-        }
+            if (this.getBorderSize() > 0) {
+                renderer.drawRect(0, 0, width, height, this.borderColor); // Border
+                renderer.drawRect(this.borderSize - 1, this.borderSize - 1, barTotalWidth, height - 2 * this.borderSize,
+                        this.backgroundColor); // Background
+                renderer.drawRect(this.borderSize, this.borderSize, barDoneWidth, height - 2 * this.borderSize,
+                        progressColor); // Progress
+            } else {
+                renderer.drawRect(0, 0, width, height, this.backgroundColor); // Background
+                renderer.drawRect(0, 0, barDoneWidth, height, progressColor); // Progress
+            }
 
-        if (this.isTextmode()) {
-            renderer.drawCenteredString(width / 2, size.getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2, this.textColor,
-                    this.getLabel());
+            if (this.isTextmode()) {
+                renderer.drawCenteredString(width / 2, size.getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2,
+                        this.textColor, this.getLabel());
+            }
         }
     }
 }

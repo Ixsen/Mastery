@@ -24,12 +24,26 @@
  */
 package de.johni0702.minecraft.gui.container;
 
+import java.io.IOException;
+
+import org.lwjgl.input.Mouse;
+import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableDimension;
+import org.lwjgl.util.ReadablePoint;
+
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.MinecraftGuiRenderer;
 import de.johni0702.minecraft.gui.OffsetGuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.element.GuiElement;
-import de.johni0702.minecraft.gui.function.*;
+import de.johni0702.minecraft.gui.function.Clickable;
+import de.johni0702.minecraft.gui.function.Closeable;
+import de.johni0702.minecraft.gui.function.Draggable;
+import de.johni0702.minecraft.gui.function.Loadable;
+import de.johni0702.minecraft.gui.function.Scrollable;
+import de.johni0702.minecraft.gui.function.Tickable;
+import de.johni0702.minecraft.gui.function.Typeable;
 import de.johni0702.minecraft.gui.utils.MouseUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -40,13 +54,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.util.Dimension;
-import org.lwjgl.util.Point;
-import org.lwjgl.util.ReadableDimension;
-import org.lwjgl.util.ReadablePoint;
-
-import java.io.IOException;
 
 public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extends AbstractGuiContainer<T> {
 
@@ -57,35 +64,37 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
     private boolean mouseVisible;
     private boolean closeable = true;
 
+    @Override
     public boolean isVisible() {
-        return visible;
+        return this.visible;
     }
 
+    @Override
     public void setVisible(boolean visible) {
         if (this.visible != visible) {
             if (visible) {
-                forEach(Loadable.class).load();
-                MinecraftForge.EVENT_BUS.register(eventHandler);
+                this.forEach(Loadable.class).load();
+                MinecraftForge.EVENT_BUS.register(this.eventHandler);
             } else {
-                forEach(Closeable.class).close();
-                MinecraftForge.EVENT_BUS.unregister(eventHandler);
+                this.forEach(Closeable.class).close();
+                MinecraftForge.EVENT_BUS.unregister(this.eventHandler);
             }
-            updateUserInputGui();
+            this.updateUserInputGui();
         }
         this.visible = visible;
     }
 
     public boolean isMouseVisible() {
-        return mouseVisible;
+        return this.mouseVisible;
     }
 
     public void setMouseVisible(boolean mouseVisible) {
         this.mouseVisible = mouseVisible;
-        updateUserInputGui();
+        this.updateUserInputGui();
     }
 
     public boolean isCloseable() {
-        return closeable;
+        return this.closeable;
     }
 
     public void setCloseable(boolean closeable) {
@@ -96,30 +105,31 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
      * @see #setAllowUserInput(boolean)
      */
     public boolean isAllowUserInput() {
-        return userInputGuiScreen.allowUserInput;
+        return this.userInputGuiScreen.allowUserInput;
     }
 
     /**
-     * Enable/Disable user input for this overlay while the mouse is visible.
-     * User input are things like moving the player, attacking/interacting, key bindings but not input into the
-     * GUI elements such as text fields.
-     * Default for overlays is {@code true} whereas for normal GUI screens it is {@code false}.
-     * @param allowUserInput {@code true} to allow user input, {@code false} to disallow it
+     * Enable/Disable user input for this overlay while the mouse is visible. User input are things like moving the player,
+     * attacking/interacting, key bindings but not input into the GUI elements such as text fields. Default for overlays is {@code true} whereas
+     * for normal GUI screens it is {@code false}.
+     * 
+     * @param allowUserInput
+     *            {@code true} to allow user input, {@code false} to disallow it
      * @see net.minecraft.client.gui.GuiScreen#allowUserInput
      */
     public void setAllowUserInput(boolean allowUserInput) {
-        userInputGuiScreen.allowUserInput = allowUserInput;
+        this.userInputGuiScreen.allowUserInput = allowUserInput;
     }
 
     private void updateUserInputGui() {
-        Minecraft mc = getMinecraft();
-        if (visible) {
-            if (mouseVisible) {
-                if (mc.currentScreen != userInputGuiScreen) {
-                    mc.displayGuiScreen(userInputGuiScreen);
+        Minecraft mc = this.getMinecraft();
+        if (this.visible) {
+            if (this.mouseVisible) {
+                if (mc.currentScreen != this.userInputGuiScreen) {
+                    mc.displayGuiScreen(this.userInputGuiScreen);
                 }
             } else {
-                if (mc.currentScreen == userInputGuiScreen) {
+                if (mc.currentScreen == this.userInputGuiScreen) {
                     mc.displayGuiScreen(null);
                 }
             }
@@ -129,25 +139,27 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
     @Override
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
         super.draw(renderer, size, renderInfo);
-        if (mouseVisible && renderInfo.layer == getMaxLayer()) {
-            final GuiElement tooltip = forEach(GuiElement.class).getTooltip(renderInfo);
+        if (this.mouseVisible && renderInfo.layer == this.getMaxLayer()) {
+            final GuiElement tooltip = this.forEach(GuiElement.class).getTooltip(renderInfo);
             if (tooltip != null) {
                 final ReadableDimension tooltipSize = tooltip.getMinSize();
                 int x, y;
-                if (renderInfo.mouseX + 8 + tooltipSize.getWidth() < screenSize.getWidth()) {
+                if (renderInfo.mouseX + 8 + tooltipSize.getWidth() < this.screenSize.getWidth()) {
                     x = renderInfo.mouseX + 8;
                 } else {
-                    x = screenSize.getWidth() - tooltipSize.getWidth() - 1;
+                    x = this.screenSize.getWidth() - tooltipSize.getWidth() - 1;
                 }
-                if (renderInfo.mouseY + 8 + tooltipSize.getHeight() < screenSize.getHeight()) {
+                if (renderInfo.mouseY + 8 + tooltipSize.getHeight() < this.screenSize.getHeight()) {
                     y = renderInfo.mouseY + 8;
                 } else {
-                    y = screenSize.getHeight() - tooltipSize.getHeight() - 1;
+                    y = this.screenSize.getHeight() - tooltipSize.getHeight() - 1;
                 }
                 final ReadablePoint position = new Point(x, y);
                 try {
-                    OffsetGuiRenderer eRenderer = new OffsetGuiRenderer(renderer, position, tooltipSize);
-                    tooltip.draw(eRenderer, tooltipSize, renderInfo);
+                    if (tooltip.isVisible()) {
+                        OffsetGuiRenderer eRenderer = new OffsetGuiRenderer(renderer, position, tooltipSize);
+                        tooltip.draw(eRenderer, tooltipSize, renderInfo);
+                    }
                 } catch (Exception ex) {
                     CrashReport crashReport = CrashReport.makeCrashReport(ex, "Rendering Gui Tooltip");
                     renderInfo.addTo(crashReport);
@@ -167,12 +179,12 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
 
     @Override
     public ReadableDimension getMinSize() {
-        return screenSize;
+        return this.screenSize;
     }
 
     @Override
     public ReadableDimension getMaxSize() {
-        return screenSize;
+        return this.screenSize;
     }
 
     private class EventHandler {
@@ -181,16 +193,17 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
         @SubscribeEvent
         public void renderOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-                updateRenderer();
-                int layers = getMaxLayer();
+                this.updateRenderer();
+                int layers = AbstractGuiOverlay.this.getMaxLayer();
                 int mouseX = -1, mouseY = -1;
-                if (mouseVisible) {
+                if (AbstractGuiOverlay.this.mouseVisible) {
                     Point mouse = MouseUtils.getMousePos();
                     mouseX = mouse.getX();
                     mouseY = mouse.getY();
                 }
                 for (int layer = 0; layer <= layers; layer++) {
-                    draw(renderer, screenSize, new RenderInfo(event.getPartialTicks(), mouseX, mouseY, layer));
+                    AbstractGuiOverlay.this.draw(this.renderer, AbstractGuiOverlay.this.screenSize,
+                            new RenderInfo(event.getPartialTicks(), mouseX, mouseY, layer));
                 }
             }
         }
@@ -198,18 +211,18 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
         @SubscribeEvent
         public void tickOverlay(TickEvent.ClientTickEvent event) {
             if (event.phase == TickEvent.Phase.START) {
-                forEach(Tickable.class).tick();
+                AbstractGuiOverlay.this.forEach(Tickable.class).tick();
             }
         }
 
         private void updateRenderer() {
-            Minecraft mc = getMinecraft();
+            Minecraft mc = AbstractGuiOverlay.this.getMinecraft();
             ScaledResolution res = new ScaledResolution(mc);
-            if (screenSize == null
-                    || screenSize.getWidth() != res.getScaledWidth()
-                    || screenSize.getHeight() != res.getScaledHeight()) {
-                screenSize = new Dimension(res.getScaledWidth(), res.getScaledHeight());
-                renderer = new MinecraftGuiRenderer(res);
+            if (AbstractGuiOverlay.this.screenSize == null
+                    || AbstractGuiOverlay.this.screenSize.getWidth() != res.getScaledWidth()
+                    || AbstractGuiOverlay.this.screenSize.getHeight() != res.getScaledHeight()) {
+                AbstractGuiOverlay.this.screenSize = new Dimension(res.getScaledWidth(), res.getScaledHeight());
+                this.renderer = new MinecraftGuiRenderer(res);
             }
         }
     }
@@ -217,48 +230,51 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
     protected class UserInputGuiScreen extends net.minecraft.client.gui.GuiScreen {
 
         {
-            allowUserInput = true;
+            this.allowUserInput = true;
         }
 
         @Override
         protected void keyTyped(char typedChar, int keyCode) throws IOException {
-            forEach(Typeable.class).typeKey(MouseUtils.getMousePos(), keyCode, typedChar, isCtrlKeyDown(), isShiftKeyDown());
-            if (closeable) {
+            AbstractGuiOverlay.this.forEach(Typeable.class).typeKey(MouseUtils.getMousePos(), keyCode, typedChar,
+                    isCtrlKeyDown(), isShiftKeyDown());
+            if (AbstractGuiOverlay.this.closeable) {
                 super.keyTyped(typedChar, keyCode);
             }
         }
 
         @Override
         protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-            forEach(Clickable.class).mouseClick(new Point(mouseX, mouseY), mouseButton);
+            AbstractGuiOverlay.this.forEach(Clickable.class).mouseClick(new Point(mouseX, mouseY), mouseButton);
         }
 
         @Override
         protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-            forEach(Draggable.class).mouseRelease(new Point(mouseX, mouseY), mouseButton);
+            AbstractGuiOverlay.this.forEach(Draggable.class).mouseRelease(new Point(mouseX, mouseY), mouseButton);
         }
 
         @Override
         protected void mouseClickMove(int mouseX, int mouseY, int mouseButton, long timeSinceLastClick) {
-            forEach(Draggable.class).mouseDrag(new Point(mouseX, mouseY), mouseButton, timeSinceLastClick);
+            AbstractGuiOverlay.this.forEach(Draggable.class).mouseDrag(new Point(mouseX, mouseY), mouseButton,
+                    timeSinceLastClick);
         }
 
         @Override
         public void updateScreen() {
-            forEach(Tickable.class).tick();
+            AbstractGuiOverlay.this.forEach(Tickable.class).tick();
         }
 
         @Override
         public void handleMouseInput() throws IOException {
             super.handleMouseInput();
             if (Mouse.hasWheel() && Mouse.getEventDWheel() != 0) {
-                forEach(Scrollable.class).scroll(MouseUtils.getMousePos(), Mouse.getEventDWheel());
+                AbstractGuiOverlay.this.forEach(Scrollable.class).scroll(MouseUtils.getMousePos(),
+                        Mouse.getEventDWheel());
             }
         }
 
         @Override
         public void onGuiClosed() {
-            mouseVisible = false;
+            AbstractGuiOverlay.this.mouseVisible = false;
         }
 
         public AbstractGuiOverlay<T> getOverlay() {

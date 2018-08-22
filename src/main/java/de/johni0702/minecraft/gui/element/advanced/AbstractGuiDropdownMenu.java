@@ -24,6 +24,19 @@
  */
 package de.johni0702.minecraft.gui.element.advanced;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+import org.lwjgl.util.Color;
+import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableColor;
+import org.lwjgl.util.ReadableDimension;
+import org.lwjgl.util.ReadablePoint;
+
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.OffsetGuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
@@ -39,16 +52,9 @@ import de.johni0702.minecraft.gui.utils.Consumer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.gui.FontRenderer;
-import org.lwjgl.util.*;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMenu<V, T>>
-        extends AbstractComposedGuiElement<T> implements IGuiDropdownMenu<V,T>, Clickable {
+        extends AbstractComposedGuiElement<T> implements IGuiDropdownMenu<V, T>, Clickable {
     private static final ReadableColor OUTLINE_COLOR = new Color(160, 160, 160);
 
     @Getter
@@ -77,15 +83,15 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
 
     @Override
     public int getMaxLayer() {
-        return opened ? 1 : 0;
+        return this.opened ? 1 : 0;
     }
 
     @Override
     protected ReadableDimension calcMinSize() {
-        FontRenderer fontRenderer = getMinecraft().fontRenderer;
+        FontRenderer fontRenderer = this.getMinecraft().fontRenderer;
         int maxWidth = 0;
-        for (V value : values) {
-            int width = fontRenderer.getStringWidth(toString.apply(value));
+        for (V value : this.values) {
+            int width = fontRenderer.getStringWidth(this.toString.apply(value));
             if (width > maxWidth) {
                 maxWidth = width;
             }
@@ -96,7 +102,7 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
     @Override
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
         super.draw(renderer, size, renderInfo);
-        FontRenderer fontRenderer = getMinecraft().fontRenderer;
+        FontRenderer fontRenderer = this.getMinecraft().fontRenderer;
         if (renderInfo.layer == 0) {
             int width = size.getWidth();
             int height = size.getHeight();
@@ -112,17 +118,22 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
             int x = width - 3 - base / 2;
             int y = height / 2 - 2;
             for (int layer = tHeight; layer > 0; layer--) {
-                renderer.drawRect(x - layer, y + (tHeight - layer), layer * 2 - 1, 1, OUTLINE_COLOR);
+                renderer.drawRect(x - layer, y + tHeight - layer, layer * 2 - 1, 1, OUTLINE_COLOR);
             }
 
-            renderer.drawString(3, height / 2 - fontRenderer.FONT_HEIGHT / 2, ReadableColor.WHITE, toString.apply(getSelectedValue()));
+            renderer.drawString(3, height / 2 - fontRenderer.FONT_HEIGHT / 2, ReadableColor.WHITE,
+                    this.toString.apply(this.getSelectedValue()));
         } else if (renderInfo.layer == 1) {
             ReadablePoint offsetPoint = new Point(0, size.getHeight());
-            ReadableDimension offsetSize = new Dimension(size.getWidth(), (fontRenderer.FONT_HEIGHT + 5) *  values.length);
+            ReadableDimension offsetSize = new Dimension(size.getWidth(),
+                    (fontRenderer.FONT_HEIGHT + 5) * this.values.length);
             OffsetGuiRenderer offsetRenderer = new OffsetGuiRenderer(renderer, offsetPoint, offsetSize);
             offsetRenderer.startUsing();
             try {
-                dropdown.draw(offsetRenderer, offsetSize, renderInfo.offsetMouse(0, offsetPoint.getY()).layer(0));
+                if (this.dropdown.isVisible()) {
+                    this.dropdown.draw(offsetRenderer, offsetSize,
+                            renderInfo.offsetMouse(0, offsetPoint.getY()).layer(0));
+                }
             } finally {
                 offsetRenderer.stopUsing();
             }
@@ -132,7 +143,7 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
     @Override
     public T setValues(V... values) {
         this.values = values;
-        dropdown = new GuiPanel(){
+        this.dropdown = new GuiPanel() {
             @Override
             public void convertFor(GuiElement element, Point point, int relativeLayer) {
                 AbstractGuiDropdownMenu parent = AbstractGuiDropdownMenu.this;
@@ -147,24 +158,24 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
         for (V value : values) {
             DropdownEntry entry = new DropdownEntry(value);
             dropdownEntries.put(value, entry);
-            dropdown.addElements(null, entry);
+            this.dropdown.addElements(null, entry);
         }
-        unmodifiableDropdownEntries = Collections.unmodifiableMap(dropdownEntries);
-        return getThis();
+        this.unmodifiableDropdownEntries = Collections.unmodifiableMap(dropdownEntries);
+        return this.getThis();
     }
 
     @Override
     public T setSelected(int selected) {
         this.selected = selected;
-        onSelection(selected);
-        return getThis();
+        this.onSelection(selected);
+        return this.getThis();
     }
 
     @Override
     public T setSelected(V value) {
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].equals(value)) {
-                return setSelected(i);
+        for (int i = 0; i < this.values.length; i++) {
+            if (this.values[i].equals(value)) {
+                return this.setSelected(i);
             }
         }
         throw new IllegalArgumentException("The value " + value + " is not in this dropdown menu.");
@@ -172,42 +183,42 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
 
     @Override
     public V getSelectedValue() {
-        return values[selected];
+        return this.values[this.selected];
     }
 
     @Override
     public T setOpened(boolean opened) {
         this.opened = opened;
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public Collection<GuiElement> getChildren() {
-        return opened ? Collections.<GuiElement>singletonList(dropdown) : Collections.<GuiElement>emptyList();
+        return this.opened ? Collections.<GuiElement>singletonList(this.dropdown) : Collections.<GuiElement>emptyList();
     }
 
     @Override
     public T onSelection(Consumer<Integer> consumer) {
         this.onSelection = consumer;
-        return getThis();
+        return this.getThis();
     }
 
     public void onSelection(Integer value) {
-        if (onSelection != null) {
-            onSelection.consume(value);
+        if (this.onSelection != null) {
+            this.onSelection.consume(value);
         }
     }
 
     @Override
     public boolean mouseClick(ReadablePoint position, int button) {
         Point pos = new Point(position);
-        if (getContainer() != null) {
-            getContainer().convertFor(this, pos);
+        if (this.getContainer() != null) {
+            this.getContainer().convertFor(this, pos);
         }
 
-        if (isEnabled()) {
-            if (isMouseHovering(pos)) {
-                setOpened(!isOpened());
+        if (this.isEnabled()) {
+            if (this.isMouseHovering(pos)) {
+                this.setOpened(!this.isOpened());
                 return true;
             }
         }
@@ -215,19 +226,19 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
     }
 
     protected boolean isMouseHovering(ReadablePoint pos) {
-        return pos.getX() > 0 && pos.getY() > 0
-                && pos.getX() < getLastSize().getWidth() && pos.getY() < getLastSize().getHeight();
+        return pos.getX() > 0 && pos.getY() > 0 && pos.getX() < this.getLastSize().getWidth()
+                && pos.getY() < this.getLastSize().getHeight();
     }
 
     @Override
     public Map<V, IGuiClickable> getDropdownEntries() {
-        return unmodifiableDropdownEntries;
+        return this.unmodifiableDropdownEntries;
     }
 
     @Override
     public T setToString(Function<V, String> toString) {
         this.toString = toString;
-        return getThis();
+        return this.getThis();
     }
 
     @RequiredArgsConstructor
@@ -241,7 +252,7 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
 
         @Override
         protected ReadableDimension calcMinSize() {
-            return new Dimension(0, getMinecraft().fontRenderer.FONT_HEIGHT + 5);
+            return new Dimension(0, this.getMinecraft().fontRenderer.FONT_HEIGHT + 5);
         }
 
         @Override
@@ -252,19 +263,19 @@ public abstract class AbstractGuiDropdownMenu<V, T extends AbstractGuiDropdownMe
 
             renderer.drawRect(0, 0, width, height, OUTLINE_COLOR);
             renderer.drawRect(1, 0, width - 2, height - 1, ReadableColor.BLACK);
-            renderer.drawString(3, 2, ReadableColor.WHITE, toString.apply(value));
+            renderer.drawString(3, 2, ReadableColor.WHITE, AbstractGuiDropdownMenu.this.toString.apply(this.value));
         }
 
         @Override
         public boolean mouseClick(ReadablePoint position, int button) {
             boolean result = super.mouseClick(position, button);
-            setOpened(false);
+            AbstractGuiDropdownMenu.this.setOpened(false);
             return result;
         }
 
         @Override
         protected void onClick() {
-            setSelected(value);
+            AbstractGuiDropdownMenu.this.setSelected(this.value);
         }
     }
 }

@@ -24,39 +24,73 @@
  */
 package de.johni0702.minecraft.gui.element;
 
+import org.lwjgl.util.ReadableDimension;
+
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.container.GuiContainer;
+import de.johni0702.minecraft.gui.element.AbstractGuiElement.VisibilityRunnable;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.util.ReadableDimension;
 
 public interface GuiElement<T extends GuiElement<T>> {
 
     Minecraft getMinecraft();
 
     GuiContainer getContainer();
+
     T setContainer(GuiContainer container);
 
     void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo);
 
     ReadableDimension getMinSize();
+
     ReadableDimension getMaxSize();
 
     T setMaxSize(ReadableDimension maxSize);
 
     boolean isEnabled();
+
     T setEnabled(boolean enabled);
+
     T setEnabled();
+
     T setDisabled();
 
     GuiElement getTooltip(RenderInfo renderInfo);
+
     T setTooltip(GuiElement tooltip);
 
     /**
-     * Returns the layer this element takes part in.
-     * The standard layer is layer 0. Event handlers will be called for this layer.
+     * Returns the layer this element takes part in. The standard layer is layer 0. Event handlers will be called for this layer.
+     *
      * @return The layer of this element
      */
     int getLayer();
 
+    /**
+     * Sets the visibility state of an gui element.
+     *
+     * @param visible
+     *            new state
+     */
+    void setVisible(boolean visible);
+
+    /**
+     * Retruns the visibility state of an gui element.
+     */
+    boolean isVisible();
+
+    /**
+     * Register an runnable when the visibility changes
+     *
+     * @param onVisible
+     */
+    void onVisibleChange(VisibilityRunnable onVisible);
+
+    /**
+     * Called whenever the visibility changes. Calls the registered onVisible method if not null
+     *
+     * @param newValue
+     */
+    void onVisibleChange(boolean newValue);
 }

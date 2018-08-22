@@ -24,6 +24,10 @@
  */
 package de.johni0702.minecraft.gui.element;
 
+import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableDimension;
+
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.container.GuiContainer;
@@ -31,12 +35,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.util.Dimension;
-import org.lwjgl.util.Point;
-import org.lwjgl.util.ReadableDimension;
 
 public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implements GuiElement<T> {
     protected static final ResourceLocation TEXTURE = new ResourceLocation("jgui", "gui.png");
+
+    private boolean visible = true;
+    private VisibilityRunnable onVisible;
 
     @Getter
     private final Minecraft minecraft = Minecraft.getMinecraft();
@@ -52,8 +56,7 @@ public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implem
     protected Dimension minSize, maxSize;
 
     /**
-     * The last size this element was render at layer 0.
-     * May be {@code null} when this element has not yet been rendered.
+     * The last size this element was render at layer 0. May be {@code null} when this element has not yet been rendered.
      */
     @Getter(AccessLevel.PROTECTED)
     private ReadableDimension lastSize;
@@ -69,39 +72,39 @@ public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implem
 
     @Override
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
-        if (renderInfo.layer == 0) {
-            lastSize = size;
+        if (this.isVisible()) {
+            if (renderInfo.layer == 0) {
+                this.lastSize = size;
+            }
         }
     }
 
     @Override
     public T setEnabled(boolean enabled) {
         this.enabled = enabled;
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public T setEnabled() {
-        return setEnabled(true);
+        return this.setEnabled(true);
     }
 
     @Override
     public T setDisabled() {
-        return setEnabled(false);
+        return this.setEnabled(false);
     }
 
     @Override
     public GuiElement getTooltip(RenderInfo renderInfo) {
-        if (tooltip != null && lastSize != null) {
+        if (this.tooltip != null && this.lastSize != null) {
             Point mouse = new Point(renderInfo.mouseX, renderInfo.mouseY);
-            if (container != null) {
-                container.convertFor(this, mouse);
+            if (this.container != null) {
+                this.container.convertFor(this, mouse);
             }
-            if (mouse.getX() > 0
-                    && mouse.getY() > 0
-                    && mouse.getX() < lastSize.getWidth()
-                    && mouse.getY() < lastSize.getHeight()) {
-                return tooltip;
+            if (mouse.getX() > 0 && mouse.getY() > 0 && mouse.getX() < this.lastSize.getWidth()
+                    && mouse.getY() < this.lastSize.getHeight()) {
+                return this.tooltip;
             }
         }
         return null;
@@ -110,79 +113,79 @@ public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implem
     @Override
     public T setTooltip(GuiElement tooltip) {
         this.tooltip = tooltip;
-        return getThis();
+        return this.getThis();
     }
 
     @Override
     public T setContainer(GuiContainer container) {
         this.container = container;
-        return getThis();
+        return this.getThis();
     }
 
     public T setMinSize(ReadableDimension minSize) {
         this.minSize = new Dimension(minSize);
-        return getThis();
+        return this.getThis();
     }
 
+    @Override
     public T setMaxSize(ReadableDimension maxSize) {
         this.maxSize = new Dimension(maxSize);
-        return getThis();
+        return this.getThis();
     }
 
     public T setSize(ReadableDimension size) {
-        setMinSize(size);
-        return setMaxSize(size);
+        this.setMinSize(size);
+        return this.setMaxSize(size);
     }
 
     public T setSize(int width, int height) {
-        return setSize(new Dimension(width, height));
+        return this.setSize(new Dimension(width, height));
     }
 
     public T setWidth(int width) {
-        if (minSize == null) {
-            minSize = new Dimension(width, 0);
+        if (this.minSize == null) {
+            this.minSize = new Dimension(width, 0);
         } else {
-            minSize.setWidth(width);
+            this.minSize.setWidth(width);
         }
-        if (maxSize == null) {
-            maxSize = new Dimension(width, Integer.MAX_VALUE);
+        if (this.maxSize == null) {
+            this.maxSize = new Dimension(width, Integer.MAX_VALUE);
         } else {
-            maxSize.setWidth(width);
+            this.maxSize.setWidth(width);
         }
-        return getThis();
+        return this.getThis();
     }
 
     public T setHeight(int height) {
-        if (minSize == null) {
-            minSize = new Dimension(0, height);
+        if (this.minSize == null) {
+            this.minSize = new Dimension(0, height);
         } else {
-            minSize.setHeight(height);
+            this.minSize.setHeight(height);
         }
-        if (maxSize == null) {
-            maxSize = new Dimension(Integer.MAX_VALUE, height);
+        if (this.maxSize == null) {
+            this.maxSize = new Dimension(Integer.MAX_VALUE, height);
         } else {
-            maxSize.setHeight(height);
+            this.maxSize.setHeight(height);
         }
-        return getThis();
+        return this.getThis();
     }
 
+    @Override
     public int getLayer() {
         return 0;
     }
 
     @Override
     public ReadableDimension getMinSize() {
-        ReadableDimension calcSize = calcMinSize();
-        if (minSize == null) {
+        ReadableDimension calcSize = this.calcMinSize();
+        if (this.minSize == null) {
             return calcSize;
         } else {
-            if (minSize.getWidth() >= calcSize.getWidth() && minSize.getHeight() >= calcSize.getHeight()) {
-                return minSize;
+            if (this.minSize.getWidth() >= calcSize.getWidth() && this.minSize.getHeight() >= calcSize.getHeight()) {
+                return this.minSize;
             } else {
-                return new Dimension(
-                        Math.max(calcSize.getWidth(), minSize.getWidth()),
-                        Math.max(calcSize.getHeight(), minSize.getHeight())
-                );
+                return new Dimension(Math.max(calcSize.getWidth(), this.minSize.getWidth()),
+                        Math.max(calcSize.getHeight(), this.minSize.getHeight()));
             }
         }
     }
@@ -191,6 +194,34 @@ public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implem
 
     @Override
     public ReadableDimension getMaxSize() {
-        return maxSize == null ? new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE) : maxSize;
+        return this.maxSize == null ? new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE) : this.maxSize;
     }
+
+    @Override
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+        this.onVisibleChange(this.visible);
+    }
+
+    @Override
+    public boolean isVisible() {
+        return this.visible;
+    }
+
+    @Override
+    public void onVisibleChange(VisibilityRunnable onVisible) {
+        this.onVisible = onVisible;
+    }
+
+    @Override
+    public void onVisibleChange(boolean newValue) {
+        if (this.onVisible != null) {
+            this.onVisible.run(newValue);
+        }
+    }
+
+    public interface VisibilityRunnable {
+        public void run(boolean value);
+    }
+
 }

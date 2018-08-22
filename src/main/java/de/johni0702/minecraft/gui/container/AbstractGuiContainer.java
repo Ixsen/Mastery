@@ -168,11 +168,13 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>> ex
             final ReadablePoint ePosition = e.getValue().getLeft();
             final ReadableDimension eSize = e.getValue().getRight();
             try {
-                OffsetGuiRenderer eRenderer = new OffsetGuiRenderer(renderer, ePosition, eSize, strict);
-                eRenderer.startUsing();
-                e.getKey().draw(eRenderer, eSize, renderInfo.offsetMouse(ePosition.getX(), ePosition.getY())
-                        .layer(renderInfo.getLayer() - e.getKey().getLayer()));
-                eRenderer.stopUsing();
+                if (e.getKey().isVisible()) {
+                    OffsetGuiRenderer eRenderer = new OffsetGuiRenderer(renderer, ePosition, eSize, strict);
+                    eRenderer.startUsing();
+                    e.getKey().draw(eRenderer, eSize, renderInfo.offsetMouse(ePosition.getX(), ePosition.getY())
+                            .layer(renderInfo.getLayer() - e.getKey().getLayer()));
+                    eRenderer.stopUsing();
+                }
             } catch (Exception ex) {
                 CrashReport crashReport = CrashReport.makeCrashReport(ex, "Rendering Gui");
                 renderInfo.addTo(crashReport);

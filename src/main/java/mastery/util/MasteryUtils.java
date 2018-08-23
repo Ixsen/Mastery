@@ -1,7 +1,7 @@
 package mastery.util;
 
-import mastery.capability.IMastery;
-import mastery.capability.MasteryProvider;
+import mastery.capability.player.IMastery;
+import mastery.capability.player.MasteryProvider;
 import mastery.capability.skillclasses.AlchemyMastery;
 import mastery.capability.skillclasses.AthleticsMastery;
 import mastery.capability.skillclasses.CombatMastery;
@@ -16,12 +16,19 @@ import mastery.capability.skillclasses.ScavengingMastery;
 import mastery.capability.skillclasses.SneakingMastery;
 import mastery.capability.skillclasses.SurvivalMastery;
 import mastery.capability.skillclasses.TradingMastery;
+import mastery.capability.world.BlockInfoProvider;
+import mastery.capability.world.IBlockInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 
 /**
  * Gives utitlity methods for getting materies. Does not check whether or not the giving entity even has masteries
  */
 public class MasteryUtils {
+
+    public static IBlockInfo getBlockInfoMastery(World world) {
+        return world.getCapability(BlockInfoProvider.BLOCK_INFO_CAPABILITY, null);
+    }
 
     public static IMastery getMasteries(Entity player) {
         return player.getCapability(MasteryProvider.MASTERY_CAPABILITY, null);

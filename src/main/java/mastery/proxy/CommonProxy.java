@@ -3,10 +3,13 @@ package mastery.proxy;
 import mastery.MasteryBlocks;
 import mastery.MasteryItems;
 import mastery.MasteryMod;
-import mastery.capability.IMastery;
-import mastery.capability.Mastery;
-import mastery.capability.MasteryPersistenceManager;
-import mastery.capability.PlayerCapabilityHandler;
+import mastery.capability.CapabilityHandler;
+import mastery.capability.player.IMastery;
+import mastery.capability.player.Mastery;
+import mastery.capability.player.MasteryPersistenceManager;
+import mastery.capability.world.BlockInfo;
+import mastery.capability.world.BlockInfoPersistenceManager;
+import mastery.capability.world.IBlockInfo;
 import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.eventhandlers.alchemy.AlchemyEffects;
 import mastery.eventhandlers.alchemy.AlchemyExperience;
@@ -32,6 +35,7 @@ import mastery.eventhandlers.survival.SurvivalEffects;
 import mastery.eventhandlers.survival.SurvivalExperience;
 import mastery.eventhandlers.trading.TradingEffects;
 import mastery.eventhandlers.trading.TradingExperience;
+import mastery.util.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -46,10 +50,22 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        event.getRegistry().registerAll(MasteryBlocks.ALL_BLOCKS.toArray(new Block[0]));
+    }
+
+    @SubscribeEvent
+    public static void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().registerAll(MasteryItems.ALL_ITEMS.toArray(new Item[0]));
+    }
+
     public void preInit(FMLPreInitializationEvent event) {
     }
 
     public void init(FMLInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new BlockUtils());
+
         MinecraftForge.EVENT_BUS.register(new AlchemyExperience());
         MinecraftForge.EVENT_BUS.register(new AthleticsExperience());
         MinecraftForge.EVENT_BUS.register(new CombatExperience());
@@ -76,7 +92,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ScavengingEffects());
         MinecraftForge.EVENT_BUS.register(new FishingEffects());
 
-        MinecraftForge.EVENT_BUS.register(new PlayerCapabilityHandler());
+        MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
         NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.instance, new GuiProxy());
         this.registerCapabilities();
@@ -85,18 +101,9 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {
     }
 
-    @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        event.getRegistry().registerAll(MasteryBlocks.ALL_BLOCKS.toArray(new Block[0]));
-    }
-
-    @SubscribeEvent
-    public static void registerItems(RegistryEvent.Register<Item> event) {
-        event.getRegistry().registerAll(MasteryItems.ALL_ITEMS.toArray(new Item[0]));
-    }
-
     private void registerCapabilities() {
         CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(), Mastery::new);
+        CapabilityManager.INSTANCE.register(IBlockInfo.class, new BlockInfoPersistenceManager(), () -> new BlockInfo());
     }
 
     /**

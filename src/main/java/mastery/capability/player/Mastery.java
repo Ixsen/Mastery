@@ -1,4 +1,4 @@
-package mastery.capability;
+package mastery.capability.player;
 
 import java.util.HashMap;
 
@@ -22,6 +22,23 @@ import mastery.capability.skillclasses.TradingMastery;
  */
 public class Mastery implements IMastery {
 
+    private HashMap<MasterySpec, MasteryClass> masteryClasses = new HashMap<>();
+
+    public Mastery() {
+        this.masteryClasses.put(MasterySpec.MINING, new MiningMastery());
+        this.masteryClasses.put(MasterySpec.COMBAT, new CombatMastery());
+        this.masteryClasses.put(MasterySpec.ALCHEMY, new AlchemyMastery());
+        this.masteryClasses.put(MasterySpec.FARMING, new FarmingMastery());
+        this.masteryClasses.put(MasterySpec.HUSBANDRY, new HusbandryMastery());
+        this.masteryClasses.put(MasterySpec.SURVIVAL, new SurvivalMastery());
+        this.masteryClasses.put(MasterySpec.CRAFTING, new CraftingMastery());
+        this.masteryClasses.put(MasterySpec.ATHLETICS, new AthleticsMastery());
+        this.masteryClasses.put(MasterySpec.TRADING, new TradingMastery());
+        this.masteryClasses.put(MasterySpec.SNEAKING, new SneakingMastery());
+        this.masteryClasses.put(MasterySpec.SCAVENGING, new ScavengingMastery());
+        this.masteryClasses.put(MasterySpec.FISHING, new FishingMastery());
+    }
+
     @Override
     public int[] toIntArray() {
         int[] intArray = new int[MasterySpec.values().length];
@@ -40,30 +57,13 @@ public class Mastery implements IMastery {
     }
 
     @Override
-    public void setMasteries(HashMap<MasterySpec, MasteryClass> masteries) {
-        this.masteryClasses = masteries;
-    }
-
-    @Override
     public HashMap<MasterySpec, MasteryClass> getMasteries() {
         return this.masteryClasses;
     }
 
-    private HashMap<MasterySpec, MasteryClass> masteryClasses = new HashMap<>();
-
-    public Mastery() {
-        this.masteryClasses.put(MasterySpec.MINING, new MiningMastery());
-        this.masteryClasses.put(MasterySpec.COMBAT, new CombatMastery());
-        this.masteryClasses.put(MasterySpec.ALCHEMY, new AlchemyMastery());
-        this.masteryClasses.put(MasterySpec.FARMING, new FarmingMastery());
-        this.masteryClasses.put(MasterySpec.HUSBANDRY, new HusbandryMastery());
-        this.masteryClasses.put(MasterySpec.SURVIVAL, new SurvivalMastery());
-        this.masteryClasses.put(MasterySpec.CRAFTING, new CraftingMastery());
-        this.masteryClasses.put(MasterySpec.ATHLETICS, new AthleticsMastery());
-        this.masteryClasses.put(MasterySpec.TRADING, new TradingMastery());
-        this.masteryClasses.put(MasterySpec.SNEAKING, new SneakingMastery());
-        this.masteryClasses.put(MasterySpec.SCAVENGING, new ScavengingMastery());
-        this.masteryClasses.put(MasterySpec.FISHING, new FishingMastery());
+    @Override
+    public void setMasteries(HashMap<MasterySpec, MasteryClass> masteries) {
+        this.masteryClasses = masteries;
     }
 
     @Override

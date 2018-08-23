@@ -1,4 +1,4 @@
-package mastery.capability;
+package mastery.capability.player;
 
 import java.util.HashMap;
 
@@ -13,10 +13,10 @@ public interface IMastery {
 
     void readIntArray(int[] array);
 
-    void setMasteries(HashMap<MasterySpec, MasteryClass> masteries);
-
     MasteryClass getMasteryClass(MasterySpec spec);
 
     HashMap<MasterySpec, MasteryClass> getMasteries();
+
+    void setMasteries(HashMap<MasterySpec, MasteryClass> masteries);
 
 }

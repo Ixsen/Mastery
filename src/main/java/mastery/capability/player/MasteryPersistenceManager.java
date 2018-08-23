@@ -1,4 +1,4 @@
-package mastery.capability;
+package mastery.capability.player;
 
 import java.util.Map;
 

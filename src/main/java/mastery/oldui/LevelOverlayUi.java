@@ -3,7 +3,7 @@ package mastery.oldui;
 import org.lwjgl.opengl.GL11;
 
 import mastery.MasteryMod;
-import mastery.capability.IMastery;
+import mastery.capability.player.IMastery;
 import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.configuration.MasteryConfiguration;

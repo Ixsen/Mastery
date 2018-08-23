@@ -1,6 +1,6 @@
 package mastery.eventhandlers;
 
-import mastery.capability.IMastery;
+import mastery.capability.player.IMastery;
 import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.networking.MasteryMessage;

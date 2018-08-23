@@ -2,7 +2,7 @@ package mastery.networking;
 
 import io.netty.buffer.ByteBuf;
 import mastery.MasteryMod;
-import mastery.capability.IMastery;
+import mastery.capability.player.IMastery;
 import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.util.MasteryUtils;

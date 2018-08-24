@@ -21,11 +21,11 @@ import net.minecraft.util.ResourceLocation;
  */
 public abstract class AbstractUIImage<T extends AbstractUIImage<T>> extends AbstractGuiElement<T>
         implements IUIImage<T> {
-    private DynamicTexture texture;
-    private ResourceLocation resourceLocation;
-    private int u, v;
-    private int uWidth, vHeight;
-    private int textureWidth, textureHeight;
+    protected DynamicTexture texture;
+    protected ResourceLocation resourceLocation;
+    protected int u, v;
+    protected int uWidth, vHeight;
+    protected int textureWidth, textureHeight;
 
     /**
      * Reference to the copied image to prevent it from being garbage collected and subsequently releasing the OpenGL texture.
@@ -105,7 +105,8 @@ public abstract class AbstractUIImage<T extends AbstractUIImage<T>> extends Abst
     }
 
     @Override
-    public T setTexture(ResourceLocation resourceLocation, int textureWidth, int textureHeight, int u, int v, int width,
+    public T setTexture(
+            ResourceLocation resourceLocation, int textureWidth, int textureHeight, int u, int v, int width,
             int height) {
         this.setTexture(resourceLocation, textureWidth, textureHeight);
         this.setUV(u, v);

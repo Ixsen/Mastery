@@ -112,9 +112,8 @@ public abstract class AbstractGuiOverlay<T extends AbstractGuiOverlay<T>> extend
      * Enable/Disable user input for this overlay while the mouse is visible. User input are things like moving the player,
      * attacking/interacting, key bindings but not input into the GUI elements such as text fields. Default for overlays is {@code true} whereas
      * for normal GUI screens it is {@code false}.
-     * 
-     * @param allowUserInput
-     *            {@code true} to allow user input, {@code false} to disallow it
+     *
+     * @param allowUserInput {@code true} to allow user input, {@code false} to disallow it
      * @see net.minecraft.client.gui.GuiScreen#allowUserInput
      */
     public void setAllowUserInput(boolean allowUserInput) {

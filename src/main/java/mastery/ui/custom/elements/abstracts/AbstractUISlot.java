@@ -47,7 +47,9 @@ public abstract class AbstractUISlot<T extends AbstractUISlot<T>> extends Abstra
     public AbstractUISlot(boolean active, UISlotGroup group) {
         this.active = active;
         this.slotGroup = group;
-        group.addSlot(this);
+        if (group != null) {
+            group.addSlot(this);
+        }
     }
 
     public AbstractUISlot(GuiContainer container, boolean active) {
@@ -59,7 +61,9 @@ public abstract class AbstractUISlot<T extends AbstractUISlot<T>> extends Abstra
         super(container);
         this.active = active;
         this.slotGroup = group;
-        group.addSlot(this);
+        if (group != null) {
+            group.addSlot(this);
+        }
     }
 
     public AbstractUISlot(AbstractUISlot<T> copyOf) {

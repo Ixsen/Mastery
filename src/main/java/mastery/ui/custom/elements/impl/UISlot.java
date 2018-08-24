@@ -7,6 +7,10 @@ import mastery.ui.custom.elements.abstracts.AbstractUISlot;
  */
 public class UISlot extends AbstractUISlot<UISlot> {
 
+    public enum UIMainSlotTypes {
+        SKILL_TREE, AUTHOR, SETTINGS, LORE
+    }
+
     public UISlot(boolean active) {
         super(active);
     }

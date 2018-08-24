@@ -23,14 +23,18 @@ public class FreeformLayout implements Layout {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public Map<GuiElement, Pair<ReadablePoint, ReadableDimension>> layOut(GuiContainer<?> container,
+    public Map<GuiElement, Pair<ReadablePoint, ReadableDimension>> layOut(
+            GuiContainer<?> container,
             ReadableDimension size) {
         Map<GuiElement, Pair<ReadablePoint, ReadableDimension>> map = new LinkedHashMap<>();
         for (Map.Entry<GuiElement, LayoutData> entry : container.getElements().entrySet()) {
             GuiElement element = entry.getKey();
             Data data = entry.getValue() instanceof Data ? (Data) entry.getValue() : DEFAULT_DATA;
             Dimension elementSize = new Dimension(element.getMinSize());
-            map.put(element, Pair.<ReadablePoint, ReadableDimension>of(new Point(data.x, data.y), elementSize));
+            map.put(element, Pair.<ReadablePoint, ReadableDimension>of(
+                    new Point(data.x,
+                            data.y),
+                    elementSize));
         }
         return map;
     }

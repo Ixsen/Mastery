@@ -24,15 +24,17 @@
  */
 package de.johni0702.minecraft.gui.element;
 
-import de.johni0702.minecraft.gui.GuiRenderer;
-import de.johni0702.minecraft.gui.RenderInfo;
-import de.johni0702.minecraft.gui.container.GuiContainer;
-import de.johni0702.minecraft.gui.function.Clickable;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 import org.lwjgl.util.ReadablePoint;
 
-public abstract class AbstractGuiClickable<T extends AbstractGuiClickable<T>> extends AbstractGuiElement<T> implements Clickable, IGuiClickable<T> {
+import de.johni0702.minecraft.gui.GuiRenderer;
+import de.johni0702.minecraft.gui.RenderInfo;
+import de.johni0702.minecraft.gui.container.GuiContainer;
+import de.johni0702.minecraft.gui.function.Clickable;
+
+public abstract class AbstractGuiClickable<T extends AbstractGuiClickable<T>> extends AbstractGuiElement<T>
+        implements Clickable, IGuiClickable<T> {
     private Runnable onClick;
 
     public AbstractGuiClickable() {
@@ -45,20 +47,24 @@ public abstract class AbstractGuiClickable<T extends AbstractGuiClickable<T>> ex
     @Override
     public boolean mouseClick(ReadablePoint position, int button) {
         Point pos = new Point(position);
-        if (getContainer() != null) {
-            getContainer().convertFor(this, pos);
+        if (this.getContainer() != null) {
+            this.getContainer().convertFor(this, pos);
         }
 
-        if (isMouseHovering(pos) && isEnabled()) {
-            onClick();
+        if (this.isMouseHovering(pos) && this.isEnabled()) {
+            this.onClick();
             return true;
         }
         return false;
     }
 
     protected boolean isMouseHovering(ReadablePoint pos) {
-        return pos.getX() > 0 && pos.getY() > 0
-                && pos.getX() < getLastSize().getWidth() && pos.getY() < getLastSize().getHeight();
+        if (this.isVisible()) {
+            return pos.getX() > 0 && pos.getY() > 0
+                    && pos.getX() < this.getLastSize().getWidth() && pos.getY() < this.getLastSize().getHeight();
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -67,14 +73,14 @@ public abstract class AbstractGuiClickable<T extends AbstractGuiClickable<T>> ex
     }
 
     protected void onClick() {
-        if (onClick != null) {
-            onClick.run();
+        if (this.onClick != null) {
+            this.onClick.run();
         }
     }
 
     @Override
     public T onClick(Runnable onClick) {
         this.onClick = onClick;
-        return getThis();
+        return this.getThis();
     }
 }

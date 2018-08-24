@@ -5,13 +5,16 @@ import org.lwjgl.util.ReadableColor;
 import de.johni0702.minecraft.gui.container.GuiPanel;
 import de.johni0702.minecraft.gui.container.VanillaGuiScreen;
 import de.johni0702.minecraft.gui.layout.VerticalLayout;
+import de.johni0702.minecraft.gui.utils.Colors;
 import mastery.capability.skillclasses.MasterySpec;
-import mastery.resource.MasteryImageLoader;
+import mastery.ui.custom.UIElementHelper;
 import mastery.ui.custom.elements.impl.UIImage;
 import mastery.ui.custom.elements.impl.UILabel;
 import mastery.ui.custom.elements.impl.UILabel.UILabelAlignment;
 import mastery.ui.custom.elements.impl.UIMasteryPreview;
+import mastery.ui.custom.elements.impl.UISkillTree;
 import mastery.ui.custom.elements.impl.UISlot;
+import mastery.ui.custom.elements.impl.UISlot.UIMainSlotTypes;
 import mastery.ui.custom.elements.impl.UISlotGroup;
 import mastery.ui.custom.layouts.FreeformLayout;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,7 +30,7 @@ public class LevelUi extends GuiScreen {
     private UISlot infoSlot;
     private UISlot creditsSlot;
     private UISlot settingsSlot;
-    private GuiPanel skillPanel;
+    private UISkillTree skillPanel;
     private GuiPanel infoPanel;
     private GuiPanel creditsPanel;
     private GuiPanel settingsPanel;
@@ -42,14 +45,12 @@ public class LevelUi extends GuiScreen {
         screen.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = this.initBackgroundImage(140, 212);
+        UIImage background = UIElementHelper.createBackground(140, 212);
         screen.addElements(new FreeformLayout.Data(5, 5), background);
 
         // Init title
-        UILabel title = new UILabel(UILabelAlignment.MIDDLE_CENTER);
-        title.setText("Masteries");
-        title.setSize(background.getMinSize().getWidth(), 16);
-        title.setColor(ReadableColor.BLACK);
+        UILabel title = UIElementHelper.createUILabel(UILabelAlignment.MIDDLE_CENTER, "Masteries",
+                background.getMinSize().getWidth(), 16, Colors.BLACK);
         screen.addElements(new FreeformLayout.Data(5, 5), title);
 
         // Init the previews
@@ -72,19 +73,12 @@ public class LevelUi extends GuiScreen {
         this.infoSlot.onActiveChanged(this::clickSlotLore);
         this.skillTreeSlot.onActiveChanged(this::clickSlotTree);
 
-        screen.addElements(
-                new FreeformLayout.Data(slots.getMinSize().getWidth() + background.getMinSize().getWidth() + 20, 5),
-                this.skillPanel);
-        screen.addElements(
-                new FreeformLayout.Data(slots.getMinSize().getWidth() + background.getMinSize().getWidth() + 20, 5),
-                this.infoPanel);
-        screen.addElements(
-                new FreeformLayout.Data(slots.getMinSize().getWidth() + background.getMinSize().getWidth() + 20, 5),
-                this.creditsPanel);
-        screen.addElements(
-                new FreeformLayout.Data(slots.getMinSize().getWidth() + background.getMinSize().getWidth() + 20, 5),
-                this.settingsPanel);
-
+        // Position Slots
+        int slotXPosition = slots.getMinSize().getWidth() + background.getMinSize().getWidth() + 20;
+        screen.addElements(new FreeformLayout.Data(slotXPosition, 5), this.skillPanel);
+        screen.addElements(new FreeformLayout.Data(slotXPosition, 5), this.infoPanel);
+        screen.addElements(new FreeformLayout.Data(slotXPosition, 5), this.creditsPanel);
+        screen.addElements(new FreeformLayout.Data(slotXPosition, 5), this.settingsPanel);
     }
 
     private void clickSlotCredits(boolean value) {
@@ -130,57 +124,11 @@ public class LevelUi extends GuiScreen {
         // Create slot group
         UISlotGroup slotGroup = new UISlotGroup();
 
-        // Skill Tree Slot
-        this.skillTreeSlot = new UISlot(false, slotGroup);
-        this.skillTreeSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
-        this.skillTreeSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-        this.skillTreeSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_DEACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_DEACTIVE_UV.getY());
-        this.skillTreeSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_ACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_ACTIVE_UV.getY());
-        this.skillTreeSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
-        this.skillTreeSlot.setSize(SLOT_SIZE, SLOT_SIZE);
-
-        // Mastery Info Slot
-        this.infoSlot = new UISlot(false, slotGroup);
-        this.infoSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
-        this.infoSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-        this.infoSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getY());
-        this.infoSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getY());
-        this.infoSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
-        this.infoSlot.setSize(SLOT_SIZE, SLOT_SIZE);
-
-        // Author Slot
-        this.creditsSlot = new UISlot(false, slotGroup);
-        this.creditsSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
-        this.creditsSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-        this.creditsSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getY());
-        this.creditsSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getY());
-        this.creditsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
-        this.creditsSlot.setSize(SLOT_SIZE, SLOT_SIZE);
-
-        // Settings Slot
-        this.settingsSlot = new UISlot(false, slotGroup);
-        this.settingsSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
-        this.settingsSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-        this.settingsSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_DEACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_DEACTIVE_UV.getY());
-        this.settingsSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_ACTIVE_UV.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_ACTIVE_UV.getY());
-        this.settingsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
-        this.settingsSlot.setSize(SLOT_SIZE, SLOT_SIZE);
+        // Create Skill SLots
+        this.skillTreeSlot = UIElementHelper.createMenuSlots(slotGroup, UIMainSlotTypes.SKILL_TREE, SLOT_SIZE);
+        this.infoSlot = UIElementHelper.createMenuSlots(slotGroup, UIMainSlotTypes.LORE, SLOT_SIZE);
+        this.creditsSlot = UIElementHelper.createMenuSlots(slotGroup, UIMainSlotTypes.AUTHOR, SLOT_SIZE);
+        this.settingsSlot = UIElementHelper.createMenuSlots(slotGroup, UIMainSlotTypes.SETTINGS, SLOT_SIZE);
 
         // Define order of the slots
         slots.addElements(null, this.skillTreeSlot);
@@ -189,17 +137,6 @@ public class LevelUi extends GuiScreen {
         slots.addElements(null, this.settingsSlot);
 
         return slots;
-    }
-
-    private UIImage initBackgroundImage(int width, int height) {
-        UIImage background = new UIImage();
-        background.setTexture(MasteryImageLoader.masteryOverviewBackground,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_TEXTURE_SIZE,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_TEXTURE_SIZE, 0, 0,
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SIZE.getX(),
-                MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SIZE.getY());
-        background.setSize(width, height);
-        return background;
     }
 
     private GuiPanel initMasteryPreviews() {
@@ -225,7 +162,7 @@ public class LevelUi extends GuiScreen {
         panel.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = this.initBackgroundImage(240, 200);
+        UIImage background = UIElementHelper.createBackground(240, 212);
         panel.addElements(new FreeformLayout.Data(0, 0), background);
 
         // Init title
@@ -244,7 +181,7 @@ public class LevelUi extends GuiScreen {
         panel.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = this.initBackgroundImage(240, 200);
+        UIImage background = UIElementHelper.createBackground(240, 212);
         panel.addElements(new FreeformLayout.Data(0, 0), background);
 
         // Init title
@@ -263,7 +200,7 @@ public class LevelUi extends GuiScreen {
         panel.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = this.initBackgroundImage(240, 200);
+        UIImage background = UIElementHelper.createBackground(240, 212);
         panel.addElements(new FreeformLayout.Data(0, 0), background);
 
         // Init title
@@ -276,22 +213,8 @@ public class LevelUi extends GuiScreen {
         return panel;
     }
 
-    private GuiPanel initSkillTree() {
-        GuiPanel panel = new GuiPanel();
-        panel.setVisible(false);
-        panel.setLayout(new FreeformLayout());
-
-        // Init background
-        UIImage background = this.initBackgroundImage(240, 200);
-        panel.addElements(new FreeformLayout.Data(0, 0), background);
-
-        // Init title
-        UILabel title = new UILabel(UILabelAlignment.MIDDLE_CENTER);
-        title.setText("Skill");
-        title.setSize(background.getMinSize().getWidth(), 16);
-        title.setColor(ReadableColor.BLACK);
-        panel.addElements(new FreeformLayout.Data(5, 0), title);
-
+    private UISkillTree initSkillTree() {
+        UISkillTree panel = new UISkillTree();
         return panel;
     }
 }

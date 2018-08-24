@@ -205,7 +205,7 @@ public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implem
 
     @Override
     public boolean isVisible() {
-        return this.visible;
+        return this.container == null ? this.visible : this.visible && this.container.isVisible();
     }
 
     @Override

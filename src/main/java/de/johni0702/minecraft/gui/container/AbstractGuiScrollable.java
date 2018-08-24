@@ -24,30 +24,37 @@
  */
 package de.johni0702.minecraft.gui.container;
 
+import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableDimension;
+import org.lwjgl.util.ReadablePoint;
+import org.lwjgl.util.WritablePoint;
+
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.OffsetGuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.element.GuiElement;
 import de.johni0702.minecraft.gui.function.Scrollable;
-import org.lwjgl.util.*;
+import lombok.Getter;
 
 public abstract class AbstractGuiScrollable<T extends AbstractGuiScrollable<T>> extends AbstractGuiContainer<T>
         implements Scrollable {
     private int offsetX, offsetY;
+    @Getter
     private final ReadablePoint negativeOffset = new ReadablePoint() {
         @Override
         public int getX() {
-            return -offsetX;
+            return -AbstractGuiScrollable.this.offsetX;
         }
 
         @Override
         public int getY() {
-            return -offsetY;
+            return -AbstractGuiScrollable.this.offsetY;
         }
 
         @Override
         public void getLocation(WritablePoint dest) {
-            dest.setLocation(getX(), getY());
+            dest.setLocation(this.getX(), this.getY());
         }
     };
 
@@ -65,9 +72,9 @@ public abstract class AbstractGuiScrollable<T extends AbstractGuiScrollable<T>> 
     @Override
     public void convertFor(GuiElement element, Point point, int relativeLayer) {
         super.convertFor(element, point, relativeLayer);
-        if (relativeLayer > 0 || (point.getX() > 0 && point.getX() < lastRenderSize.getWidth()
-                 && point.getY() > 0 && point.getY() < lastRenderSize.getHeight())) {
-            point.translate(offsetX, offsetY);
+        if (relativeLayer > 0 || point.getX() > 0 && point.getX() < this.lastRenderSize.getWidth() && point.getY() > 0
+                && point.getY() < this.lastRenderSize.getHeight()) {
+            point.translate(this.offsetX, this.offsetY);
         } else {
             point.setLocation(Integer.MIN_VALUE, Integer.MIN_VALUE);
         }
@@ -77,12 +84,13 @@ public abstract class AbstractGuiScrollable<T extends AbstractGuiScrollable<T>> 
     public void draw(GuiRenderer renderer, ReadableDimension size, RenderInfo renderInfo) {
         int width = size.getWidth();
         int height = size.getHeight();
-        lastRenderSize = size;
+        this.lastRenderSize = size;
         size = super.calcMinSize();
         size = new Dimension(Math.max(width, size.getWidth()), Math.max(height, size.getHeight()));
-        renderInfo = renderInfo.offsetMouse(-offsetX, -offsetY);
+        renderInfo = renderInfo.offsetMouse(-this.offsetX, -this.offsetY);
 
-        OffsetGuiRenderer offsetRenderer = new OffsetGuiRenderer(renderer, negativeOffset, size, renderInfo.layer == 0);
+        OffsetGuiRenderer offsetRenderer = new OffsetGuiRenderer(renderer, this.negativeOffset, size,
+                renderInfo.layer == 0);
         offsetRenderer.startUsing();
         super.draw(offsetRenderer, size, renderInfo);
         offsetRenderer.stopUsing();
@@ -96,17 +104,17 @@ public abstract class AbstractGuiScrollable<T extends AbstractGuiScrollable<T>> 
     @Override
     public boolean scroll(ReadablePoint mousePosition, int dWheel) {
         Point mouse = new Point(mousePosition);
-        if (getContainer() != null) {
-            getContainer().convertFor(this, mouse);
+        if (this.getContainer() != null) {
+            this.getContainer().convertFor(this, mouse);
         }
-        if (mouse.getX() > 0 && mouse.getY() > 0
-                && mouse.getX() < lastRenderSize.getWidth() && mouse.getY() < lastRenderSize.getHeight()) {
+        if (mouse.getX() > 0 && mouse.getY() > 0 && mouse.getX() < this.lastRenderSize.getWidth()
+                && mouse.getY() < this.lastRenderSize.getHeight()) {
             // Reduce scrolling speed but make sure it is never rounded to 0
             dWheel = (int) Math.copySign(Math.ceil(Math.abs(dWheel) / 4.0), dWheel);
-            if (scrollDirection == Direction.HORIZONTAL) {
-                scrollX(dWheel);
+            if (this.scrollDirection == Direction.HORIZONTAL) {
+                this.scrollX(dWheel);
             } else {
-                scrollY(dWheel);
+                this.scrollY(dWheel);
             }
             return true;
         }
@@ -114,40 +122,42 @@ public abstract class AbstractGuiScrollable<T extends AbstractGuiScrollable<T>> 
     }
 
     public int getOffsetX() {
-        return offsetX;
+        return this.offsetX;
     }
 
     public T setOffsetX(int offsetX) {
         this.offsetX = offsetX;
-        return getThis();
+        return this.getThis();
     }
 
     public int getOffsetY() {
-        return offsetY;
+        return this.offsetY;
     }
 
     public T setOffsetY(int offsetY) {
         this.offsetY = offsetY;
-        return getThis();
+        return this.getThis();
     }
 
     public Direction getScrollDirection() {
-        return scrollDirection;
+        return this.scrollDirection;
     }
 
     public T setScrollDirection(Direction scrollDirection) {
         this.scrollDirection = scrollDirection;
-        return getThis();
+        return this.getThis();
     }
 
     public T scrollX(int dPixel) {
-        offsetX = Math.max(0, Math.min(super.calcMinSize().getWidth() - lastRenderSize.getWidth(), offsetX - dPixel));
-        return getThis();
+        this.offsetX = Math.max(0,
+                Math.min(super.calcMinSize().getWidth() - this.lastRenderSize.getWidth(), this.offsetX - dPixel));
+        return this.getThis();
     }
 
     public T scrollY(int dPixel) {
-        offsetY = Math.max(0, Math.min(super.calcMinSize().getHeight() - lastRenderSize.getHeight(), offsetY - dPixel));
-        return getThis();
+        this.offsetY = Math.max(0,
+                Math.min(super.calcMinSize().getHeight() - this.lastRenderSize.getHeight(), this.offsetY - dPixel));
+        return this.getThis();
     }
 
     public enum Direction {

@@ -195,6 +195,7 @@ public abstract class AbstractUISlot<T extends AbstractUISlot<T>> extends Abstra
         if (this.getSlotGroup() != null) {
             this.getSlotGroup().synchUISlots(this);
         }
+        super.onClick();
     }
 
     @Override

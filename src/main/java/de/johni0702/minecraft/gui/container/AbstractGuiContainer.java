@@ -244,4 +244,9 @@ public abstract class AbstractGuiContainer<T extends AbstractGuiContainer<T>> ex
         this.backgroundColor = backgroundColor;
         return this.getThis();
     }
+
+    @Override
+    public LayoutData getLayoutData(GuiElement element) {
+        return this.elements.get(element);
+    }
 }

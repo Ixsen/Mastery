@@ -7,30 +7,17 @@ import org.lwjgl.util.ReadableDimension;
 
 import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
+import mastery.capability.skillclasses.MasterySpec;
+import mastery.resource.UIBackgroundUtils;
 import mastery.ui.custom.elements.abstracts.AbstractUIImage;
 import net.minecraft.util.ResourceLocation;
 
 public class UIRepeatableBackgroundImage extends AbstractUIImage<UIRepeatableBackgroundImage> {
 
-    private static final ResourceLocation BACKGROUND_ADV = new ResourceLocation(
-            "textures/gui/advancements/backgrounds/adventure.png");
-    private static final ResourceLocation BACKGROUND_END = new ResourceLocation(
-            "textures/gui/advancements/backgrounds/end.png");
-    private static final ResourceLocation BACKGROUND_HUSBANDRY = new ResourceLocation(
-            "textures/gui/advancements/backgrounds/husbandry.png");
-    private static final ResourceLocation BACKGROUND_NETHER = new ResourceLocation(
-            "textures/gui/advancements/backgrounds/nether.png");
-    private static final ResourceLocation BACKGROUND_STONE = new ResourceLocation(
-            "textures/gui/advancements/backgrounds/stone.png");
+    private MasterySpec mastery;
 
-    private UIRepeatableBackgroundImageTypes type;
-
-    public enum UIRepeatableBackgroundImageTypes {
-        ADVENTURE, ENDER, HUSBANDRY, NETHER, STONE
-    }
-
-    public UIRepeatableBackgroundImage(UIRepeatableBackgroundImageTypes type) {
-        this.type = type;
+    public UIRepeatableBackgroundImage(MasterySpec mastery) {
+        this.mastery = mastery;
         this.resourceLocation = this.getLocation();
     }
 
@@ -63,18 +50,6 @@ public class UIRepeatableBackgroundImage extends AbstractUIImage<UIRepeatableBac
     }
 
     private ResourceLocation getLocation() {
-        switch (this.type) {
-        case ADVENTURE:
-            return BACKGROUND_ADV;
-        case ENDER:
-            return BACKGROUND_END;
-        case HUSBANDRY:
-            return BACKGROUND_HUSBANDRY;
-        case NETHER:
-            return BACKGROUND_NETHER;
-        case STONE:
-        default:
-            return BACKGROUND_STONE;
-        }
+        return UIBackgroundUtils.getMasteryRepeatableBackground(this.mastery);
     }
 }

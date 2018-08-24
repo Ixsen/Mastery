@@ -1,8 +1,11 @@
 package mastery.ui.custom;
 
+import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
+import mastery.capability.skillclasses.MasterySpec;
 import mastery.resource.MasteryImageLoader;
+import mastery.resource.UITabUtils;
 import mastery.ui.custom.elements.impl.UIImage;
 import mastery.ui.custom.elements.impl.UILabel;
 import mastery.ui.custom.elements.impl.UILabel.UILabelAlignment;
@@ -22,7 +25,7 @@ public class UIElementHelper {
      *
      * @return the background
      */
-    public static UIImage createBackground(int width, int height) {
+    public static UIImage getBackground(int width, int height) {
         UIImage background = new UIImage();
         background.setTexture(MasteryImageLoader.masteryOverviewBackground,
                 MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_TEXTURE_SIZE,
@@ -31,6 +34,23 @@ public class UIElementHelper {
                 MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SIZE.getY());
         background.setSize(width, height);
         return background;
+    }
+
+    /**
+     * Creates an image of an mastery class icon
+     *
+     * @return the image
+     */
+    public static UIImage getMasteryIcon(MasterySpec spec, int width, int height) {
+        UIImage image = new UIImage();
+        Point uv = MasteryImageLoader.getMasteryUV(spec);
+        image.setTexture(MasteryImageLoader.masteryClassIconPlain,
+                MasteryImageLoader.MASTERY_CLASS_ATLAS_SIZE,
+                MasteryImageLoader.MASTERY_CLASS_ATLAS_SIZE);
+        image.setUV(uv);
+        image.setUVSize(MasteryImageLoader.MASTERY_CLASS_ICON_SIZE, MasteryImageLoader.MASTERY_CLASS_ICON_SIZE);
+        image.setSize(width, height);
+        return image;
     }
 
     /**
@@ -62,12 +82,9 @@ public class UIElementHelper {
             creditsSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
             creditsSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
                     MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-            creditsSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV.getY());
-            creditsSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV.getY());
-            creditsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
+            creditsSlot.setUVDeactivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_DEACTIVE_UV);
+            creditsSlot.setUVActivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_ID_ACTIVE_UV);
+            creditsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE);
             creditsSlot.setSize(size, size);
             return creditsSlot;
         case LORE:
@@ -75,12 +92,9 @@ public class UIElementHelper {
             infoSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
             infoSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
                     MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-            infoSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV.getY());
-            infoSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV.getY());
-            infoSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
+            infoSlot.setUVDeactivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_DEACTIVE_UV);
+            infoSlot.setUVActivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_BOOK_ACTIVE_UV);
+            infoSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE);
             infoSlot.setSize(size, size);
             return infoSlot;
         case SETTINGS:
@@ -88,12 +102,9 @@ public class UIElementHelper {
             settingsSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
             settingsSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
                     MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-            settingsSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_DEACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_DEACTIVE_UV.getY());
-            settingsSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_ACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_ACTIVE_UV.getY());
-            settingsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
+            settingsSlot.setUVDeactivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_DEACTIVE_UV);
+            settingsSlot.setUVActivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SETTINGS_ACTIVE_UV);
+            settingsSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE);
             settingsSlot.setSize(size, size);
             return settingsSlot;
         default:
@@ -102,15 +113,42 @@ public class UIElementHelper {
             skillTreeSlot.setTexture(MasteryImageLoader.masteryOverviewBackgroundSlots);
             skillTreeSlot.setTextureSize(MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE,
                     MasteryImageLoader.MASTERY_OVERVIEW_BACKGROUND_SLOTS_TEXTURE_SIZE);
-            skillTreeSlot.setUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_DEACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_DEACTIVE_UV.getY());
-            skillTreeSlot.setActiveUV(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_ACTIVE_UV.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_ACTIVE_UV.getY());
-            skillTreeSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getX(),
-                    MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE.getY());
+            skillTreeSlot.setUVDeactivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_DEACTIVE_UV);
+            skillTreeSlot.setUVActivated(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_TREE_ACTIVE_UV);
+            skillTreeSlot.setUVSize(MasteryImageLoader.MASTERY_OVERVIEW_SLOT_SIZE);
             skillTreeSlot.setSize(size, size);
             return skillTreeSlot;
         }
+    }
+
+    /**
+     * Create a UI slot that can be toogled. Fits to the left.
+     *
+     * @return new UISlot
+     */
+    public static UISlot createMasterySlotsLeft(
+            UISlotGroup slotGroup, MasterySpec slot, Point size, boolean isAboveGui) {
+        return UITabUtils.createMasterySlotsLeft(slotGroup, slot, size, isAboveGui);
+    }
+
+    /**
+     * Create a UI slot that can be toogled. Fits to be in the middle.
+     *
+     * @return new UISlot
+     */
+    public static UISlot createMasterySlotsMiddle(
+            UISlotGroup slotGroup, MasterySpec slot, Point size, boolean isAboveGui) {
+        return UITabUtils.createMasterySlotsMiddle(slotGroup, slot, size, isAboveGui);
+    }
+
+    /**
+     * Create a UI slot that can be toogled. Fits to be on the right.
+     *
+     * @return new UISlot
+     */
+    public static UISlot createMasterySlotsRight(
+            UISlotGroup slotGroup, MasterySpec slot, Point size, boolean isAboveGui) {
+        return UITabUtils.createMasterySlotsRight(slotGroup, slot, size, isAboveGui);
     }
 
 }

@@ -42,10 +42,11 @@ public class LevelUi extends GuiScreen {
     @Override
     public void initGui() {
         VanillaGuiScreen screen = VanillaGuiScreen.setup(this);
+        screen.setBackgroundColor(Colors.DARK_TRANSPARENT);
         screen.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = UIElementHelper.createBackground(140, 212);
+        UIImage background = UIElementHelper.getBackground(140, 212);
         screen.addElements(new FreeformLayout.Data(5, 5), background);
 
         // Init title
@@ -61,7 +62,7 @@ public class LevelUi extends GuiScreen {
         GuiPanel slots = this.initSlots();
         screen.addElements(new FreeformLayout.Data(background.getMinSize().getWidth() + 5, 20), slots);
 
-        // Init the dofferent panels
+        // Init the different panels
         this.skillPanel = this.initSkillTree();
         this.infoPanel = this.initLorePanel();
         this.settingsPanel = this.initSettingsPanel();
@@ -162,7 +163,7 @@ public class LevelUi extends GuiScreen {
         panel.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = UIElementHelper.createBackground(240, 212);
+        UIImage background = UIElementHelper.getBackground(240, 212);
         panel.addElements(new FreeformLayout.Data(0, 0), background);
 
         // Init title
@@ -181,7 +182,7 @@ public class LevelUi extends GuiScreen {
         panel.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = UIElementHelper.createBackground(240, 212);
+        UIImage background = UIElementHelper.getBackground(240, 212);
         panel.addElements(new FreeformLayout.Data(0, 0), background);
 
         // Init title
@@ -200,7 +201,7 @@ public class LevelUi extends GuiScreen {
         panel.setLayout(new FreeformLayout());
 
         // Init background
-        UIImage background = UIElementHelper.createBackground(240, 212);
+        UIImage background = UIElementHelper.getBackground(240, 212);
         panel.addElements(new FreeformLayout.Data(0, 0), background);
 
         // Init title

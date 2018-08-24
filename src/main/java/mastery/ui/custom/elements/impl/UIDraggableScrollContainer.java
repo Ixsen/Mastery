@@ -9,18 +9,13 @@ import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.container.AbstractGuiScrollable;
 import de.johni0702.minecraft.gui.container.GuiContainer;
 import de.johni0702.minecraft.gui.function.Draggable;
-import net.minecraft.util.ResourceLocation;
 
 /**
  * @author Subaro
  */
 public class UIDraggableScrollContainer extends AbstractGuiScrollable<UIDraggableScrollContainer> implements Draggable {
 
-    private static final ResourceLocation BACKGROUND_ADV = new ResourceLocation(
-            "textures/gui/advancements/backgrounds/adventure.png");
-
     private ReadablePoint lastPoint;
-    private boolean renderBackgroundTexture = true;
 
     public UIDraggableScrollContainer() {
     }
@@ -39,29 +34,53 @@ public class UIDraggableScrollContainer extends AbstractGuiScrollable<UIDraggabl
         return this;
     }
 
+    protected boolean isMouseHovering(ReadablePoint pos) {
+        return pos.getX() > 0 && pos.getY() > 0
+                && pos.getX() < this.getLastSize().getWidth() && pos.getY() < this.getLastSize().getHeight();
+    }
+
     @Override
     public boolean mouseClick(ReadablePoint position, int button) {
-        this.lastPoint = position;
+        Point mouse = new Point(position);
+        if (this.getContainer() != null) {
+            this.getContainer().convertFor(this, mouse);
+        }
+        if (this.isMouseHovering(mouse) && this.isEnabled()) {
+            try {
+                this.lastPoint = position;
+            } catch (IllegalStateException e) {
+                // TODO Quickfix ignore event
+                return false;
+            }
+            return false;
+        }
         return false;
     }
 
     @Override
     public boolean mouseDrag(ReadablePoint position, int button, long timeSinceLastCall) {
         if (this.lastPoint == null) {
-            this.lastPoint = position;
             return false;
-        } else {
+        }
+        try {
             Point newPos = new Point(position.getX() - this.lastPoint.getX(),
                     position.getY() - this.lastPoint.getY());
             this.scrollBoth(newPos);
             this.lastPoint = position;
+
+        } catch (IllegalStateException e) {
+            // TODO Quickfix ignore event
         }
         return false;
     }
 
     @Override
     public boolean mouseRelease(ReadablePoint position, int button) {
-        this.lastPoint = null;
+        try {
+            this.lastPoint = null;
+        } catch (IllegalStateException e) {
+            // TODO Quickfix ignore event
+        }
         return false;
     }
 

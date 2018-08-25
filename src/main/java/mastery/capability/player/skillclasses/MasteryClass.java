@@ -1,4 +1,4 @@
-package mastery.capability.skillclasses;
+package mastery.capability.player.skillclasses;
 
 import mastery.MasteryMod;
 import net.minecraft.entity.player.EntityPlayer;

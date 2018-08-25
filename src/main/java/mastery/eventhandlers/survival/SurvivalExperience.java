@@ -3,7 +3,7 @@ package mastery.eventhandlers.survival;
 import static mastery.eventhandlers.ExperienceDictionary.SURVIVAL_DEATH;
 import static mastery.eventhandlers.ExperienceDictionary.SURVIVAL_EATING;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;

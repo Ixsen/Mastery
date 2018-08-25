@@ -1,6 +1,6 @@
 package mastery.eventhandlers.crafting;
 
-import mastery.capability.skillclasses.CraftingMastery;
+import mastery.capability.player.skillclasses.CraftingMastery;
 import mastery.util.MasteryUtils;
 import mastery.util.NetworkUtils;
 import net.minecraft.entity.player.EntityPlayerMP;

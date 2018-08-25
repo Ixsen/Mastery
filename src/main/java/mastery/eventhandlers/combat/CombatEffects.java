@@ -7,8 +7,8 @@ import static net.minecraft.entity.SharedMonsterAttributes.MAX_HEALTH;
 import java.util.UUID;
 
 import mastery.MasteryMod;
-import mastery.capability.skillclasses.CombatMastery;
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.CombatMastery;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventsystem.MasteryEvent;
 import mastery.eventsystem.MasteryEventType;
 import mastery.util.AttributeUtils;

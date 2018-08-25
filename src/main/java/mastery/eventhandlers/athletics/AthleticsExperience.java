@@ -8,7 +8,7 @@ import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_RIDING;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_WALKING;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_WATER;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;

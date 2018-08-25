@@ -2,20 +2,20 @@ package mastery.capability.player;
 
 import java.util.HashMap;
 
-import mastery.capability.skillclasses.AlchemyMastery;
-import mastery.capability.skillclasses.AthleticsMastery;
-import mastery.capability.skillclasses.CombatMastery;
-import mastery.capability.skillclasses.CraftingMastery;
-import mastery.capability.skillclasses.FarmingMastery;
-import mastery.capability.skillclasses.FishingMastery;
-import mastery.capability.skillclasses.HusbandryMastery;
-import mastery.capability.skillclasses.MasteryClass;
-import mastery.capability.skillclasses.MasterySpec;
-import mastery.capability.skillclasses.MiningMastery;
-import mastery.capability.skillclasses.ScavengingMastery;
-import mastery.capability.skillclasses.SneakingMastery;
-import mastery.capability.skillclasses.SurvivalMastery;
-import mastery.capability.skillclasses.TradingMastery;
+import mastery.capability.player.skillclasses.AlchemyMastery;
+import mastery.capability.player.skillclasses.AthleticsMastery;
+import mastery.capability.player.skillclasses.CombatMastery;
+import mastery.capability.player.skillclasses.CraftingMastery;
+import mastery.capability.player.skillclasses.FarmingMastery;
+import mastery.capability.player.skillclasses.FishingMastery;
+import mastery.capability.player.skillclasses.HusbandryMastery;
+import mastery.capability.player.skillclasses.MasteryClass;
+import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MiningMastery;
+import mastery.capability.player.skillclasses.ScavengingMastery;
+import mastery.capability.player.skillclasses.SneakingMastery;
+import mastery.capability.player.skillclasses.SurvivalMastery;
+import mastery.capability.player.skillclasses.TradingMastery;
 
 /**
  * Created by Granis on 16/03/2018.

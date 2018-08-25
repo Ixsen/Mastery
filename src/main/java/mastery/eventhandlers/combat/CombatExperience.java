@@ -3,7 +3,7 @@ package mastery.eventhandlers.combat;
 import static mastery.eventhandlers.ExperienceDictionary.COMBAT_ENTITY_DAMAGED;
 import static mastery.eventhandlers.ExperienceDictionary.COMBAT_PLAYER_DAMAGED;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

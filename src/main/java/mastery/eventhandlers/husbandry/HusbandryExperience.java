@@ -4,7 +4,7 @@ import static mastery.eventhandlers.ExperienceDictionary.HUSBANDRY_ANIMAL_CHILD_
 import static mastery.eventhandlers.ExperienceDictionary.HUSBANDRY_ENTITY_HARVESTED;
 import static mastery.eventhandlers.ExperienceDictionary.HUSBANDRY_ENTITY_TAMED;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import mastery.eventhandlers.ExperienceDictionary;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;

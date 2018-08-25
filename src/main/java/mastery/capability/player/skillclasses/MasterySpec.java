@@ -1,4 +1,4 @@
-package mastery.capability.skillclasses;
+package mastery.capability.player.skillclasses;
 
 /**
  * Created by Granis on 18/03/2018.

@@ -48,7 +48,7 @@ public class UIDraggableScrollContainer extends AbstractGuiScrollable<UIDraggabl
         if (this.isMouseHovering(mouse) && this.isEnabled()) {
             try {
                 this.lastPoint = position;
-            } catch (IllegalStateException e) {
+            } catch (Exception e) {
                 // TODO Quickfix ignore event
                 return false;
             }
@@ -68,7 +68,7 @@ public class UIDraggableScrollContainer extends AbstractGuiScrollable<UIDraggabl
             this.scrollBoth(newPos);
             this.lastPoint = position;
 
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             // TODO Quickfix ignore event
         }
         return false;
@@ -78,7 +78,7 @@ public class UIDraggableScrollContainer extends AbstractGuiScrollable<UIDraggabl
     public boolean mouseRelease(ReadablePoint position, int button) {
         try {
             this.lastPoint = null;
-        } catch (IllegalStateException e) {
+        } catch (Exception e) {
             // TODO Quickfix ignore event
         }
         return false;

@@ -6,7 +6,6 @@ import de.johni0702.minecraft.gui.container.GuiPanel;
 import de.johni0702.minecraft.gui.utils.Colors;
 import mastery.MasteryMod;
 import mastery.capability.skillclasses.MasterySpec;
-import mastery.ui.custom.UIElementHelper;
 import mastery.ui.custom.elements.impl.UIImage;
 import mastery.ui.custom.elements.impl.UILabel;
 import mastery.ui.custom.elements.impl.UILabel.UILabelAlignment;
@@ -19,61 +18,59 @@ import net.minecraft.util.ResourceLocation;
 public class UIBackgroundUtils {
 
     // Repeatable Background images
-    public static final ResourceLocation REPEATABLE_ADVENTURE = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/adventure.png");
-    public static final ResourceLocation REPEATABLE_COMMAND = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/command.png");
-    public static final ResourceLocation REPEATABLE_CRAFTTABLE = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/crafttable.png");
-    public static final ResourceLocation REPEATABLE_DIAMOND = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/diamond.png");
-    public static final ResourceLocation REPEATABLE_DISPENSER = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/dispenser.png");
-    public static final ResourceLocation REPEATABLE_END = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/end.png");
+    public static final ResourceLocation REPEATABLE_ALCHEMY = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/soul_sand.png");
+    public static final ResourceLocation REPEATABLE_ATHLETICS = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/piston_top.png");
+    public static final ResourceLocation REPEATABLE_COMBAT = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/iron_block.png");
+    public static final ResourceLocation REPEATABLE_CRAFTING = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/cactus.png");
+    public static final ResourceLocation REPEATABLE_FARMING = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/farmland.png");
+    public static final ResourceLocation REPEATABLE_FISHING = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/prismarine_bricks.png");
     public static final ResourceLocation REPEATABLE_HUSBANDRY = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/husbandry.png");
-    public static final ResourceLocation REPEATABLE_NETHER = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/nether.png");
-    public static final ResourceLocation REPEATABLE_NOTEBLOCK = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/noteblock.png");
-    public static final ResourceLocation REPEATABLE_ROCK = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/rock.png");
-    public static final ResourceLocation REPEATABLE_STONE = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/stone.png");
+            "textures/gui/backgrounds/hay_block_side.png");
+    public static final ResourceLocation REPEATABLE_MINING = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/iron_ore.png");
+    public static final ResourceLocation REPEATABLE_SCAVENGING = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/mossy_stone_bricks.png");
+    public static final ResourceLocation REPEATABLE_SNEAKING = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/snow.png");
+    public static final ResourceLocation REPEATABLE_SURVIVAL = new ResourceLocation(MasteryMod.modid,
+            "textures/gui/backgrounds/magma.png");
     public static final ResourceLocation REPEATABLE_TRADING = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/trading.png");
-    public static final ResourceLocation REPEATABLE_WOOD = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/backgrounds/wood.png");
+            "textures/gui/backgrounds/emerald.png");
 
     public static ResourceLocation getMasteryRepeatableBackground(MasterySpec spec) {
         switch (spec) {
         case ALCHEMY:
-            return REPEATABLE_DISPENSER;
+            return REPEATABLE_ALCHEMY;
         case ATHLETICS:
-            return REPEATABLE_STONE;
+            return REPEATABLE_ATHLETICS;
         case COMBAT:
-            return REPEATABLE_NETHER;
+            return REPEATABLE_COMBAT;
         case CRAFTING:
-            return REPEATABLE_CRAFTTABLE;
+            return REPEATABLE_CRAFTING;
         case FARMING:
-            return REPEATABLE_WOOD;
+            return REPEATABLE_FARMING;
         case FISHING:
-            return REPEATABLE_NOTEBLOCK;
+            return REPEATABLE_FISHING;
         case HUSBANDRY:
             return REPEATABLE_HUSBANDRY;
         case MINING:
-            return REPEATABLE_DIAMOND;
+            return REPEATABLE_MINING;
         case SCAVENGING:
-            return REPEATABLE_ROCK;
+            return REPEATABLE_SCAVENGING;
         case SNEAKING:
-            return REPEATABLE_ADVENTURE;
+            return REPEATABLE_SNEAKING;
         case SURVIVAL:
-            return REPEATABLE_END;
+            return REPEATABLE_SURVIVAL;
         case TRADING:
             return REPEATABLE_TRADING;
         default:
-            return REPEATABLE_COMMAND;
+            return REPEATABLE_TRADING;
         }
     }
 

@@ -1,11 +1,11 @@
-package mastery.ui.custom;
+package mastery.resource;
 
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
+import de.johni0702.minecraft.gui.container.GuiPanel;
+import de.johni0702.minecraft.gui.layout.VerticalLayout;
 import mastery.capability.skillclasses.MasterySpec;
-import mastery.resource.MasteryImageLoader;
-import mastery.resource.UITabUtils;
 import mastery.ui.custom.elements.impl.UIImage;
 import mastery.ui.custom.elements.impl.UILabel;
 import mastery.ui.custom.elements.impl.UILabel.UILabelAlignment;
@@ -149,6 +149,39 @@ public class UIElementHelper {
     public static UISlot createMasterySlotsRight(
             UISlotGroup slotGroup, MasterySpec slot, Point size, boolean isAboveGui) {
         return UITabUtils.createMasterySlotsRight(slotGroup, slot, size, isAboveGui);
+    }
+
+    /**
+     * Create a panel containing multiple lines of label that do not exceed the maxWidth.
+     *
+     * @return new panel
+     */
+    public static GuiPanel getMultiLabel(String text, int maxWidth) {
+        GuiPanel panel = new GuiPanel();
+        panel.setLayout(new VerticalLayout().setSpacing(3));
+
+        String[] splittedText = text.split(" ");
+
+        UILabel label = new UILabel();
+        for (int i = 0; i < splittedText.length; i++) {
+            String oldText = label.getText();
+
+            label.setText(!label.getText().equals("") ? label.getText() + " " + splittedText[i] : splittedText[i]);
+
+            if (label.calcMinSize().getWidth() >= maxWidth) {
+                label.setText(oldText);
+                panel.addElements(null, label);
+                i--;
+                label = new UILabel();
+                continue;
+            }
+        }
+        if (!label.getText().equals("")) {
+            panel.addElements(null, label);
+        }
+        panel.setSize(panel.calcMinSize());
+
+        return panel;
     }
 
 }

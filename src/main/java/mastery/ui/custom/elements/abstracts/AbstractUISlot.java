@@ -11,7 +11,9 @@ import de.johni0702.minecraft.gui.GuiRenderer;
 import de.johni0702.minecraft.gui.RenderInfo;
 import de.johni0702.minecraft.gui.container.GuiContainer;
 import de.johni0702.minecraft.gui.element.AbstractGuiClickable;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import mastery.ui.custom.elements.impl.UISlotGroup;
 import mastery.ui.custom.elements.interfaces.IUISlot;
 import mastery.ui.custom.elements.interfaces.IUISlotTabGroup;
@@ -34,6 +36,9 @@ public abstract class AbstractUISlot<T extends AbstractUISlot<T>> extends Abstra
     private int textureWidth, textureHeight;
     private UISlotGroup slotGroup;
     private ActiveStateRunnable onStateChange;
+    @Getter
+    @Setter
+    private boolean toogleActiveState = true;
 
     /**
      * Reference to the copied image to prevent it from being garbage collected and subsequently releasing the OpenGL texture.
@@ -189,7 +194,7 @@ public abstract class AbstractUISlot<T extends AbstractUISlot<T>> extends Abstra
     @Override
     protected void onClick() {
         // Toggle state
-        this.setActive(!this.active);
+        this.setActive(this.isToogleActiveState() ? !this.active : true);
 
         // Toggle other ui slots in the same group
         if (this.getSlotGroup() != null) {

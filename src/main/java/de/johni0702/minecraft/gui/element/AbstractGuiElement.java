@@ -97,6 +97,9 @@ public abstract class AbstractGuiElement<T extends AbstractGuiElement<T>> implem
 
     @Override
     public GuiElement getTooltip(RenderInfo renderInfo) {
+        if (this.getMinSize().getWidth() == 22 && this.getMinSize().getHeight() == 26) {
+            // System.out.println("WOW");
+        }
         if (this.tooltip != null && this.lastSize != null) {
             Point mouse = new Point(renderInfo.mouseX, renderInfo.mouseY);
             if (this.container != null) {

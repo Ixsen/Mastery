@@ -6,13 +6,18 @@ import java.util.List;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
+import de.johni0702.minecraft.gui.container.AbstractGuiScrollable.Direction;
 import de.johni0702.minecraft.gui.container.GuiPanel;
 import de.johni0702.minecraft.gui.layout.LayoutData;
+import mastery.capability.MasterySkills;
+import mastery.capability.skillclasses.MasteryClass;
 import mastery.capability.skillclasses.MasterySpec;
 import mastery.resource.UIBackgroundUtils;
+import mastery.resource.UIElementHelper;
+import mastery.resource.UISkillPreviewUtils;
 import mastery.resource.UITabUtils;
-import mastery.ui.custom.UIElementHelper;
 import mastery.ui.custom.layouts.FreeformLayout;
+import mastery.util.MasteryUtils;
 
 /**
  * @author Subaro
@@ -57,6 +62,7 @@ public class UISkillTree extends GuiPanel {
 
         // Init scrollable panel
         this.scrollPanel = new UIDraggableScrollContainer();
+        this.scrollPanel.setScrollDirection(Direction.HORIZONTAL);
         // this.scrollPanel.setBackgroundColor(Colors.LIGHT_GRAY);
         this.scrollPanel.setLayout(new FreeformLayout());
 
@@ -72,9 +78,18 @@ public class UISkillTree extends GuiPanel {
         // Add a layout extender
         UILayoutExtender extender = new UILayoutExtender();
         this.scrollPanel.addElements(
-                new FreeformLayout.Data(this.scrollPanel.getMinSize().getWidth() + 10,
-                        this.scrollPanel.getMinSize().getHeight() + 10),
+                new FreeformLayout.Data(this.scrollPanel.getMinSize().getWidth() + 500,
+                        this.scrollPanel.getMinSize().getHeight()),
                 extender);
+
+        // Generate Skill Previews
+        MasteryClass masteryClass = MasteryUtils.getMastery(this.getMinecraft().player, mastery);
+        List<MasterySkills> skills = MasterySkills.getSkillsForMastery(mastery);
+        int x = 10;
+        for (MasterySkills masterySkills : skills) {
+            this.createSkillPreview(masterySkills, x, 10, masteryClass.getLevel());
+            x += 25;
+        }
 
         ReadableDimension dim = this.scrollPanel.getLayout().calcMinSize(this.scrollPanel);
         repeatableImages.setSize(dim.getWidth(), dim.getHeight());
@@ -82,6 +97,20 @@ public class UISkillTree extends GuiPanel {
                 new FreeformLayout.Data(SCROLL_PANEL_PADDING_LEFT,
                         SCROLL_PANEL_PADDING_TOP + UITabUtils.TAB_SIZE.getY() - 4),
                 this.scrollPanel);
+    }
+
+    private void createSkillPreview(MasterySkills aclhemy0FastWorker, int x, int y, int currentLevel) {
+        if (currentLevel < aclhemy0FastWorker.getRequiredLevel()) {
+            UIImage skillBadge = UISkillPreviewUtils.getSkillBadgeYellowWithTooltip(aclhemy0FastWorker,
+                    UISkillPreviewUtils.SKILL_SIZE.getX(),
+                    UISkillPreviewUtils.SKILL_SIZE.getY());
+            this.scrollPanel.addElements(new FreeformLayout.Data(x, y), skillBadge);
+        } else {
+            UIImage skillBadge = UISkillPreviewUtils.getSkillBadgeSilverWithTooltip(aclhemy0FastWorker,
+                    UISkillPreviewUtils.SKILL_SIZE.getX(),
+                    UISkillPreviewUtils.SKILL_SIZE.getY());
+            this.scrollPanel.addElements(new FreeformLayout.Data(x, y), skillBadge);
+        }
     }
 
     private void initBackground() {
@@ -141,6 +170,7 @@ public class UISkillTree extends GuiPanel {
         for (int i = 0; i < this.slotList.size(); i++) {
             UISlot slot = this.slotList.get(i);
             slot.setId("" + MasterySpec.values()[i]);
+            slot.setToogleActiveState(false);
 
             LayoutData data = this.getLayoutData(slot);
             if (data != null && data instanceof FreeformLayout.Data) {

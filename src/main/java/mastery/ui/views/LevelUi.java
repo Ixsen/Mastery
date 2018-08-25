@@ -7,7 +7,7 @@ import de.johni0702.minecraft.gui.container.VanillaGuiScreen;
 import de.johni0702.minecraft.gui.layout.VerticalLayout;
 import de.johni0702.minecraft.gui.utils.Colors;
 import mastery.capability.skillclasses.MasterySpec;
-import mastery.ui.custom.UIElementHelper;
+import mastery.resource.UIElementHelper;
 import mastery.ui.custom.elements.impl.UIImage;
 import mastery.ui.custom.elements.impl.UILabel;
 import mastery.ui.custom.elements.impl.UILabel.UILabelAlignment;

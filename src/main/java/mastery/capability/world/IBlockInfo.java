@@ -24,5 +24,5 @@ public interface IBlockInfo {
 
     void setContainerOpenedForPosition(BlockPos pos);
 
-    void setBlockDestroyedAtPos(BlockPos pos);
+    void setBlockDestroyedForPosition(BlockPos pos);
 }

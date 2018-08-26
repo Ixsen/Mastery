@@ -25,7 +25,7 @@ public class BlockUtils {
 
     public static void blockWasBroken(BlockPos pos, World world) {
         IBlockInfo blockInfo = MasteryUtils.getBlockInfoMastery(world);
-        blockInfo.setBlockDestroyedAtPos(pos);
+        blockInfo.setBlockDestroyedForPosition(pos);
     }
 
     public static boolean isCrop(IBlockState state) {

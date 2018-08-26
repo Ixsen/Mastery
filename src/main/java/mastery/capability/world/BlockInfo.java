@@ -43,7 +43,7 @@ public class BlockInfo implements IBlockInfo {
     }
 
     @Override
-    public void setBlockDestroyedAtPos(BlockPos pos) {
+    public void setBlockDestroyedForPosition(BlockPos pos) {
         this.blockInfo.remove(pos);
     }
 }

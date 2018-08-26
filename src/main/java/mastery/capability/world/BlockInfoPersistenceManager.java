@@ -13,11 +13,11 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public class BlockInfoPersistenceManager implements Capability.IStorage<IBlockInfo> {
 
-    private static String TAG_X = "x";
-    private static String TAG_Y = "y";
-    private static String TAG_Z = "z";
-    private static String TAG_OPENED = "wasOpened";
-    private static String TAG_PLAYER_PLACED = "placedByPlayer";
+    private static final String TAG_X = "x";
+    private static final String TAG_Y = "y";
+    private static final String TAG_Z = "z";
+    private static final String TAG_OPENED = "wasOpened";
+    private static final String TAG_PLAYER_PLACED = "placedByPlayer";
 
     @Nullable
     @Override

@@ -1,6 +1,9 @@
 package mastery.capability.world;
 
 public class BlockStats {
+
+    public static final BlockStatsFactory FACTORY = new BlockStatsFactory();
+
     private boolean wasOpened;
     private boolean placedByPlayer;
 
@@ -30,16 +33,16 @@ public class BlockStats {
         return String.format("Opened: %b - Placed by player: %b", this.wasOpened, this.placedByPlayer);
     }
 
-    public static final class FACTORY {
-        public static BlockStats createOpened() {
+    public static class BlockStatsFactory {
+        public BlockStats createPlayerOpened() {
             return new BlockStats(true, false);
         }
 
-        public static BlockStats createPlaced() {
+        public BlockStats createPlayerPlaced() {
             return new BlockStats(true, true);
         }
 
-        public static BlockStats createFalse() {
+        public BlockStats createNoPreviousInteraction() {
             return new BlockStats(false, false);
         }
     }

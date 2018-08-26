@@ -22,7 +22,7 @@ public class BlockInfo implements IBlockInfo {
     public BlockStats getStatsForPosition(BlockPos pos) {
         BlockStats stats = this.blockInfo.get(pos);
         if (stats == null) {
-            return BlockStats.FACTORY.createFalse();
+            return BlockStats.FACTORY.createNoPreviousInteraction();
         }
         return stats;
     }
@@ -34,11 +34,11 @@ public class BlockInfo implements IBlockInfo {
 
     @Override
     public void setPlacedByPlayerForPosition(BlockPos pos) {
-        this.blockInfo.put(pos, BlockStats.FACTORY.createPlaced());
+        this.blockInfo.put(pos, BlockStats.FACTORY.createPlayerPlaced());
     }
 
     @Override
     public void setOpenedForPosition(BlockPos pos) {
-        this.blockInfo.put(pos, BlockStats.FACTORY.createOpened());
+        this.blockInfo.put(pos, BlockStats.FACTORY.createPlayerOpened());
     }
 }

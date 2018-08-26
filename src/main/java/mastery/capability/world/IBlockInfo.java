@@ -22,6 +22,7 @@ public interface IBlockInfo {
      */
     void setPlacedByPlayerForPosition(BlockPos pos);
 
-    void setOpenedForPosition(BlockPos pos);
+    void setContainerOpenedForPosition(BlockPos pos);
 
+    void setBlockDestroyedAtPos(BlockPos pos);
 }

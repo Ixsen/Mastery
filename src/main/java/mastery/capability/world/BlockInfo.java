@@ -38,7 +38,12 @@ public class BlockInfo implements IBlockInfo {
     }
 
     @Override
-    public void setOpenedForPosition(BlockPos pos) {
+    public void setContainerOpenedForPosition(BlockPos pos) {
         this.blockInfo.put(pos, BlockStats.FACTORY.createPlayerOpened());
+    }
+
+    @Override
+    public void setBlockDestroyedAtPos(BlockPos pos) {
+        this.blockInfo.remove(pos);
     }
 }

@@ -10,6 +10,7 @@ import mastery.capability.player.MasteryPersistenceManager;
 import mastery.capability.world.BlockInfo;
 import mastery.capability.world.BlockInfoPersistenceManager;
 import mastery.capability.world.IBlockInfo;
+import mastery.eventhandlers.PlayerBlockInteraction;
 import mastery.eventhandlers.SaveLoadEventHandler;
 import mastery.eventhandlers.alchemy.AlchemyEffects;
 import mastery.eventhandlers.alchemy.AlchemyExperience;
@@ -65,6 +66,7 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(new BlockUtils());
+        MinecraftForge.EVENT_BUS.register(new PlayerBlockInteraction());
 
         MinecraftForge.EVENT_BUS.register(new AlchemyExperience());
         MinecraftForge.EVENT_BUS.register(new AthleticsExperience());

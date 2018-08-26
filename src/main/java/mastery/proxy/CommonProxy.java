@@ -105,7 +105,7 @@ public class CommonProxy {
 
     private void registerCapabilities() {
         CapabilityManager.INSTANCE.register(IMastery.class, new MasteryPersistenceManager(), Mastery::new);
-        CapabilityManager.INSTANCE.register(IBlockInfo.class, new BlockInfoPersistenceManager(), () -> new BlockInfo());
+        CapabilityManager.INSTANCE.register(IBlockInfo.class, new BlockInfoPersistenceManager(), BlockInfo::new);
     }
 
     /**

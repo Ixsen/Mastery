@@ -7,8 +7,8 @@ import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 import java.util.UUID;
 
 import mastery.MasteryMod;
-import mastery.capability.skillclasses.AthleticsMastery;
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.AthleticsMastery;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventsystem.MasteryEvent;
 import mastery.util.AttributeUtils;
 import mastery.util.MasteryUtils;

@@ -2,7 +2,7 @@ package mastery.eventhandlers.farming;
 
 import java.util.List;
 
-import mastery.capability.skillclasses.FarmingMastery;
+import mastery.capability.player.skillclasses.FarmingMastery;
 import mastery.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;

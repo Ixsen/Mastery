@@ -3,8 +3,8 @@ package mastery.oldui.elements;
 import org.lwjgl.opengl.GL11;
 
 import mastery.MasteryMod;
-import mastery.capability.skillclasses.MasteryClass;
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasteryClass;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.resource.MasteryImageLoader;
 import mastery.util.MasteryUtils;
 import net.minecraft.client.Minecraft;

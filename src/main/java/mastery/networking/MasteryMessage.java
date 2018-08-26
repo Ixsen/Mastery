@@ -2,9 +2,9 @@ package mastery.networking;
 
 import io.netty.buffer.ByteBuf;
 import mastery.MasteryMod;
-import mastery.capability.IMastery;
-import mastery.capability.skillclasses.MasteryClass;
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.IMastery;
+import mastery.capability.player.skillclasses.MasteryClass;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.util.MasteryUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

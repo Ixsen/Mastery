@@ -1,6 +1,6 @@
 package mastery.eventhandlers.farming;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

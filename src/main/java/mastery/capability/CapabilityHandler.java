@@ -1,12 +1,17 @@
 package mastery.capability;
 
 import mastery.MasteryMod;
+import mastery.capability.player.IMastery;
+import mastery.capability.player.MasteryProvider;
+import mastery.capability.world.BlockInfoProvider;
 import mastery.util.MasteryUtils;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -14,14 +19,21 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Created by Granis on 16/03/2018.
  */
-public class PlayerCapabilityHandler {
+public class CapabilityHandler {
 
     public static final ResourceLocation MASTERY_CAPABILITY = new ResourceLocation(MasteryMod.modid, "mastery");
 
     @SubscribeEvent
-    public void attachCapability(@SuppressWarnings("rawtypes") AttachCapabilitiesEvent event) {
-        if (event.getObject() instanceof EntityPlayer) {
-            event.addCapability(MASTERY_CAPABILITY, new MasteryProvider());
+    public void attachCapabilityToPlayer(AttachCapabilitiesEvent<Entity> entityEvent) {
+        if (entityEvent.getObject() instanceof EntityPlayer) {
+            entityEvent.addCapability(MASTERY_CAPABILITY, new MasteryProvider());
+        }
+    }
+
+    @SubscribeEvent
+    public void attachCapabilityToWorld(AttachCapabilitiesEvent<World> worldEvent) {
+        if (worldEvent.getObject() != null) {
+            worldEvent.addCapability(MASTERY_CAPABILITY, new BlockInfoProvider());
         }
     }
 

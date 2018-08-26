@@ -36,7 +36,6 @@ import mastery.eventhandlers.survival.SurvivalEffects;
 import mastery.eventhandlers.survival.SurvivalExperience;
 import mastery.eventhandlers.trading.TradingEffects;
 import mastery.eventhandlers.trading.TradingExperience;
-import mastery.util.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -65,7 +64,6 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new BlockUtils());
         MinecraftForge.EVENT_BUS.register(new PlayerBlockInteraction());
 
         MinecraftForge.EVENT_BUS.register(new AlchemyExperience());

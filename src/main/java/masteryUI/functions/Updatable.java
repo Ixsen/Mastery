@@ -1,13 +1,15 @@
 package masteryUI.functions;
 
-import masteryUI.event.UIEventRunnable;
+import java.util.function.Consumer;
+
+import masteryUI.event.UIEvent;
 
 /**
  * @author Subaro
  */
 public interface Updatable {
 
-    void addUpdateListener(UIEventRunnable onUpdate);
+    void addUpdateListener(Consumer<UIEvent> onUpdate);
 
     void onUpdate();
 }

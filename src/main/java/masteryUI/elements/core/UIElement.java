@@ -1,6 +1,6 @@
 package masteryUI.elements.core;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -11,11 +11,7 @@ import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.colors.UIColors;
 import masteryUI.event.UIEnableChangeEvent;
-import masteryUI.event.UIEvent;
-import masteryUI.event.UIEventRunnable;
 import masteryUI.event.UIVisibleChangeEvent;
-import masteryUI.functions.UIListenerType;
-import net.minecraft.client.Minecraft;
 
 /**
  * The basic element for every UI element. Every other element need to subclass this element. It actually introduces different kind of
@@ -27,8 +23,11 @@ import net.minecraft.client.Minecraft;
  */
 public abstract class UIElement extends UIGuiWrapper {
 
-    /** Contains the list for every registered listener for this ui element. */
-    protected HashMap<Class, List<Consumer<? extends UIEvent>>> listeners;
+    /** Contains the list for every visibility listener for this ui element. */
+    protected List<Consumer<UIVisibleChangeEvent>> visibilityListener;
+    /** Contains the list for every enable listener for this ui element. */
+    protected List<Consumer<UIEnableChangeEvent>> enabledListener;
+
     /** Visible means that it will be draw and is interactable via listeners. */
     private boolean visible;
     /**
@@ -44,34 +43,36 @@ public abstract class UIElement extends UIGuiWrapper {
     private ReadableDimension maximumSize;
     /** The current relative position of the element to its parent. Mostley determined by the current layout. */
     private Point position;
-    /** Reference to the current Minecraft instance. */
-    private Minecraft minecraft;
     /** Tooltip element for this element. */
     private UIElement tooltip;
     /** The color of the background of the element */
     private ReadableColor backgroundColor;
 
     public UIElement() {
-        this.listeners = new HashMap<>();
+        super();
+        this.visibilityListener = new ArrayList<>();
+        this.enabledListener = new ArrayList<>();
         this.visible = true;
         this.enabled = true;
         this.minimumSize = new Dimension(0, 0);
         this.maximumSize = new Dimension(0, 0);
         this.position = new Point(0, 0);
-        this.minecraft = Minecraft.getMinecraft();
     }
 
     public UIElement(UIContainer parentContainer) {
         this();
         this.parentContainer = parentContainer;
+        parentContainer.addElement(this);
     }
 
     /** Method used to draw the current element to the screen. By default it will only draw the background as a solid colored rectangle. */
-    public void draw(int mouseX, int mouseY, float partialTicks) {
+    public void draw(UIMCScreen screen, int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+        // Draw Background
         if (this.backgroundColor != null) {
-            Point globalPos = this.getGlobalPosition();
-            drawRect(globalPos.getX(), globalPos.getY(), this.getMinimumSize().getWidth(),
-                    this.getMinimumSize().getHeight(), UIColors.toInt(this.backgroundColor));
+            Point globalPos = this.getGlobalPosition(parentX, parentY);
+            drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
+                    globalPos.getY() + this.getMinimumSize().getHeight(),
+                    UIColors.toInt(this.backgroundColor));
         }
     }
 
@@ -90,9 +91,8 @@ public abstract class UIElement extends UIGuiWrapper {
         if (this.visible != visible) {
             this.visible = visible;
             // Notify every listener
-            UIEvent event = new UIVisibleChangeEvent(this, !visible, visible);
-            for (Consumer<? extends UIEvent> listener : this.listeners.get(event.getClass())) {
-                event.getClass().accept(event);
+            for (Consumer<UIVisibleChangeEvent> listener : this.visibilityListener) {
+                listener.accept(new UIVisibleChangeEvent(this, !visible, visible));
             }
         }
     }
@@ -105,8 +105,7 @@ public abstract class UIElement extends UIGuiWrapper {
      */
     public void addVisibilityChangeListener(Consumer<UIVisibleChangeEvent> onVisibleChange) {
         if (onVisibleChange != null) {
-            Class<?> wow = UIVisibleChangeEvent.class;
-            this.listeners.get(wow).add(onVisibleChange);
+            this.visibilityListener.add(onVisibleChange);
         }
     }
 
@@ -125,9 +124,8 @@ public abstract class UIElement extends UIGuiWrapper {
         if (this.enabled != enabled) {
             this.enabled = enabled;
             // Notify every listener
-            UIEnableChangeEvent event = new UIEnableChangeEvent(this, !enabled, enabled);
-            for (UIEventRunnable<UIEnableChangeEvent> listener : this.onEnableListeners) {
-                listener.run(event);
+            for (Consumer<UIEnableChangeEvent> listener : this.enabledListener) {
+                listener.accept(new UIEnableChangeEvent(this, !enabled, enabled));
             }
         }
     }
@@ -137,23 +135,43 @@ public abstract class UIElement extends UIGuiWrapper {
      *
      * @param onEnabledChange UIRunnable to run.
      */
-    public void addEnabledChangeListener(UIEventRunnable<UIEnableChangeEvent> onEnabledChange) {
+    public void addEnabledChangeListener(Consumer<UIEnableChangeEvent> onEnabledChange) {
         if (onEnabledChange != null) {
-            this.listeners.get(UIListenerType.ON_ENABLE_CHANGED).add(onEnabledChange);
+            this.enabledListener.add(onEnabledChange);
         }
     }
 
     /**
      * Should be overitten by every subclassed UI element.
      *
-     * @return The minimum size for this element. Used by the layout.
+     * @return The scaled minimum size for this element. Used by the layout.
      */
     public ReadableDimension getMinimumSize() {
         return this.minimumSize;
     }
 
     /**
-     * @param minimumSize The minimum size for this element.
+     * Sets the size for this element.
+     *
+     * @param size Size to set. Non-Scaled!
+     */
+    public void setSize(ReadableDimension size) {
+        this.minimumSize = size;
+        this.maximumSize = size;
+    }
+
+    /**
+     * Sets the size for this element.
+     *
+     * @param size Size to set. Non-Scaled!
+     */
+    public void setSize(int width, int height) {
+        this.minimumSize = new Dimension(width, height);
+        this.maximumSize = new Dimension(width, height);
+    }
+
+    /**
+     * @param minimumSize The minimum size for this element. Non scaled!
      */
     public void setMinimumSize(ReadableDimension minimumSize) {
         this.minimumSize = minimumSize;
@@ -162,14 +180,14 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * Should be overitten by every subclassed UIElement.
      *
-     * @return The maximum size of this element.
+     * @return The scaled maximum size of this element.
      */
     public ReadableDimension getMaximumSize() {
         return this.maximumSize;
     }
 
     /**
-     * @param maximumSize The maximum size of the element to set.
+     * @param maximumSize The maximum size of the element to set. Non scaled!
      */
     public void setMaximumSize(ReadableDimension maximumSize) {
         this.maximumSize = maximumSize;
@@ -180,13 +198,6 @@ public abstract class UIElement extends UIGuiWrapper {
      */
     public UIContainer getParentContainer() {
         return this.parentContainer;
-    }
-
-    /**
-     * @return The reference to Minecraft.
-     */
-    public Minecraft getMinecraft() {
-        return this.minecraft;
     }
 
     /**
@@ -206,30 +217,68 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @return The current global position of the element.
+     * @return The current global position of the element. If the element is scaled the position also correctly scaled.
      */
     public Point getGlobalPosition() {
         if (this.parentContainer != null) {
             Point parentPos = this.parentContainer.getGlobalPosition();
             return new Point(parentPos.getX() + this.position.getX(), parentPos.getY() + this.position.getY());
         } else {
-            return this.position;
+            return new Point(this.position.getX(), this.position.getY());
         }
+    }
+
+    /**
+     * @return The current global position of the element. If the element is scaled the position also correctly scaled.
+     */
+    public Point getGlobalPosition(int parentX, int parentY) {
+        return new Point(parentX + this.getRelativePosition().getX(), parentY + this.getRelativePosition().getY());
     }
 
     /**
      * @return The current relative position of the element to it's parent.
      */
     public Point getRelativePosition() {
-        return this.position;
+        return new Point(this.position.getX(), this.position.getY());
     }
 
     /**
-     * CAREFUL do not use this method when using a layout. Will override the position determined by the layout.
+     * CAREFUL do not use this method when using a layout. Will override the position determined by the layout. Sets the not-scaled position;
      *
-     * @param position The relative position to set.
+     * @param position The relative non-scaled position to set.
      */
     public void setPosition(Point position) {
         this.position = position;
+    }
+
+    /**
+     * @return The backgroundColor
+     */
+    public ReadableColor getBackgroundColor() {
+        return this.backgroundColor;
+    }
+
+    /**
+     * @param backgroundColor The backgroundColor to set
+     */
+    public void setBackgroundColor(ReadableColor backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    /**
+     * @param mouseX X Position of the mouse
+     * @param mouseY Y Position of the mouse
+     * @return true, if the mouse position is inside the element's bounds. Works for scaled elements
+     */
+    public boolean isMouseHovering(int mouseX, int mouseY) {
+        Point gPos = this.getGlobalPosition();
+        int minX = (int) (this.currentScaleFactor * gPos.getX());
+        int maxX = (int) (this.currentScaleFactor * (gPos.getX() + this.getMinimumSize().getWidth()));
+        int minY = (int) (this.currentScaleFactor * gPos.getY());
+        int maxY = (int) (this.currentScaleFactor * (gPos.getY() + this.getMinimumSize().getHeight()));
+        if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY) {
+            return true;
+        }
+        return false;
     }
 }

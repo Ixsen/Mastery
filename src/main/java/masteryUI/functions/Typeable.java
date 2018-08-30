@@ -1,14 +1,21 @@
 package masteryUI.functions;
 
-import masteryUI.event.UIEventRunnable;
+import java.util.function.Consumer;
+
+import masteryUI.event.UIKeyEvent;
 
 /**
  * @author Subaro
  */
 public interface Typeable {
 
-    void addTypeListener(UIEventRunnable onType);
+    /**
+     * Adds a new consumer to the element.
+     */
+    void addTypeListener(Consumer<UIKeyEvent> onType);
 
-    void onType();
-
+    /**
+     * Called when a key event is fired.
+     */
+    void onKeyTyped(char typedChar, int keyCode);
 }

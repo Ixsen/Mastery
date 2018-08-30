@@ -1,13 +1,15 @@
 package masteryUI.functions;
 
-import masteryUI.event.UIEventRunnable;
+import java.util.function.Consumer;
+
+import masteryUI.event.UIEvent;
 
 /**
  * @author Subaro
  */
 public interface Focusable {
 
-    void addFocusChangeListener(UIEventRunnable onFocusChanged);
+    void addFocusChangeListener(Consumer<UIEvent> onFocusChanged);
 
     void onFocusChanged();
 }

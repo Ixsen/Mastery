@@ -1,13 +1,15 @@
 package masteryUI.functions;
 
-import masteryUI.event.UIEventRunnable;
+import java.util.function.Consumer;
+
+import masteryUI.event.UIEvent;
 
 /**
  * @author Subaro
  */
 public interface Tickable {
 
-    void addTickListener(UIEventRunnable onTick);
+    void addTickListener(Consumer<UIEvent> onTick);
 
     void onTick();
 }

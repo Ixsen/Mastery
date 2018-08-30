@@ -1,13 +1,20 @@
 package masteryUI.functions;
 
-import masteryUI.event.UIEventRunnable;
+import java.util.function.Consumer;
+
+import masteryUI.event.UIMouseEvent;
 
 /**
  * @author Subaro
  */
 public interface Clickable {
 
-    void addClickListener(UIEventRunnable onCLick);
+    void addClickListener(Consumer<UIMouseEvent> onClick);
 
-    void onClick();
+    /**
+     * Is called when the element clicked.
+     * 
+     * @return true, if the element should be omitted.
+     */
+    boolean onClick(int mouseX, int mouseY, int mouseButton);
 }

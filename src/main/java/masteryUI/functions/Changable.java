@@ -1,13 +1,15 @@
 package masteryUI.functions;
 
-import masteryUI.event.UIEventRunnable;
+import java.util.function.Consumer;
+
+import masteryUI.event.UIEvent;
 
 /**
  * @author Subaro
  */
 public interface Changable {
 
-    void addChangeListener(UIEventRunnable onValueChange);
+    void addChangeListener(Consumer<UIEvent> onValueChange);
 
     void onValueChanged();
 

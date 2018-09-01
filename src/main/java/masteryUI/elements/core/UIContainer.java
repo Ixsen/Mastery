@@ -12,6 +12,7 @@ import org.lwjgl.util.Point;
 
 import masteryUI.functions.Clickable;
 import masteryUI.functions.Draggable;
+import masteryUI.functions.Focusable;
 import masteryUI.functions.Typeable;
 import masteryUI.layout.HorizontalLayout;
 import masteryUI.layout.LayoutData;
@@ -29,6 +30,19 @@ public abstract class UIContainer extends UIElement {
     /** The layout determines the position of the children ui elements */
     private UILayout layout;
 
+    /**
+     * Constructor for the root container element.
+     * 
+     * @param screen
+     *            Screen to pass.
+     */
+    public UIContainer(UIMCScreen screen) {
+        super();
+        this.screen = screen;
+        this.containedElements = new LinkedHashMap<>();
+        this.setLayout(DEFAULT_LAYOUT);
+    }
+
     public UIContainer() {
         super();
         this.containedElements = new LinkedHashMap<>();
@@ -42,9 +56,9 @@ public abstract class UIContainer extends UIElement {
     }
 
     @Override
-    public void draw(UIMCScreen screen, int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         // Call super to draw background if wanted
-        super.draw(screen, parentX, parentY, mouseX, mouseY, partialTicks);
+        super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
 
         // Draw all other elements
         Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
@@ -52,7 +66,7 @@ public abstract class UIContainer extends UIElement {
             if (element.isVisible()) {
                 // Only draw if visible
                 GL11.glPushMatrix();
-                element.draw(screen, myGlobalPos.getX(), myGlobalPos.getY(), mouseX, mouseY, partialTicks);
+                element.draw(myGlobalPos.getX(), myGlobalPos.getY(), mouseX, mouseY, partialTicks);
                 GL11.glPopMatrix();
             }
         }
@@ -80,30 +94,36 @@ public abstract class UIContainer extends UIElement {
     /**
      * Add one or more child to this container with the same default layout data of the set layout.
      *
-     * @param elements UIElements to add.
+     * @param elements
+     *            UIElements to add.
      */
     public void addElement(UIElement... elements) {
         for (UIElement uiElement : elements) {
             this.containedElements.put(uiElement, this.getLayout().getDefaultData());
+            uiElement.screen = this.screen;
         }
     }
 
     /**
      * Add one or more child to this container with the same layout data.
      *
-     * @param data LayoutData to set.
-     * @param elements UIElements to add.
+     * @param data
+     *            LayoutData to set.
+     * @param elements
+     *            UIElements to add.
      */
     public void addElement(LayoutData data, UIElement... elements) {
         for (UIElement uiElement : elements) {
             this.containedElements.put(uiElement, data);
+            uiElement.screen = this.screen;
         }
     }
 
     /**
      * Removes the child for this container.
      *
-     * @param element UIElement to remove.
+     * @param element
+     *            UIElement to remove.
      */
     public void removeElement(UIElement element) {
         this.containedElements.remove(element);
@@ -112,8 +132,10 @@ public abstract class UIContainer extends UIElement {
     /**
      * Changes the layout data of a certain ui element.
      *
-     * @param data New LayoutData to set.
-     * @param element UIElement to change.
+     * @param data
+     *            New LayoutData to set.
+     * @param element
+     *            UIElement to change.
      */
     public void changeLayoutData(LayoutData data, UIElement element) {
         if (this.containedElements.get(element) != null) {
@@ -159,6 +181,43 @@ public abstract class UIContainer extends UIElement {
                 if (((Clickable) this).onClick(mouseX, mouseY, mouseButton)) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Handles the forwarding of the mouse click events to the right elements.
+     */
+    protected boolean processFocus(int mouseX, int mouseY, int mouseButton) throws IOException {
+        // Only focus when left-clicking
+        if (mouseButton != 0) {
+            return true;
+        }
+        // Check the containing ui elements
+        for (UIElement element : this.getContainedElementsReversed()) {
+            if (!element.isVisible() || !element.isEnabled()) {
+                continue;
+            }
+            // Forward when the element is an UIContainer
+            if (element instanceof UIContainer) {
+                if (((UIContainer) element).processFocus(mouseX, mouseY, mouseButton)) {
+                    return true;
+                }
+            }
+            // Check the element of focus
+            if (element instanceof Focusable) {
+                if (element.isMouseHovering(mouseX, mouseY)) {
+                    this.screen.setFocusedObject((Focusable) element);
+                    return true;
+                }
+            }
+        }
+        // Check the container itself
+        if (this instanceof Focusable) {
+            if (this.isMouseHovering(mouseX, mouseY)) {
+                this.screen.setFocusedObject((Focusable) this);
+                return true;
             }
         }
         return false;

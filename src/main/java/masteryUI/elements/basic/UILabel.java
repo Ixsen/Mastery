@@ -11,7 +11,6 @@ import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.colors.UIColors;
 import masteryUI.elements.core.UIContainer;
-import masteryUI.elements.core.UIMCScreen;
 import masteryUI.elements.core.UIScalableElement;
 import masteryUI.event.UIMouseEvent;
 import masteryUI.functions.Draggable;
@@ -26,7 +25,7 @@ public class UILabel extends UIScalableElement implements Draggable {
      * Determines the alignment of the ui label.
      */
     public enum UILabelAlignment {
-        TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
+    TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
     }
 
     /** Indicates that a label was clicked. Is used to determine if a drag event is associated to the UILabel */
@@ -59,16 +58,16 @@ public class UILabel extends UIScalableElement implements Draggable {
     }
 
     @Override
-    public void draw(UIMCScreen screen, int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         this.startScaling(this.getScale());
         {
             int border = 0;
             Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-            this.startScissors(screen, myGlobalPos.getX() + border, myGlobalPos.getY() + border,
+            this.startScissors(this.screen, myGlobalPos.getX() + border, myGlobalPos.getY() + border,
                     this.getMinimumSize().getWidth() - 2 * border, this.getMinimumSize().getHeight() - 2 * border);
             {
                 // Draw background
-                super.draw(screen, parentX, parentY, mouseX, mouseY, partialTicks);
+                super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
 
                 // Draw 'label'
                 FontRenderer fontRenderer = this.mc.fontRenderer;
@@ -120,7 +119,7 @@ public class UILabel extends UIScalableElement implements Draggable {
 
                 for (String line : lines) {
                     Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
-                    this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
+                    this.drawString(this.mc.fontRenderer, line, labelPos.getX(), labelPos.getY(),
                             UIColors.toInt(this.textColor));
                     y += fontRenderer.FONT_HEIGHT;
                 }

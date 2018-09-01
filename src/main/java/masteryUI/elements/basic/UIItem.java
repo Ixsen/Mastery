@@ -5,7 +5,6 @@ import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.elements.core.UIContainer;
-import masteryUI.elements.core.UIMCScreen;
 import masteryUI.elements.core.UIScalableElement;
 import net.minecraft.item.ItemStack;
 
@@ -30,11 +29,11 @@ public class UIItem extends UIScalableElement {
     }
 
     @Override
-    public void draw(UIMCScreen screen, int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         this.startScaling(this.getScale());
         {
             // Draw Background
-            super.draw(screen, parentX, parentY, mouseX, mouseY, partialTicks);
+            super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
 
             // Draw Item into GUI
             Point gPos = this.getGlobalPosition(parentX, parentY);

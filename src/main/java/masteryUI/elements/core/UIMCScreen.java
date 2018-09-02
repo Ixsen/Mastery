@@ -2,10 +2,12 @@ package masteryUI.elements.core;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 import masteryUI.functions.Focusable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
@@ -19,6 +21,13 @@ public class UIMCScreen extends GuiScreen {
     private Focusable focusedElement = null;
     /** Position of the Gui Screen. Mostly 0,0 */
     public Point position;
+    /** Current ui element to draw as a tooltip */
+    private UIElement currentTooltip;
+
+    private int eventButton;
+    private long lastMouseEvent;
+    /** Tracks the number of fingers currently on the screen. Prevents subsequent fingers registering as clicks. */
+    private int touchValue;
 
     public UIMCScreen(Point position) {
         this.position = position;
@@ -46,6 +55,12 @@ public class UIMCScreen extends GuiScreen {
         GL11.glPushMatrix();
         if (this.screenContainer.isVisible()) {
             this.screenContainer.draw(this.position.getX(), this.position.getY(), mouseX, mouseY, partialTicks);
+        }
+        // Draw Tooltip
+        if (this.currentTooltip != null && this.currentTooltip.isVisible()) {
+            GL11.glPushMatrix();
+            this.currentTooltip.draw(mouseX, mouseY, mouseX, mouseY, partialTicks);
+            GL11.glPopMatrix();
         }
         GL11.glPopMatrix();
     }
@@ -110,6 +125,47 @@ public class UIMCScreen extends GuiScreen {
             this.focusedElement.setFocused(false);
             this.focusedElement = null;
         }
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        // Default mouse behavior
+        int i = Mouse.getEventX() * this.width / this.mc.displayWidth;
+        int j = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+        int k = Mouse.getEventButton();
+
+        if (Mouse.getEventButtonState()) {
+            if (this.mc.gameSettings.touchscreen && this.touchValue++ > 0) {
+                return;
+            }
+
+            this.eventButton = k;
+            this.lastMouseEvent = Minecraft.getSystemTime();
+            this.mouseClicked(i, j, this.eventButton);
+        } else if (k != -1) {
+            if (this.mc.gameSettings.touchscreen && --this.touchValue > 0) {
+                return;
+            }
+
+            this.eventButton = -1;
+            this.mouseReleased(i, j, k);
+        } else if (this.eventButton != -1 && this.lastMouseEvent > 0L) {
+            long l = Minecraft.getSystemTime() - this.lastMouseEvent;
+            this.mouseClickMove(i, j, this.eventButton, l);
+        }
+        // Handle Tooltip
+        if (!this.screenContainer.handleTooltip(this, i, j)) {
+            this.currentTooltip = null;
+        }
+    }
+
+    public UIElement getCurrentTooltip() {
+        return this.currentTooltip;
+    }
+
+    public void setCurrentTooltip(UIElement currentTooltip) {
+        currentTooltip.screen = this;
+        this.currentTooltip = currentTooltip;
     }
 
 }

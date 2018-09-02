@@ -312,6 +312,40 @@ public abstract class UIContainer extends UIElement {
     }
 
     /**
+     * Checks if the mouse position is in bounds of some element that has a tooltip. Then the tooltip should be drawn. Only one tooltip should
+     * visible at all.
+     * 
+     * @param mouseX
+     * @param mouseY
+     */
+    protected boolean handleTooltip(UIMCScreen screen, int mouseX, int mouseY) {
+        // Check the containing ui elements
+        for (UIElement element : this.getContainedElementsReversed()) {
+            if (!element.isVisible() || !element.isEnabled()) {
+                continue;
+            }
+            // Forward when the element is an UIContainer
+            if (element instanceof UIContainer) {
+                if (this.handleTooltip(screen, mouseX, mouseY)) {
+                    return true;
+                }
+            }
+
+            // Draw Tooltip
+            if (element.isMouseHovering(mouseX, mouseY) && element.getTooltip() != null) {
+                screen.setCurrentTooltip(element.getTooltip());
+                return true;
+            }
+        }
+        // Check the container itself
+        if (this.isMouseHovering(mouseX, mouseY) && this.getTooltip() != null) {
+            screen.setCurrentTooltip(this);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @return List containing all elements in the reversed order as they are drawn.
      */
     private List<UIElement> getContainedElementsReversed() {

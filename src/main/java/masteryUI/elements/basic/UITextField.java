@@ -10,9 +10,12 @@ import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.colors.UIColors;
+import masteryUI.elements.basic.UILabel.UILabelAlignment;
 import masteryUI.elements.core.UIContainer;
+import masteryUI.elements.core.UIScalableElement;
 import masteryUI.event.UIFocusEvent;
 import masteryUI.event.UIKeyEvent;
+import masteryUI.event.UIMouseEvent;
 import masteryUI.event.UIValueChangeEvent;
 import masteryUI.functions.Changable;
 import masteryUI.functions.Focusable;
@@ -21,28 +24,55 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ChatAllowedCharacters;
 
 /**
- * UI element that displays the typed keys when it is focus.
- *
  * @author Subaro
  */
-public class UIKeyTest extends UILabel implements Typeable, Focusable, Changable<String> {
+public class UITextField extends UIScalableElement implements Typeable, Focusable, Changable<String> {
 
+    /** Indicates that a label was clicked. Is used to determine if a drag event is associated to the UILabel */
+    private boolean isClicked;
+    /** Text to show */
+    private String text;
+    /** Text to show when the element is not focused and the current text is empty */
+    private String placeholderText;
+    /** Alignment for this lable */
+    private UILabelAlignment alignment;
     /** Determines whether this element is currently focused. */
     private boolean focus = false;
+    /** Color for the text element */
+    private ReadableColor textColor;
+    /** Color for the caret element */
+    private ReadableColor caretColor = ReadableColor.LTGREY;
+    /** Color for the placeholder element */
+    private ReadableColor placeHolderColor = ReadableColor.LTGREY;
+    /** List containing the consumers for the on click event */
+    private List<Consumer<UIMouseEvent>> onClickListener = new ArrayList<>();
     /** List of consumer that are executed when a key event is fired. */
     private List<Consumer<UIKeyEvent>> onKeyTypedListener = new ArrayList<>();
     /** List of consumer that are executed when the focus of this element changes. */
     private List<Consumer<UIFocusEvent>> onFocusListener = new ArrayList<>();
     /** List of consumer that are executed when the value of this element changes. */
     private List<Consumer<UIValueChangeEvent<String>>> onChangeListener = new ArrayList<>();
+    /** Determines how fast the caret should blink. */
+    int maxTicks = 50;
+    /** Used for the blinking of the caret. */
+    int currentTicks = 0;
 
-    public UIKeyTest(String text, ReadableColor textColor, float scale, UILabelAlignment alignment) {
-        super(text, textColor, scale, alignment);
+    public UITextField(String text, String placeholderText, ReadableColor textColor, float scale,
+            UILabelAlignment alignment) {
+        super(scale);
+        this.placeholderText = placeholderText;
+        this.text = text;
+        this.textColor = textColor;
+        this.alignment = alignment;
     }
 
-    public UIKeyTest(UIContainer parentContainer, String text, ReadableColor textColor, float scale,
+    public UITextField(UIContainer parentContainer, String placeholderText, String text, ReadableColor textColor,
+            float scale,
             UILabelAlignment alignment) {
-        super(parentContainer, text, textColor, scale, alignment);
+        super(parentContainer, scale);
+        this.placeholderText = placeholderText;
+        this.text = text;
+        this.textColor = textColor;
     }
 
     @Override
@@ -66,21 +96,17 @@ public class UIKeyTest extends UILabel implements Typeable, Focusable, Changable
     private void handleKey(char typedChar, int keyCode) {
         if (ChatAllowedCharacters.isAllowedCharacter(typedChar)) {
             ReadableDimension calculatedSize = new Dimension(
-                    this.mc.fontRenderer.getStringWidth(this.getText() + typedChar + "|"),
+                    this.mc.fontRenderer.getStringWidth(this.getText() + typedChar + "I") + 6,
                     this.mc.fontRenderer.FONT_HEIGHT);
             // Only add text if in bounds
             if (calculatedSize.getWidth() < this.getMinimumSize().getWidth()) {
                 this.setText(this.getText() + typedChar);
             }
-        }
-    }
-
-    @Override
-    public void setText(String text) {
-        if (!this.getText().equals(text)) {
-            super.setText(text);
-            // Text changed
-            this.onValueChanged();
+        } else if (keyCode == 14) {
+            // Backspace remove one text element
+            if (this.text.length() > 0) {
+                this.setText(this.text.substring(0, this.text.length() - 1));
+            }
         }
     }
 
@@ -97,11 +123,6 @@ public class UIKeyTest extends UILabel implements Typeable, Focusable, Changable
             for (Consumer<UIFocusEvent> consumer : this.onFocusListener) {
                 consumer.accept(new UIFocusEvent(this, !this.focus, this.focus));
             }
-            if (this.isFocused()) {
-                this.mc.player.sendChatMessage("Object is focused");
-            } else {
-                this.mc.player.sendChatMessage("Object is not longer focused");
-            }
         }
     }
 
@@ -110,23 +131,25 @@ public class UIKeyTest extends UILabel implements Typeable, Focusable, Changable
         return this.focus;
     }
 
-    int maxTicks = 50;
-    int currentTicks = 0;
-
     @Override
     public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         this.startScaling(this.getScale());
         {
             Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-            // Draw background
+            // Draw Background
             this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
 
+            // Increase Ticks
             this.currentTicks += 1;
 
             // Draw 'label'
+            String drawString = this.getText();
+            if (this.text.isEmpty() && !this.isFocused()) {
+                drawString = this.placeholderText;
+            }
+
             FontRenderer fontRenderer = this.mc.fontRenderer;
-            String showedText = this.getText();
-            ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(showedText),
+            ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(drawString),
                     fontRenderer.FONT_HEIGHT);
             int y, x;
 
@@ -170,16 +193,22 @@ public class UIKeyTest extends UILabel implements Typeable, Focusable, Changable
                 break;
             }
 
-            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
-            this.drawString(this.mc.fontRenderer, showedText, labelPos.getX(), labelPos.getY(),
-                    UIColors.toInt(this.getTextColor()));
-            if (this.isFocused()) {
-                if (this.currentTicks <= this.maxTicks) {
-                    Point caretPos = new Point(labelPos.getX() + calculatedSize.getWidth(), labelPos.getY());
-                    this.drawString(this.mc.fontRenderer, "|", caretPos.getX(), caretPos.getY(),
-                            UIColors.toInt(this.getTextColor()));
-                } else if (this.currentTicks > 2 * this.maxTicks) {
-                    this.currentTicks = 0;
+            if (this.text.isEmpty() && !this.isFocused()) {
+                Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+                this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
+                        UIColors.toInt(this.getPlaceHolderColor()));
+            } else {
+                Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+                this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
+                        UIColors.toInt(this.getTextColor()));
+                if (this.isFocused()) {
+                    if (this.currentTicks <= this.maxTicks) {
+                        Point caretPos = new Point(labelPos.getX() + calculatedSize.getWidth(), labelPos.getY());
+                        this.drawString(this.mc.fontRenderer, "I", caretPos.getX(), caretPos.getY(),
+                                UIColors.toInt(this.caretColor));
+                    } else if (this.currentTicks > 2 * this.maxTicks) {
+                        this.currentTicks = 0;
+                    }
                 }
             }
         }
@@ -196,5 +225,65 @@ public class UIKeyTest extends UILabel implements Typeable, Focusable, Changable
         for (Consumer<UIValueChangeEvent<String>> consumer : this.onChangeListener) {
             consumer.accept(new UIValueChangeEvent<String>(this, this.getText()));
         }
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        if (!this.getText().equals(text)) {
+            this.text = text;
+            // Text changed
+            this.onValueChanged();
+        }
+    }
+
+    public ReadableColor getTextColor() {
+        return this.textColor;
+    }
+
+    public void setTextColor(ReadableColor textColor) {
+        this.textColor = textColor;
+    }
+
+    public void addClickListener(Consumer<UIMouseEvent> onClick) {
+        this.onClickListener.add(onClick);
+    }
+
+    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
+        this.isClicked = true;
+        for (Consumer<UIMouseEvent> consumer : this.onClickListener) {
+            consumer.accept(new UIMouseEvent(this, new Point(mouseX, mouseY), mouseButton));
+        }
+        return true;
+    }
+
+    public boolean isClicked() {
+        return this.isClicked;
+    }
+
+    public UILabelAlignment getAlignment() {
+        return this.alignment;
+    }
+
+    public void setAlignment(UILabelAlignment alignment) {
+        this.alignment = alignment;
+    }
+
+    public ReadableColor getCaretColor() {
+        return this.caretColor;
+    }
+
+    public void setCaretColor(ReadableColor caretColor) {
+        this.caretColor = caretColor;
+    }
+
+    public ReadableColor getPlaceHolderColor() {
+        return this.placeHolderColor;
+    }
+
+    public void setPlaceHolderColor(ReadableColor placeHolderColor) {
+        this.placeHolderColor = placeHolderColor;
     }
 }

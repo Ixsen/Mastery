@@ -32,9 +32,8 @@ public abstract class UIContainer extends UIElement {
 
     /**
      * Constructor for the root container element.
-     * 
-     * @param screen
-     *            Screen to pass.
+     *
+     * @param screen Screen to pass.
      */
     public UIContainer(UIMCScreen screen) {
         super();
@@ -94,8 +93,7 @@ public abstract class UIContainer extends UIElement {
     /**
      * Add one or more child to this container with the same default layout data of the set layout.
      *
-     * @param elements
-     *            UIElements to add.
+     * @param elements UIElements to add.
      */
     public void addElement(UIElement... elements) {
         for (UIElement uiElement : elements) {
@@ -107,10 +105,8 @@ public abstract class UIContainer extends UIElement {
     /**
      * Add one or more child to this container with the same layout data.
      *
-     * @param data
-     *            LayoutData to set.
-     * @param elements
-     *            UIElements to add.
+     * @param data LayoutData to set.
+     * @param elements UIElements to add.
      */
     public void addElement(LayoutData data, UIElement... elements) {
         for (UIElement uiElement : elements) {
@@ -122,8 +118,7 @@ public abstract class UIContainer extends UIElement {
     /**
      * Removes the child for this container.
      *
-     * @param element
-     *            UIElement to remove.
+     * @param element UIElement to remove.
      */
     public void removeElement(UIElement element) {
         this.containedElements.remove(element);
@@ -132,10 +127,8 @@ public abstract class UIContainer extends UIElement {
     /**
      * Changes the layout data of a certain ui element.
      *
-     * @param data
-     *            New LayoutData to set.
-     * @param element
-     *            UIElement to change.
+     * @param data New LayoutData to set.
+     * @param element UIElement to change.
      */
     public void changeLayoutData(LayoutData data, UIElement element) {
         if (this.containedElements.get(element) != null) {
@@ -271,15 +264,15 @@ public abstract class UIContainer extends UIElement {
             }
 
             // Fire Release-Event
-            if (element instanceof Draggable && ((Draggable) element).isClicked()) {
-                if (((Draggable) element).onRelease(mouseX, mouseY, state)) {
+            if (element instanceof Clickable && ((Clickable) element).isClicked()) {
+                if (((Clickable) element).onRelease(mouseX, mouseY, state)) {
                     return true;
                 }
             }
         }
         // Check the container itself
-        if (this instanceof Draggable && ((Draggable) this).isClicked()) {
-            if (((Draggable) this).onRelease(mouseX, mouseY, state)) {
+        if (this instanceof Clickable && ((Clickable) this).isClicked()) {
+            if (((Clickable) this).onRelease(mouseX, mouseY, state)) {
                 return true;
             }
         }
@@ -314,7 +307,7 @@ public abstract class UIContainer extends UIElement {
     /**
      * Checks if the mouse position is in bounds of some element that has a tooltip. Then the tooltip should be drawn. Only one tooltip should
      * visible at all.
-     * 
+     *
      * @param mouseX
      * @param mouseY
      */

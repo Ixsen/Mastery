@@ -10,12 +10,11 @@ import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.colors.UIColors;
-import masteryUI.elements.basic.UILabel.UILabelAlignment;
+import masteryUI.elements.basic.UILabel.UIAlignment;
 import masteryUI.elements.core.UIContainer;
 import masteryUI.elements.core.UIScalableElement;
 import masteryUI.event.UIFocusEvent;
 import masteryUI.event.UIKeyEvent;
-import masteryUI.event.UIMouseEvent;
 import masteryUI.event.UIValueChangeEvent;
 import masteryUI.functions.Changable;
 import masteryUI.functions.Focusable;
@@ -28,14 +27,12 @@ import net.minecraft.util.ChatAllowedCharacters;
  */
 public class UITextField extends UIScalableElement implements Typeable, Focusable, Changable<String> {
 
-    /** Indicates that a label was clicked. Is used to determine if a drag event is associated to the UILabel */
-    private boolean isClicked;
     /** Text to show */
     private String text;
     /** Text to show when the element is not focused and the current text is empty */
     private String placeholderText;
     /** Alignment for this lable */
-    private UILabelAlignment alignment;
+    private UIAlignment alignment;
     /** Determines whether this element is currently focused. */
     private boolean focus = false;
     /** Color for the text element */
@@ -44,8 +41,6 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
     private ReadableColor caretColor = ReadableColor.LTGREY;
     /** Color for the placeholder element */
     private ReadableColor placeHolderColor = ReadableColor.LTGREY;
-    /** List containing the consumers for the on click event */
-    private List<Consumer<UIMouseEvent>> onClickListener = new ArrayList<>();
     /** List of consumer that are executed when a key event is fired. */
     private List<Consumer<UIKeyEvent>> onKeyTypedListener = new ArrayList<>();
     /** List of consumer that are executed when the focus of this element changes. */
@@ -58,7 +53,7 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
     int currentTicks = 0;
 
     public UITextField(String text, String placeholderText, ReadableColor textColor, float scale,
-            UILabelAlignment alignment) {
+            UIAlignment alignment) {
         super(scale);
         this.placeholderText = placeholderText;
         this.text = text;
@@ -68,7 +63,7 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
 
     public UITextField(UIContainer parentContainer, String placeholderText, String text, ReadableColor textColor,
             float scale,
-            UILabelAlignment alignment) {
+            UIAlignment alignment) {
         super(parentContainer, scale);
         this.placeholderText = placeholderText;
         this.text = text;
@@ -247,27 +242,11 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
         this.textColor = textColor;
     }
 
-    public void addClickListener(Consumer<UIMouseEvent> onClick) {
-        this.onClickListener.add(onClick);
-    }
-
-    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
-        this.isClicked = true;
-        for (Consumer<UIMouseEvent> consumer : this.onClickListener) {
-            consumer.accept(new UIMouseEvent(this, new Point(mouseX, mouseY), mouseButton));
-        }
-        return true;
-    }
-
-    public boolean isClicked() {
-        return this.isClicked;
-    }
-
-    public UILabelAlignment getAlignment() {
+    public UIAlignment getAlignment() {
         return this.alignment;
     }
 
-    public void setAlignment(UILabelAlignment alignment) {
+    public void setAlignment(UIAlignment alignment) {
         this.alignment = alignment;
     }
 

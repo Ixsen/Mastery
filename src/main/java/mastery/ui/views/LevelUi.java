@@ -3,8 +3,8 @@ package mastery.ui.views;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
-import masteryUI.elements.basic.UILabel.UILabelAlignment;
-import masteryUI.elements.basic.UITextField;
+import masteryUI.elements.basic.UIButton;
+import masteryUI.elements.basic.UILabel.UIAlignment;
 import masteryUI.elements.core.UIMCScreen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,12 +18,10 @@ public class LevelUi extends UIMCScreen {
 
     @Override
     public void initGui() {
-        UITextField item = new UITextField("", "Placeholder...", ReadableColor.ORANGE, 1,
-                UILabelAlignment.MIDDLE_CENTER);
-        item.setPosition(new Point(10, 10));
-        item.setSize(100, 20);
-        item.setBackgroundColor(ReadableColor.GREY);
-        this.screenContainer.addElement(item);
+        UIButton button = new UIButton("WOW", ReadableColor.CYAN, 1, UIAlignment.MIDDLE_CENTER);
+        button.setPosition(new Point(10, 10));
+        button.setSize(300, 40);
+        this.screenContainer.addElement(button);
 
         // Always call super
         super.initGui();

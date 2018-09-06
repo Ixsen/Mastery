@@ -1,49 +1,35 @@
 package masteryUI.elements.basic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.colors.UIColors;
+import masteryUI.elements.core.UIClickableElement;
 import masteryUI.elements.core.UIContainer;
-import masteryUI.elements.core.UIScalableElement;
-import masteryUI.event.UIMouseEvent;
-import masteryUI.functions.Draggable;
 import net.minecraft.client.gui.FontRenderer;
 
 /**
  * @author Subaro
  */
-public class UILabel extends UIScalableElement implements Draggable {
+public class UILabel extends UIClickableElement {
 
     /**
      * Determines the alignment of the ui label.
      */
-    public enum UILabelAlignment {
-    TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
+    public enum UIAlignment {
+        TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
     }
 
-    /** Indicates that a label was clicked. Is used to determine if a drag event is associated to the UILabel */
-    private boolean isClicked;
     /** Text to show */
     private String text;
     /** Color for the text element */
     private ReadableColor textColor;
-    /** List containing the consumers for the on click event */
-    private List<Consumer<UIMouseEvent>> onClickListener = new ArrayList<>();
-    /** List containing the consumers for the on drag event */
-    private List<Consumer<UIMouseEvent>> onDragListener = new ArrayList<>();
-    /** List containing the consumers for the on release event */
-    private List<Consumer<UIMouseEvent>> onReleaseListener = new ArrayList<>();
     /** Alignment for this lable */
-    private UILabelAlignment alignment;
+    private UIAlignment alignment;
 
-    public UILabel(String text, ReadableColor textColor, float scale, UILabelAlignment alignment) {
+    public UILabel(String text, ReadableColor textColor, float scale, UIAlignment alignment) {
         super(scale);
         this.text = text;
         this.textColor = textColor;
@@ -51,7 +37,7 @@ public class UILabel extends UIScalableElement implements Draggable {
     }
 
     public UILabel(UIContainer parentContainer, String text, ReadableColor textColor, float scale,
-            UILabelAlignment alignment) {
+            UIAlignment alignment) {
         super(parentContainer, scale);
         this.text = text;
         this.textColor = textColor;
@@ -134,57 +120,11 @@ public class UILabel extends UIScalableElement implements Draggable {
         this.textColor = textColor;
     }
 
-    @Override
-    public void addClickListener(Consumer<UIMouseEvent> onClick) {
-        this.onClickListener.add(onClick);
-    }
-
-    @Override
-    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
-        this.isClicked = true;
-        for (Consumer<UIMouseEvent> consumer : this.onClickListener) {
-            consumer.accept(new UIMouseEvent(this, new Point(mouseX, mouseY), mouseButton));
-        }
-        return true;
-    }
-
-    @Override
-    public void addDragListener(Consumer<UIMouseEvent> onDrag) {
-        this.onDragListener.add(onDrag);
-    }
-
-    @Override
-    public boolean onDrag(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        for (Consumer<UIMouseEvent> consumer : this.onDragListener) {
-            consumer.accept(new UIMouseEvent(this, new Point(mouseX, mouseY), clickedMouseButton, timeSinceLastClick));
-        }
-        return true;
-    }
-
-    @Override
-    public void addReleaseListener(Consumer<UIMouseEvent> onRelease) {
-        this.onReleaseListener.add(onRelease);
-    }
-
-    @Override
-    public boolean onRelease(int mouseX, int mouseY, int state) {
-        this.isClicked = false;
-        for (Consumer<UIMouseEvent> consumer : this.onReleaseListener) {
-            consumer.accept(new UIMouseEvent(this, new Point(mouseX, mouseY), 0, state));
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isClicked() {
-        return this.isClicked;
-    }
-
-    public UILabelAlignment getAlignment() {
+    public UIAlignment getAlignment() {
         return this.alignment;
     }
 
-    public void setAlignment(UILabelAlignment alignment) {
+    public void setAlignment(UIAlignment alignment) {
         this.alignment = alignment;
     }
 }

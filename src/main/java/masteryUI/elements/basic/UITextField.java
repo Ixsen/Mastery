@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
@@ -128,6 +129,7 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
 
     @Override
     public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+        GL11.glEnable(GL11.GL_BLEND);
         this.startScaling(this.getScale());
         {
             Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
@@ -208,6 +210,7 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
             }
         }
         this.endScaling();
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     @Override

@@ -66,6 +66,7 @@ public abstract class UIContainer extends UIElement {
                 // Only draw if visible
                 GL11.glPushMatrix();
                 element.draw(myGlobalPos.getX(), myGlobalPos.getY(), mouseX, mouseY, partialTicks);
+                GL11.glColor4f(1f, 1f, 1f, 1f);
                 GL11.glPopMatrix();
             }
         }

@@ -5,13 +5,12 @@ import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
-import mastery.MasteryMod;
 import masteryUI.colors.UIColors;
 import masteryUI.elements.basic.UILabel.UIAlignment;
 import masteryUI.elements.core.UIClickableElement;
 import masteryUI.elements.core.UIContainer;
+import masteryUI.elements.core.UIImageManager;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.ResourceLocation;
 
 /**
  * Represents a scalable button.
@@ -19,9 +18,6 @@ import net.minecraft.util.ResourceLocation;
  * @author Subaro
  */
 public class UIButton extends UIClickableElement {
-    /** Resource containing the graphical elements used to draw the button. */
-    protected static final ResourceLocation WIDGETS_ATLAS = new ResourceLocation(MasteryMod.modid,
-            "textures/gui/widgets.png");
 
     // TOP
     private static final Point TOP_LEFT_POS = new Point(0, 0);
@@ -96,7 +92,7 @@ public class UIButton extends UIClickableElement {
         // Prepare information before drawing the background
         ReadableDimension size = this.getMinimumSize();
         Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-        this.mc.renderEngine.bindTexture(WIDGETS_ATLAS);
+        this.mc.renderEngine.bindTexture(UIImageManager.WIDGETS_ATLAS);
         int innerWidth = size.getWidth() - TOP_LEFT_SIZE.getX() - TOP_RIGHT_SIZE.getX();
         int innerHeight = size.getHeight() - TOP_LEFT_SIZE.getY() - BOT_LEFT_SIZE.getY();
 

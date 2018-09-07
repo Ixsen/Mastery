@@ -56,13 +56,14 @@ public class UIMCScreen extends GuiScreen {
         if (this.screenContainer.isVisible()) {
             this.screenContainer.draw(this.position.getX(), this.position.getY(), mouseX, mouseY, partialTicks);
         }
+        GL11.glPopMatrix();
         // Draw Tooltip
         if (this.currentTooltip != null && this.currentTooltip.isVisible()) {
             GL11.glPushMatrix();
+            GL11.glColor4f(1, 1, 1, 1);
             this.currentTooltip.draw(mouseX, mouseY, mouseX, mouseY, partialTicks);
             GL11.glPopMatrix();
         }
-        GL11.glPopMatrix();
     }
 
     @Override
@@ -102,9 +103,8 @@ public class UIMCScreen extends GuiScreen {
 
     /**
      * Sets the focused object.
-     * 
-     * @param element
-     *            The element to focus.
+     *
+     * @param element The element to focus.
      */
     public void setFocusedObject(Focusable element) {
         if (this.focusedElement != null && this.focusedElement != element) {

@@ -46,6 +46,9 @@ public class UIButton extends UIClickableElement {
     private static final Point BOT_CENTER_SIZE = new Point(196, 3);
     private static final Point BOT_RIGHT_POS = new Point(198, 17);
     private static final Point BOT_RIGHT_SIZE = new Point(2, 3);
+
+    /** used to indicate that the element was just clicked. */
+    private boolean justClicked = false;
     /** Text to show */
     private String text;
     /** Color for the text element */
@@ -53,19 +56,18 @@ public class UIButton extends UIClickableElement {
     /** Alignment for this lable */
     private UIAlignment alignment;
 
-    public UIButton(String text, ReadableColor textColor, float scale, UIAlignment alignment) {
-        super(scale);
+    public UIButton(String text) {
+        super(1);
         this.text = text;
-        this.textColor = textColor;
-        this.alignment = alignment;
+        this.textColor = ReadableColor.WHITE;
+        this.alignment = UIAlignment.MIDDLE_CENTER;
         this.setSize(150, 20);
     }
 
-    public UIButton(UIContainer parentContainer, String text, ReadableColor textColor, float scale,
-            UIAlignment alignment) {
-        super(parentContainer, scale);
+    public UIButton(UIContainer parentContainer, String text) {
+        super(parentContainer, 1);
         this.text = text;
-        this.textColor = textColor;
+        this.textColor = ReadableColor.WHITE;
         this.setSize(150, 20);
     }
 
@@ -75,15 +77,20 @@ public class UIButton extends UIClickableElement {
         if (!this.isEnabled()) {
             // Draw disabled background
             offsetY = 0;
-        } else if (this.isClicked()) {
+            this.textColor = ReadableColor.DKGREY;
+        } else if (this.justClicked) {
             // Draw clicked background
+            this.justClicked = false;
             offsetY = 60;
+            this.textColor = ReadableColor.YELLOW;
         } else if (this.isMouseHovering(mouseX, mouseY)) {
             // Draw hover background
             offsetY = 40;
+            this.textColor = ReadableColor.YELLOW;
         } else {
             // Draw default background
             offsetY = 20;
+            this.textColor = ReadableColor.WHITE;
         }
 
         // Prepare information before drawing the background
@@ -163,55 +170,57 @@ public class UIButton extends UIClickableElement {
             // Draw background
             this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
 
-            // Draw 'label'
-            FontRenderer fontRenderer = this.mc.fontRenderer;
-            ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(this.text),
-                    fontRenderer.FONT_HEIGHT);
-            int y, x;
+            if (!this.text.equals("")) {
+                // Draw 'label'
+                FontRenderer fontRenderer = this.mc.fontRenderer;
+                ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(this.text),
+                        fontRenderer.FONT_HEIGHT);
+                int y, x;
 
-            switch (this.alignment) {
-            case BOT_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case BOT_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case BOT_LEFT:
-                x = 0;
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case MIDDLE_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case MIDDLE_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case MIDDLE_LEFT:
-                x = 0;
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case TOP_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = 0;
-                break;
-            case TOP_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = 0;
-                break;
-            case TOP_LEFT:
-            default:
-                x = 0;
-                y = 0;
-                break;
+                switch (this.alignment) {
+                case BOT_RIGHT:
+                    x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+                    y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+                    break;
+                case BOT_CENTER:
+                    x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+                    y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+                    break;
+                case BOT_LEFT:
+                    x = 0;
+                    y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+                    break;
+                case MIDDLE_RIGHT:
+                    x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+                    y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+                    break;
+                case MIDDLE_CENTER:
+                    x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+                    y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+                    break;
+                case MIDDLE_LEFT:
+                    x = 0;
+                    y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+                    break;
+                case TOP_RIGHT:
+                    x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+                    y = 0;
+                    break;
+                case TOP_CENTER:
+                    x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+                    y = 0;
+                    break;
+                case TOP_LEFT:
+                default:
+                    x = 0;
+                    y = 0;
+                    break;
+                }
+
+                Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+                this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
+                        UIColors.toInt(this.textColor));
             }
-
-            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
-            this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
-                    UIColors.toInt(this.textColor));
         }
         this.endScaling();
     }
@@ -238,5 +247,11 @@ public class UIButton extends UIClickableElement {
 
     public void setAlignment(UIAlignment alignment) {
         this.alignment = alignment;
+    }
+
+    @Override
+    public boolean onClick(int mouseX, int mouseY, int mouseButton) {
+        this.justClicked = true;
+        return super.onClick(mouseX, mouseY, mouseButton);
     }
 }

@@ -264,15 +264,15 @@ public abstract class UIContainer extends UIElement {
             }
 
             // Fire Release-Event
-            if (element instanceof Clickable && ((Clickable) element).isClicked()) {
-                if (((Clickable) element).onRelease(mouseX, mouseY, state)) {
+            if (element instanceof Draggable && ((Draggable) element).isClicked()) {
+                if (((Draggable) element).onRelease(mouseX, mouseY, state)) {
                     return true;
                 }
             }
         }
         // Check the container itself
-        if (this instanceof Clickable && ((Clickable) this).isClicked()) {
-            if (((Clickable) this).onRelease(mouseX, mouseY, state)) {
+        if (this instanceof Draggable && ((Draggable) this).isClicked()) {
+            if (((Draggable) this).onRelease(mouseX, mouseY, state)) {
                 return true;
             }
         }

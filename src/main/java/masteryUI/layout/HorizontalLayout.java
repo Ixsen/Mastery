@@ -3,6 +3,7 @@ package masteryUI.layout;
 import java.util.HashMap;
 
 import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.elements.core.UIElement;
@@ -34,9 +35,14 @@ public class HorizontalLayout implements UILayout {
 
     @Override
     public void layoutElements(HashMap<UIElement, LayoutData> elementData) {
+        int currentX = this.paddingLeft;
+        int currentY = this.paddingTop;
         for (UIElement element : elementData.keySet()) {
-            LayoutData data = elementData.get(element);
-            // TODO: Layout
+            HorizontalData data = (HorizontalData) elementData.get(element);
+            element.setPosition(new Point(currentX, currentY));
+
+            // Shift the elements to the right
+            currentX += this.spacing + element.getMinimumSize().getWidth();
         }
     }
 

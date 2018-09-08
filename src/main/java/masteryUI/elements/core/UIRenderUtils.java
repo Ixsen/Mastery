@@ -493,6 +493,7 @@ public final class UIRenderUtils {
     /**
      * Similar to putTexturedQuad, except its only for upwards quads and a rotation is specified
      */
+    @SuppressWarnings("incomplete-switch")
     public static void putRotatedQuad(
             BufferBuilder renderer, TextureAtlasSprite sprite, double x, double y, double z, double w, double d,
             EnumFacing rotation,

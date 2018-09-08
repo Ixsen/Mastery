@@ -1,6 +1,5 @@
 package mastery.ui.views;
 
-import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
 import mastery.MasteryMod;
@@ -43,7 +42,7 @@ public class LevelUi extends UIMCScreen {
         // Example Image Button
         UIImageData smiley = new UIImageData(WIDGETS_ATLAS, 0, 80, 23, 21, 512, 512);
         UIImageButton button = new UIImageButton(smiley);
-        button.setPosition(new Point(0, 0));
+        // button.setPosition(new Point(0, 0));
         button.setSize(30, 30);
         button.addClickListener((e) -> this.mc.player.sendChatMessage("Button Image"));
         this.screenContainer.addElement(button);
@@ -51,7 +50,7 @@ public class LevelUi extends UIMCScreen {
         // Just a Button having the image button as tooltip
         UIButton buttonText = new UIButton("WoooW");
         buttonText.setTooltip(button);
-        buttonText.setPosition(new Point(50, 10));
+        // buttonText.setPosition(new Point(50, 10));
         buttonText.setSize(30, 30);
         buttonText.addClickListener((e) -> this.mc.player.sendChatMessage("Button Text"));
         this.screenContainer.addElement(buttonText);
@@ -59,13 +58,13 @@ public class LevelUi extends UIMCScreen {
         // A Text field
         UITextField field = new UITextField("", "Insert...", ReadableColor.WHITE, 1, UIAlignment.MIDDLE_CENTER);
         field.setSize(100, 16);
-        field.setPosition(new Point(90, 10));
+        // field.setPosition(new Point(90, 10));
         field.setBackgroundColor(ReadableColor.DKGREY);
         this.screenContainer.addElement(field);
 
         // An item rendered into the gui
         UIItem item = new UIItem(1, new ItemStack(Items.BEEF), false);
-        item.setPosition(new Point(90, 30));
+        // item.setPosition(new Point(90, 30));
         item.setBackgroundColor(ReadableColor.DKGREY);
         this.screenContainer.addElement(item);
 
@@ -74,7 +73,7 @@ public class LevelUi extends UIMCScreen {
         barLava.setScale(1);
         barLava.setSize(10, 90);
         barLava.setFlowing(true);
-        barLava.setPosition(new Point(10, 50));
+        // barLava.setPosition(new Point(10, 50));
         this.screenContainer.addElement(barLava);
 
         // Used to display any kind of fluid inside a container with indicating levels
@@ -82,19 +81,19 @@ public class LevelUi extends UIMCScreen {
         barWater.setScale(1);
         barWater.setBackgroundColor(ReadableColor.LTGREY);
         barWater.setSize(20, 60);
-        barWater.setPosition(new Point(25, 50));
+        // barWater.setPosition(new Point(25, 50));
         this.screenContainer.addElement(barWater);
 
         // Button to reduce the amount of 'Water'
         UIButton buttonWaterMinus = new UIButton("-");
-        buttonWaterMinus.setPosition(new Point(45, 50));
+        // buttonWaterMinus.setPosition(new Point(45, 50));
         buttonWaterMinus.setSize(15, 15);
         buttonWaterMinus.addClickListener((e) -> barWater.setFillAmount(barWater.getFillAmount() - 5));
         this.screenContainer.addElement(buttonWaterMinus);
 
         // Button to increase the amount of 'Water'
         UIButton buttonWaterPlus = new UIButton("+");
-        buttonWaterPlus.setPosition(new Point(45, 65));
+        // buttonWaterPlus.setPosition(new Point(45, 65));
         buttonWaterPlus.setSize(15, 15);
         buttonWaterPlus.addClickListener((e) -> barWater.setFillAmount(barWater.getFillAmount() + 5));
         this.screenContainer.addElement(buttonWaterPlus);

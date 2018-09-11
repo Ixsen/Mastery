@@ -6,15 +6,26 @@ package masteryUI.layout;
  * @author Subaro
  */
 public class HorizontalData extends LayoutData {
-    public static HorizontalData DEFAULT = new HorizontalData(HorizontalAlignment.LEFT);
+    public static HorizontalData DEFAULT = new HorizontalData();
 
-    private HorizontalAlignment alignment;
+    private float paddingLeft = 0;
+    private float paddingRight = 0;
 
-    public HorizontalData(HorizontalAlignment alignment) {
-        this.alignment = alignment;
+    public HorizontalData(float paddingLeft, float paddingRight) {
+        this.paddingLeft = paddingLeft;
+        this.paddingRight = paddingRight;
     }
 
-    public HorizontalAlignment getAlignment() {
-        return this.alignment;
+    public HorizontalData() {
+        this.paddingLeft = 0;
+        this.paddingRight = 0;
+    }
+
+    public float getPaddingLeft() {
+        return this.paddingLeft;
+    }
+
+    public float getPaddingRight() {
+        return this.paddingRight;
     }
 }

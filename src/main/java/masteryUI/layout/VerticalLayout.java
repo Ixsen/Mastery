@@ -9,11 +9,11 @@ import org.lwjgl.util.ReadableDimension;
 import masteryUI.elements.core.UIElement;
 
 /**
- * Default layout. Every element is placed side by side.
+ * Vertical layout.
  *
  * @author Subaro
  */
-public class HorizontalLayout implements UILayout {
+public class VerticalLayout implements UILayout {
 
     private int paddingLeft = 0;
     private int paddingRight = 0;
@@ -21,11 +21,11 @@ public class HorizontalLayout implements UILayout {
     private int paddingBot = 0;
     private int spacing = 0;
 
-    public HorizontalLayout() {
+    public VerticalLayout() {
 
     }
 
-    public HorizontalLayout(int paddingLeft, int paddingRight, int paddingTop, int paddingBot, int spacing) {
+    public VerticalLayout(int paddingLeft, int paddingRight, int paddingTop, int paddingBot, int spacing) {
         this.paddingLeft = paddingLeft;
         this.paddingRight = paddingRight;
         this.paddingTop = paddingTop;
@@ -38,43 +38,43 @@ public class HorizontalLayout implements UILayout {
         int currentX = this.paddingLeft;
         int currentY = this.paddingTop;
         for (UIElement element : elementData.keySet()) {
-            HorizontalData data = null;
-            if (elementData.get(element) instanceof HorizontalData) {
-                data = (HorizontalData) elementData.get(element);
+            VerticalData data = null;
+            if (elementData.get(element) instanceof VerticalData) {
+                data = (VerticalData) elementData.get(element);
             } else {
-                data = HorizontalData.DEFAULT;
+                data = VerticalData.DEFAULT;
             }
-            currentX += data.getPaddingLeft();
+            currentY += data.getPaddingTop();
             element.setPosition(new Point(currentX, currentY));
-            currentX += data.getPaddingRight();
+            currentY += data.getPaddingBot();
 
-            // Shift the elements to the right
-            currentX += this.spacing + element.getMinimumSize().getWidth();
+            // Shift the elements to the bottom
+            currentY += this.spacing + element.getMinimumSize().getHeight();
         }
     }
 
     @Override
     public ReadableDimension calculateMinimumSize(HashMap<UIElement, LayoutData> elementData) {
-        // Add left padding, right padding and spacing for n-1 elements ;)
-        int minWidth = this.paddingLeft + this.paddingRight + elementData.keySet().size() > 0
+        // Add top padding, bottom padding and spacing for n-1 elements ;)
+        int minHeight = this.paddingTop + this.paddingBot + elementData.keySet().size() > 0
                 ? (elementData.keySet().size() - 1) * this.spacing
                 : 0;
-        int maxHeight = 0;
+        int minWidth = 0;
 
         for (UIElement element : elementData.keySet()) {
             ReadableDimension elementSize = element.getMinimumSize();
-            minWidth += elementSize.getWidth();
-            if (elementSize.getHeight() > maxHeight) {
-                maxHeight = elementSize.getHeight();
+            minHeight += elementSize.getHeight();
+            if (elementSize.getWidth() > minWidth) {
+                minWidth = elementSize.getWidth();
             }
         }
 
-        maxHeight += this.paddingBot + this.paddingTop;
-        return new Dimension(minWidth, maxHeight);
+        minWidth += this.paddingLeft + this.paddingRight;
+        return new Dimension(minHeight, minWidth);
     }
 
     @Override
     public LayoutData getDefaultData() {
-        return HorizontalData.DEFAULT;
+        return VerticalData.DEFAULT;
     }
 }

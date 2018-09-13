@@ -5,11 +5,11 @@ import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
+import mastery.ui.resources.UIResourceLocationManager;
 import masteryUI.colors.UIColors;
 import masteryUI.elements.basic.UILabel.UIAlignment;
 import masteryUI.elements.core.UIClickableElement;
 import masteryUI.elements.core.UIContainer;
-import masteryUI.elements.core.UIImageManager;
 import net.minecraft.client.gui.FontRenderer;
 
 /**
@@ -92,7 +92,7 @@ public class UIButton extends UIClickableElement {
         // Prepare information before drawing the background
         ReadableDimension size = this.getMinimumSize();
         Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-        this.mc.renderEngine.bindTexture(UIImageManager.WIDGETS_ATLAS);
+        this.mc.renderEngine.bindTexture(UIResourceLocationManager.WIDGETS_ATLAS);
         int innerWidth = size.getWidth() - TOP_LEFT_SIZE.getX() - TOP_RIGHT_SIZE.getX();
         int innerHeight = size.getHeight() - TOP_LEFT_SIZE.getY() - BOT_LEFT_SIZE.getY();
 

@@ -4,7 +4,7 @@ import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
 import masteryUI.elements.core.UIContainer;
-import masteryUI.elements.core.UIImageData;
+import masteryUI.elements.core.data.UIImageData;
 
 /**
  * Represents a button that draws a given image into the button.
@@ -39,7 +39,6 @@ public class UIImageButton extends UIButton {
             int imageY = myGlobalPos.getY() + size.getHeight() / 2 - drawSize / 2;
             this.drawImageBind(this.imageData, imageX, imageY, drawSize, drawSize);
         }
-
     }
 
 }

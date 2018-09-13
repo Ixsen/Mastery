@@ -1,4 +1,4 @@
-package masteryUI.elements.core;
+package masteryUI.elements.core.data;
 
 import net.minecraft.util.ResourceLocation;
 

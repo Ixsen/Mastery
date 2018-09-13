@@ -2,6 +2,7 @@ package masteryUI.elements.core;
 
 import org.lwjgl.opengl.GL11;
 
+import masteryUI.elements.core.data.UIImageData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -90,6 +91,20 @@ public abstract class UIGuiWrapper extends Gui {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
             drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), data.getuWidth(), data.getvHeight(), width,
+                    height, data.getTextureWidth(), data.getTextureHeight());
+        }
+        GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    /**
+     * Draws an image to the screen. The texture is NOT binded. If that is not wanted use drawImageBind(...)
+     */
+    protected void drawSnippedImage(
+            UIImageData data, int x, int y, int width, int height, float uFactor, float vFactor) {
+        GL11.glEnable(GL11.GL_BLEND);
+        if (data != null) {
+            drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), (int) (data.getuWidth() * uFactor),
+                    (int) (data.getvHeight() * vFactor), width,
                     height, data.getTextureWidth(), data.getTextureHeight());
         }
         GL11.glDisable(GL11.GL_BLEND);

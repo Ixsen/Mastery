@@ -4,7 +4,7 @@ import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_BREW;
 import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_DRINK;
 import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_THROW;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import mastery.util.ItemTagUtils;
 import net.minecraft.item.ItemStack;

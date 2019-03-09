@@ -1,6 +1,6 @@
 package mastery.eventhandlers.sneaking;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
 
 /**

@@ -1,4 +1,4 @@
-package mastery.capability.skillclasses;
+package mastery.capability.player.skillclasses;
 
 public class FarmingMastery extends MasteryClass {
 

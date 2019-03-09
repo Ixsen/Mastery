@@ -1,6 +1,6 @@
 package mastery.eventhandlers.crafting;
 
-import mastery.capability.skillclasses.CraftingMastery;
+import mastery.capability.player.skillclasses.CraftingMastery;
 import mastery.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

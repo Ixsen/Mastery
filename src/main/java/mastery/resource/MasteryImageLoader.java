@@ -1,7 +1,7 @@
 package mastery.resource;
 
 import mastery.MasteryMod;
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import net.minecraft.util.ResourceLocation;
 
 public class MasteryImageLoader {

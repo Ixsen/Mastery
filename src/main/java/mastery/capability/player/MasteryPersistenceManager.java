@@ -1,11 +1,11 @@
-package mastery.capability;
+package mastery.capability.player;
 
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import mastery.capability.skillclasses.MasteryClass;
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasteryClass;
+import mastery.capability.player.skillclasses.MasterySpec;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

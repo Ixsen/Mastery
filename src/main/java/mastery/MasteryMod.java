@@ -1,6 +1,6 @@
 package mastery;
 
-import mastery.capability.skillclasses.MasterySpec;
+import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventsystem.MasteryEvent;
 import mastery.eventsystem.MasteryEventHandler;
 import mastery.eventsystem.MasteryEventType;

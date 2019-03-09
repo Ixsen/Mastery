@@ -1,6 +1,6 @@
 package mastery.util;
 
-import mastery.capability.skillclasses.MasteryClass;
+import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
 import net.minecraft.entity.player.EntityPlayerMP;

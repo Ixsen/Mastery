@@ -7,6 +7,7 @@ import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 import java.util.UUID;
 
 import mastery.capability.player.skillclasses.HusbandryMastery;
+import mastery.oldui.utils.UIPopupUtils;
 import mastery.util.AttributeUtils;
 import mastery.util.MasteryUtils;
 import net.minecraft.entity.EntityAgeable;
@@ -34,6 +35,7 @@ public class HusbandryEffects {
                 twin.setGrowingAge(Math.round(-24000 * husbandryMastery.getGrowingMultiplier()));
                 twin.setPosition(parent.posX, parent.posY, parent.posZ);
                 parent.getEntityWorld().spawnEntity(twin);
+                UIPopupUtils.notifyPopup(babyEntitySpawnEvent.getCausedByPlayer(), "Twin spawned!");
             }
         }
     }
@@ -46,6 +48,8 @@ public class HusbandryEffects {
             if (husbandryMastery.willBeTamed()) {
                 ((EntityTameable) event.getTarget()).setTamedBy(event.getEntityPlayer());
                 this.setTameAttributes((EntityTameable) event.getTarget(), event.getEntityPlayer());
+                UIPopupUtils.notifyPopup(event.getEntityPlayer(), "Tamed!");
+
             }
         }
     }

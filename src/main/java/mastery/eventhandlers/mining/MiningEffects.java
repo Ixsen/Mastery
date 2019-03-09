@@ -1,6 +1,7 @@
 package mastery.eventhandlers.mining;
 
 import mastery.capability.player.skillclasses.MiningMastery;
+import mastery.oldui.utils.UIPopupUtils;
 import mastery.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -28,6 +29,8 @@ public class MiningEffects {
                 for (ItemStack item : harvestEvent.getDrops()) {
                     // Add the extra amount to every item stack ;)
                     item.setCount(item.getCount() + extraDrops);
+                    UIPopupUtils.notifyPopup(harvestEvent.getHarvester(),
+                            String.format("Extra %s!", item.getDisplayName()));
                 }
             }
         }

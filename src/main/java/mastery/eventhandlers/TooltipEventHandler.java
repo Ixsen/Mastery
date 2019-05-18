@@ -2,7 +2,7 @@ package mastery.eventhandlers;
 
 import java.util.List;
 
-import mastery.util.ItemTagUtils;
+import mastery.common.util.ItemTagUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

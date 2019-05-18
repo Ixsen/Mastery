@@ -3,7 +3,7 @@ package mastery.block;
 import mastery.MasteryBlocks;
 import mastery.MasteryItems;
 import mastery.MasteryMod;
-import mastery.util.IHasModel;
+import mastery.common.util.IHasModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -57,7 +57,7 @@ public class BlockBase extends Block implements IHasModel {
     /*
      * (non-Javadoc)
      * 
-     * @see mastery.util.IHasModel#registerModel()
+     * @see mastery.common.util.IHasModel#registerModel()
      */
     @Override
     public void registerModel() {

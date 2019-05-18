@@ -52,7 +52,8 @@ public abstract class UIGuiWrapper extends Gui {
     /**
      * Scales the complete gui. Has a start and end method. Using two start isn`t working.
      *
-     * @param factor The Scale factor
+     * @param factor
+     *            The Scale factor
      */
     public void startScaling(float factor) {
         if (this.currentScaleFactor == 1) {
@@ -78,7 +79,7 @@ public abstract class UIGuiWrapper extends Gui {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
             this.mc.renderEngine.bindTexture(data.getLocation());
-            drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), data.getuWidth(), data.getvHeight(), width,
+            Gui.drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), data.getuWidth(), data.getvHeight(), width,
                     height, data.getTextureWidth(), data.getTextureHeight());
         }
         GL11.glDisable(GL11.GL_BLEND);
@@ -90,7 +91,7 @@ public abstract class UIGuiWrapper extends Gui {
     protected void drawImage(UIImageData data, int x, int y, int width, int height) {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
-            drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), data.getuWidth(), data.getvHeight(), width,
+            Gui.drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), data.getuWidth(), data.getvHeight(), width,
                     height, data.getTextureWidth(), data.getTextureHeight());
         }
         GL11.glDisable(GL11.GL_BLEND);
@@ -99,13 +100,13 @@ public abstract class UIGuiWrapper extends Gui {
     /**
      * Draws an image to the screen. The texture is NOT binded. If that is not wanted use drawImageBind(...)
      */
-    protected void drawSnippedImage(
-            UIImageData data, int x, int y, int width, int height, float uFactor, float vFactor) {
+    protected void drawSnippedImage(UIImageData data, int x, int y, int width, int height, float uFactor,
+            float vFactor) {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
-            drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), (int) (data.getuWidth() * uFactor),
-                    (int) (data.getvHeight() * vFactor), width,
-                    height, data.getTextureWidth(), data.getTextureHeight());
+            Gui.drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), (int) (data.getuWidth() * uFactor),
+                    (int) (data.getvHeight() * vFactor), width, height, data.getTextureWidth(),
+                    data.getTextureHeight());
         }
         GL11.glDisable(GL11.GL_BLEND);
     }

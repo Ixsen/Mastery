@@ -24,9 +24,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class LevelUi extends UIMCScreen {
+public class ExampleUI extends UIMCScreen {
 
-    public LevelUi() {
+    public ExampleUI() {
         super();
         this.screenContainer.setLayout(new FreeFormLayout());
     }
@@ -60,7 +60,7 @@ public class LevelUi extends UIMCScreen {
         this.screenContainer.addElement(image);
 
         // Example Image Button
-        UIImageButton button = new UIImageButton(UIImageManager.smiley);
+        UIImageButton button = new UIImageButton(UIImageManager.SMILEY);
         button.setPosition(new Point(0, 0));
         button.setSize(30, 30);
         button.addClickListener((e) -> this.mc.player.sendChatMessage("Button Image"));

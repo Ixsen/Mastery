@@ -1,6 +1,6 @@
 package mastery.eventhandlers;
 
-import mastery.util.BlockUtils;
+import mastery.common.util.BlockUtils;
 import net.minecraft.block.BlockContainer;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;

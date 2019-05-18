@@ -1,4 +1,4 @@
-package mastery.util;
+package mastery.common.util;
 
 import mastery.capability.world.IBlockInfo;
 import net.minecraft.block.BlockCrops;

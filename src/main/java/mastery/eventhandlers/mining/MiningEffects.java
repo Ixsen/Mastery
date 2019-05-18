@@ -1,7 +1,7 @@
 package mastery.eventhandlers.mining;
 
 import mastery.capability.player.skillclasses.MiningMastery;
-import mastery.util.MasteryUtils;
+import mastery.common.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;

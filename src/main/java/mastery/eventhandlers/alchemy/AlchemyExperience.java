@@ -6,7 +6,7 @@ import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_THROW;
 
 import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.eventhandlers.AbstractExperienceHandler;
-import mastery.util.ItemTagUtils;
+import mastery.common.util.ItemTagUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;

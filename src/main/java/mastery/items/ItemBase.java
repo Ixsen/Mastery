@@ -2,7 +2,7 @@ package mastery.items;
 
 import mastery.MasteryItems;
 import mastery.MasteryMod;
-import mastery.util.IHasModel;
+import mastery.common.util.IHasModel;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
@@ -43,7 +43,7 @@ public class ItemBase extends Item implements IHasModel {
     /*
      * (non-Javadoc)
      * 
-     * @see mastery.util.IHasModel#registerModel()
+     * @see mastery.common.util.IHasModel#registerModel()
      */
     @Override
     public void registerModel() {

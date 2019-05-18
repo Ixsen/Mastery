@@ -5,7 +5,7 @@ import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.capability.player.skillclasses.MasterySpec;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
-import mastery.util.MasteryUtils;
+import mastery.common.util.MasteryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;

@@ -1,6 +1,6 @@
 package mastery.eventhandlers.alchemy;
 
-import mastery.util.ItemTagUtils;
+import mastery.common.util.ItemTagUtils;
 import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionType;

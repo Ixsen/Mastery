@@ -6,10 +6,10 @@ import mastery.MasteryMod;
 import mastery.capability.player.IMastery;
 import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.util.MasteryUtils;
 import mastery.configuration.MasteryConfiguration;
 import mastery.eventsystem.MasteryEvent;
 import mastery.resource.MasteryImageLoader;
-import mastery.util.MasteryUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LevelOverlayUi extends Gui {
     // Resources - Area
-    private final ResourceLocation bar = new ResourceLocation(MasteryMod.modid, "textures/gui/expbarsheet.png");
+    private final ResourceLocation bar = new ResourceLocation(MasteryMod.MOD_ID, "textures/gui/expbarsheet.png");
 
     // ExpBar - Area
     private final int BACK_WIDTH = 102;
@@ -43,7 +43,7 @@ public class LevelOverlayUi extends Gui {
 
     public LevelOverlayUi() {
         super();
-        MasteryMod.getEventHandler().addListener(this::performEvent);
+        // MasteryMod.getEventHandler().addListener(this::performEvent);
     }
 
     @SubscribeEvent

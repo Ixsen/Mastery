@@ -2,12 +2,13 @@ package mastery.proxy;
 
 import mastery.MasteryBlocks;
 import mastery.MasteryItems;
+import mastery.common.util.IHasModel;
 import mastery.configuration.MasteryConfiguration;
 import mastery.eventhandlers.TooltipEventHandler;
 import mastery.keybindings.InputHandler;
 import mastery.keybindings.KeyBindings;
 import mastery.oldui.LevelOverlayUi;
-import mastery.util.IHasModel;
+import mastery.ui.views.ExampleUI;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -33,6 +34,7 @@ public class ClientProxy extends CommonProxy {
         super.init(event);
         MinecraftForge.EVENT_BUS.register(new InputHandler());
         MinecraftForge.EVENT_BUS.register(new LevelOverlayUi());
+        MinecraftForge.EVENT_BUS.register(new ExampleUI());
         MinecraftForge.EVENT_BUS.register(new MasteryConfiguration());
         MinecraftForge.EVENT_BUS.register(new TooltipEventHandler());
 

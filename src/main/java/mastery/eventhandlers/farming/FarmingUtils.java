@@ -1,6 +1,6 @@
 package mastery.eventhandlers.farming;
 
-import mastery.util.BlockUtils;
+import mastery.common.util.BlockUtils;
 import net.minecraft.block.BlockBeetroot;
 import net.minecraft.block.BlockCactus;
 import net.minecraft.block.BlockCocoa;

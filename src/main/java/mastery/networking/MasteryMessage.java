@@ -5,7 +5,7 @@ import mastery.MasteryMod;
 import mastery.capability.player.IMastery;
 import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.capability.player.skillclasses.MasterySpec;
-import mastery.util.MasteryUtils;
+import mastery.common.util.MasteryUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

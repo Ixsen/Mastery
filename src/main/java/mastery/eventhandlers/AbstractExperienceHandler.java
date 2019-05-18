@@ -2,8 +2,8 @@ package mastery.eventhandlers;
 
 import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.capability.player.skillclasses.MasterySpec;
-import mastery.util.MasteryUtils;
-import mastery.util.NetworkUtils;
+import mastery.common.util.MasteryUtils;
+import mastery.common.util.NetworkUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 

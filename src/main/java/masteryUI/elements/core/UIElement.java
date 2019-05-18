@@ -12,6 +12,7 @@ import org.lwjgl.util.ReadableDimension;
 import masteryUI.colors.UIColors;
 import masteryUI.event.UIEnableChangeEvent;
 import masteryUI.event.UIVisibleChangeEvent;
+import net.minecraft.client.gui.Gui;
 
 /**
  * The basic element for every UI element. Every other element need to subclass this element. It actually introduces different kind of
@@ -78,7 +79,7 @@ public abstract class UIElement extends UIGuiWrapper {
         // Draw Background
         if (this.backgroundColor != null) {
             Point globalPos = this.getGlobalPosition(parentX, parentY);
-            drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
+            Gui.drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
                     globalPos.getY() + this.getMinimumSize().getHeight(), UIColors.toInt(this.backgroundColor));
         }
     }
@@ -91,7 +92,8 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @param visible Determines the visiblility
+     * @param visible
+     *            Determines the visiblility
      */
     public void setVisible(boolean visible) {
         // Check if visibility toggled
@@ -107,8 +109,8 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * Adds a new visibility change listener to the object. The runnable is executed every time the visibiliy value acually changes.
      *
-     * @param <E>
-     * @param onVisibleChange UIRunnable to run.
+     * @param onVisibleChange
+     *            UIRunnable to run.
      */
     public void addVisibilityChangeListener(Consumer<UIVisibleChangeEvent> onVisibleChange) {
         if (onVisibleChange != null) {
@@ -124,7 +126,8 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @param enabled Value for the new state
+     * @param enabled
+     *            Value for the new state
      */
     public void setEnabled(boolean enabled) {
         // Check if enabled state toggled
@@ -140,7 +143,8 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * Adds a new enabled change listener to the object. The runnable is executed every time the enabled state value acually changes.
      *
-     * @param onEnabledChange UIRunnable to run.
+     * @param onEnabledChange
+     *            UIRunnable to run.
      */
     public void addEnabledChangeListener(Consumer<UIEnableChangeEvent> onEnabledChange) {
         if (onEnabledChange != null) {
@@ -160,7 +164,8 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * Sets the size for this element.
      *
-     * @param size Size to set. Non-Scaled!
+     * @param size
+     *            Size to set. Non-Scaled!
      */
     public void setSize(ReadableDimension size) {
         this.minimumSize = size;
@@ -170,7 +175,10 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * Sets the size for this element.
      *
-     * @param size Size to set. Non-Scaled!
+     * @param width
+     *            Non-Scaled width
+     * @param height
+     *            Non-Scaled height
      */
     public void setSize(int width, int height) {
         this.minimumSize = new Dimension(width, height);
@@ -178,7 +186,8 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @param minimumSize The minimum size for this element. Non scaled!
+     * @param minimumSize
+     *            The minimum size for this element. Non scaled!
      */
     public void setMinimumSize(ReadableDimension minimumSize) {
         this.minimumSize = minimumSize;
@@ -194,7 +203,8 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @param maximumSize The maximum size of the element to set. Non scaled!
+     * @param maximumSize
+     *            The maximum size of the element to set. Non scaled!
      */
     public void setMaximumSize(ReadableDimension maximumSize) {
         this.maximumSize = maximumSize;
@@ -217,7 +227,8 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * Sets an ui element as a tooltip. The tooltip element is drawn when the assigned element is hovered, visible and enabled.
      *
-     * @param tooltip The ui element that should be drawn as the tooltip.
+     * @param tooltip
+     *            The ui element that should be drawn as the tooltip.
      */
     public void setTooltip(UIElement tooltip) {
         this.tooltip = tooltip;
@@ -252,7 +263,8 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * CAREFUL do not use this method when using a layout. Will override the position determined by the layout. Sets the not-scaled position;
      *
-     * @param position The relative non-scaled position to set.
+     * @param position
+     *            The relative non-scaled position to set.
      */
     public void setPosition(Point position) {
         this.position = position;
@@ -266,15 +278,18 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @param backgroundColor The backgroundColor to set
+     * @param backgroundColor
+     *            The backgroundColor to set
      */
     public void setBackgroundColor(ReadableColor backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
     /**
-     * @param mouseX X Position of the mouse
-     * @param mouseY Y Position of the mouse
+     * @param mouseX
+     *            X Position of the mouse
+     * @param mouseY
+     *            Y Position of the mouse
      * @return true, if the mouse position is inside the element's bounds. Works for scaled elements
      */
     public boolean isMouseHovering(int mouseX, int mouseY) {

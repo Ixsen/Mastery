@@ -12,7 +12,7 @@ public class InputHandler {
     public void onKeyPressed(InputEvent.KeyInputEvent event) {
         if (KeyBindings.openGuiKey.isPressed()) {
             EntityPlayerSP player = Minecraft.getMinecraft().player;
-            player.openGui(MasteryMod.instance, 1, player.getEntityWorld(), player.getPosition().getX(),
+            player.openGui(MasteryMod.INSTANCE, 1, player.getEntityWorld(), player.getPosition().getX(),
                     player.getPosition().getY(), player.getPosition().getZ());
         }
     }

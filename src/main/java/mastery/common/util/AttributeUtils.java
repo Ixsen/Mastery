@@ -1,4 +1,4 @@
-package mastery.util;
+package mastery.common.util;
 
 import java.util.UUID;
 

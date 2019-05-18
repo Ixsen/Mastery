@@ -20,7 +20,7 @@ public class UIMCScreen extends GuiScreen {
     /** The currently focused element */
     private Focusable focusedElement = null;
     /** Position of the Gui Screen. Mostly 0,0 */
-    public Point position;
+    private Point position;
     /** Current ui element to draw as a tooltip */
     private UIElement currentTooltip;
 
@@ -104,7 +104,8 @@ public class UIMCScreen extends GuiScreen {
     /**
      * Sets the focused object.
      *
-     * @param element The element to focus.
+     * @param element
+     *            The element to focus.
      */
     public void setFocusedObject(Focusable element) {
         if (this.focusedElement != null && this.focusedElement != element) {

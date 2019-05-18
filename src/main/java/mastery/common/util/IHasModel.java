@@ -1,4 +1,4 @@
-package mastery.util;
+package mastery.common.util;
 
 /**
  * Every item that implements this interface needs to register it's own model.
@@ -10,5 +10,5 @@ public interface IHasModel {
     /**
      * This method is called if the client proxy is ready to receive registrations for models.
      */
-    public void registerModel();
+    void registerModel();
 }

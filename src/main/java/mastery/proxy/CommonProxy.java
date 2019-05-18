@@ -94,7 +94,7 @@ public class CommonProxy {
 
         MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
         MinecraftForge.EVENT_BUS.register(new SaveLoadEventHandler());
-        NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.instance, new GuiProxy());
+        NetworkRegistry.INSTANCE.registerGuiHandler(MasteryMod.INSTANCE, new GuiProxy());
         this.registerCapabilities();
 
     }
@@ -111,9 +111,12 @@ public class CommonProxy {
      * Assigns the right models for a certain item. Does nothing for the common proxy. Is overwritten for the client proxy to register the
      * models. Is not the same as the ModelRegistryEvent.
      *
-     * @param item Item to assign a model to.
-     * @param meta Metadata for the item
-     * @param id ID for the Resource location
+     * @param item
+     *            Item to assign a model to.
+     * @param meta
+     *            Metadata for the item
+     * @param id
+     *            ID for the Resource location
      */
     public void registerItemRenderer(Item item, int meta, String id) {
     }

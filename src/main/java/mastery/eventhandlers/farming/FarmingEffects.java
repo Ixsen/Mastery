@@ -3,7 +3,7 @@ package mastery.eventhandlers.farming;
 import java.util.List;
 
 import mastery.capability.player.skillclasses.FarmingMastery;
-import mastery.util.MasteryUtils;
+import mastery.common.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;

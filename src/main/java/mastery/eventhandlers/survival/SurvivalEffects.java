@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mastery.capability.player.skillclasses.SurvivalMastery;
-import mastery.util.MasteryUtils;
+import mastery.common.util.MasteryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;

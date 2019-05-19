@@ -4,6 +4,7 @@ import static mastery.eventhandlers.ExperienceDictionary.SURVIVAL_DEATH;
 import static mastery.eventhandlers.ExperienceDictionary.SURVIVAL_EATING;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -13,6 +14,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class SurvivalExperience extends AbstractExperienceHandler {
 
     public SurvivalExperience() {

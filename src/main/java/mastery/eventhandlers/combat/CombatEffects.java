@@ -9,6 +9,7 @@ import java.util.UUID;
 import mastery.MasteryMod;
 import mastery.capability.player.skillclasses.CombatMastery;
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventsystem.MasteryEvent;
 import mastery.eventsystem.MasteryEventType;
 import mastery.common.util.AttributeUtils;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class CombatEffects {
 
     private final UUID modifierUid = UUID.fromString("3ba0a923-a53f-4df4-9c32-6a7750b76007");

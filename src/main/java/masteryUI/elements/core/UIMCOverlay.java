@@ -1,5 +1,6 @@
 package masteryUI.elements.core;
 
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
@@ -11,7 +12,7 @@ public abstract class UIMCOverlay extends UIMCScreen {
     private long visibilityTimeFrame = 0;
 
     @SubscribeEvent
-    public void drawOverlay() {
+    public void drawOverlay(RenderGameOverlayEvent event) {
         if (this.shouldBeShown()) {
             this.drawScreen(0, 0, 1);
         }

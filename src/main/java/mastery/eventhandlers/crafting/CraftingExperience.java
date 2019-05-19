@@ -1,11 +1,14 @@
 package mastery.eventhandlers.crafting;
 
 import mastery.capability.player.skillclasses.CraftingMastery;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.MasteryUtils;
 import mastery.common.util.NetworkUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+
+@SubscribeToCommonEventBus
 public class CraftingExperience {
 
     @SubscribeEvent

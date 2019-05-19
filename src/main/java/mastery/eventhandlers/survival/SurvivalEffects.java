@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import mastery.capability.player.skillclasses.SurvivalMastery;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.MasteryUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
@@ -17,6 +18,7 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class SurvivalEffects {
 
     private Collection<Potion> effects = new ArrayList<>();

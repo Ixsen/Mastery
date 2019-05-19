@@ -1,12 +1,14 @@
 package mastery.eventhandlers.mining;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class MiningExperience extends AbstractExperienceHandler {
 
     public MiningExperience() {

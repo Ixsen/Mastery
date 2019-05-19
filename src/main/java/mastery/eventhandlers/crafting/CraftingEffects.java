@@ -1,11 +1,13 @@
 package mastery.eventhandlers.crafting;
 
 import mastery.capability.player.skillclasses.CraftingMastery;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+@SubscribeToCommonEventBus
 public class CraftingEffects {
 
     @SubscribeEvent

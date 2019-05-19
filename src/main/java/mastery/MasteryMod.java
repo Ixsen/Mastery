@@ -5,6 +5,7 @@ import static mastery.eventsystem.MasteryEventType.PLAYER_EXP_CHANGED;
 import static mastery.eventsystem.MasteryEventType.PLAYER_LEVEL_UP;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.AnnotationProcessor;
 import mastery.eventsystem.MasteryEvent;
 import mastery.eventsystem.MasteryEventHandler;
 import mastery.networking.PacketHandler;
@@ -26,7 +27,6 @@ public class MasteryMod {
     public static final String MOD_ID = "mastery";
     public static final String NAME = "MasteryMod";
     public static final String VERSION = "1.12.2-0.0.1";
-    private MasteryEventHandler eventSystem;
 
     @SidedProxy(clientSide = "mastery.proxy.ClientProxy", serverSide = "mastery.proxy.ServerProxy")
     public static CommonProxy proxy;
@@ -34,9 +34,16 @@ public class MasteryMod {
     @Mod.Instance(MasteryMod.MOD_ID)
     public static MasteryMod INSTANCE;
 
+    private MasteryEventHandler eventSystem;
+    private AnnotationProcessor annotationProcessor;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         this.eventSystem = new MasteryEventHandler();
+
+        this.annotationProcessor = new AnnotationProcessor();
+        this.annotationProcessor.initialize();
+
         MasteryMod.proxy.preInit(event);
         PacketHandler.registerMasteryExpMessages();
     }
@@ -69,6 +76,10 @@ public class MasteryMod {
 
     public static MasteryEventHandler getEventHandler() {
         return MasteryMod.INSTANCE.eventSystem;
+    }
+
+    public static AnnotationProcessor getAnnotationProcessor() {
+        return MasteryMod.INSTANCE.annotationProcessor;
     }
 
 }

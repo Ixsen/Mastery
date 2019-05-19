@@ -5,6 +5,7 @@ import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_DRINK;
 import static mastery.eventhandlers.ExperienceDictionary.ALCHEMY_THROW;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import mastery.common.util.ItemTagUtils;
 import net.minecraft.item.ItemStack;
@@ -16,6 +17,7 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class AlchemyExperience extends AbstractExperienceHandler {
 
     public AlchemyExperience() {

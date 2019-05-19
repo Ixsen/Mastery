@@ -9,6 +9,7 @@ import java.util.UUID;
 import mastery.MasteryMod;
 import mastery.capability.player.skillclasses.AthleticsMastery;
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventsystem.MasteryEvent;
 import mastery.common.util.AttributeUtils;
 import mastery.common.util.MasteryUtils;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class AthleticsEffects {
 
     private final UUID modifierUid = UUID.fromString("839fbc52-388f-4729-b2ce-5f45cdb72cdc");

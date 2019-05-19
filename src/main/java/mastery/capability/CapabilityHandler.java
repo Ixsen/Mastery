@@ -4,6 +4,7 @@ import mastery.MasteryMod;
 import mastery.capability.player.IMastery;
 import mastery.capability.player.MasteryProvider;
 import mastery.capability.world.BlockInfoProvider;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.MasteryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Created by Granis on 16/03/2018.
  */
+@SubscribeToCommonEventBus
 public class CapabilityHandler {
 
     public static final ResourceLocation MASTERY_CAPABILITY = new ResourceLocation(MasteryMod.MOD_ID, "mastery");

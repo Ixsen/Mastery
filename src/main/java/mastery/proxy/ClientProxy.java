@@ -2,19 +2,15 @@ package mastery.proxy;
 
 import mastery.MasteryBlocks;
 import mastery.MasteryItems;
+import mastery.MasteryMod;
+import mastery.common.annotations.AnnotationProcessor;
 import mastery.common.util.IHasModel;
-import mastery.configuration.MasteryConfiguration;
-import mastery.eventhandlers.TooltipEventHandler;
-import mastery.keybindings.InputHandler;
 import mastery.keybindings.KeyBindings;
-import mastery.oldui.LevelOverlayUi;
-import mastery.ui.views.ExampleUI;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -32,11 +28,15 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
-        MinecraftForge.EVENT_BUS.register(new InputHandler());
-        MinecraftForge.EVENT_BUS.register(new LevelOverlayUi());
-        MinecraftForge.EVENT_BUS.register(new ExampleUI());
-        MinecraftForge.EVENT_BUS.register(new MasteryConfiguration());
-        MinecraftForge.EVENT_BUS.register(new TooltipEventHandler());
+
+        AnnotationProcessor annotationProcessor = MasteryMod.getAnnotationProcessor();
+        annotationProcessor.getClientClasses().forEach(this::registerToEventBus);
+
+        // MinecraftForge.EVENT_BUS.register(new InputHandler());
+        // MinecraftForge.EVENT_BUS.register(new LevelOverlayUi());
+        // MinecraftForge.EVENT_BUS.register(new ExampleUI());
+        // MinecraftForge.EVENT_BUS.register(new MasteryConfiguration());
+        // MinecraftForge.EVENT_BUS.register(new TooltipEventHandler());
 
         KeyBindings.init();
     }

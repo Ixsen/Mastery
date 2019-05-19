@@ -1,10 +1,12 @@
 package mastery.eventhandlers.farming;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class FarmingExperience extends AbstractExperienceHandler {
 
     public FarmingExperience() {

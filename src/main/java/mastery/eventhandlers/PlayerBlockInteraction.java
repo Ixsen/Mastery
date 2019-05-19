@@ -1,11 +1,13 @@
 package mastery.eventhandlers;
 
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.BlockUtils;
 import net.minecraft.block.BlockContainer;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class PlayerBlockInteraction {
 
     @SubscribeEvent

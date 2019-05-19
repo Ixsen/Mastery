@@ -3,12 +3,14 @@ package mastery.eventhandlers.farming;
 import java.util.List;
 
 import mastery.capability.player.skillclasses.FarmingMastery;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.MasteryUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class FarmingEffects {
 
     @SubscribeEvent

@@ -3,6 +3,7 @@ package mastery.eventhandlers;
 import mastery.capability.player.IMastery;
 import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.networking.MasteryMessage;
 import mastery.networking.PacketHandler;
 import mastery.common.util.MasteryUtils;
@@ -11,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class SaveLoadEventHandler {
 
     @SubscribeEvent

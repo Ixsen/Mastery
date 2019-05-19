@@ -5,6 +5,7 @@ import static mastery.eventhandlers.ExperienceDictionary.HUSBANDRY_ENTITY_HARVES
 import static mastery.eventhandlers.ExperienceDictionary.HUSBANDRY_ENTITY_TAMED;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import mastery.eventhandlers.ExperienceDictionary;
 import net.minecraftforge.event.entity.living.AnimalTameEvent;
@@ -12,6 +13,7 @@ import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class HusbandryExperience extends AbstractExperienceHandler {
 
     public HusbandryExperience() {

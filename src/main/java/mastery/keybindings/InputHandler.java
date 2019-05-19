@@ -1,11 +1,13 @@
 package mastery.keybindings;
 
 import mastery.MasteryMod;
+import mastery.common.annotations.SubscribeToClientEventBus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
+@SubscribeToClientEventBus
 public class InputHandler {
 
     @SubscribeEvent

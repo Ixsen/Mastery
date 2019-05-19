@@ -9,6 +9,7 @@ import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_WALKING;
 import static mastery.eventhandlers.ExperienceDictionary.ATHLETICS_WATER;
 
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.eventhandlers.AbstractExperienceHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class AthleticsExperience extends AbstractExperienceHandler {
 
     private BlockPos lastPlayerPosition;

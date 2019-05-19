@@ -7,6 +7,7 @@ import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 import java.util.UUID;
 
 import mastery.capability.player.skillclasses.HusbandryMastery;
+import mastery.common.annotations.SubscribeToCommonEventBus;
 import mastery.common.util.AttributeUtils;
 import mastery.common.util.MasteryUtils;
 import net.minecraft.entity.EntityAgeable;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToCommonEventBus
 public class HusbandryEffects {
 
     private static UUID uuid = UUID.fromString("9e3a7ad9-044c-4c54-89dc-60f9d011c674");

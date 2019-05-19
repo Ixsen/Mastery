@@ -3,17 +3,11 @@ package mastery.ui.views;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
+import mastery.common.annotations.SubscribeToClientEventBus;
 import mastery.ui.resources.UIAnimatedImageManager;
 import mastery.ui.resources.UIImageManager;
-import masteryUI.elements.basic.UIAnimatedImage;
-import masteryUI.elements.basic.UIButton;
-import masteryUI.elements.basic.UIFluid;
-import masteryUI.elements.basic.UIImageButton;
-import masteryUI.elements.basic.UIItem;
+import masteryUI.elements.basic.*;
 import masteryUI.elements.basic.UILabel.UIAlignment;
-import masteryUI.elements.basic.UITextField;
-import masteryUI.elements.basic.UITiledAnimatedImage;
-import masteryUI.elements.basic.UITiledImage;
 import masteryUI.elements.core.UIMCScreen;
 import masteryUI.layout.FreeFormLayout;
 import net.minecraft.init.Items;
@@ -23,6 +17,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SubscribeToClientEventBus
 @SideOnly(Side.CLIENT)
 public class ExampleUI extends UIMCScreen {
 
@@ -41,8 +36,7 @@ public class ExampleUI extends UIMCScreen {
 
     private void initExampleScene() {
         // Tiled animated image
-        UITiledAnimatedImage tiledAnimated = new UITiledAnimatedImage(
-                UIAnimatedImageManager.FLUID_EXP_STILL, 6);
+        UITiledAnimatedImage tiledAnimated = new UITiledAnimatedImage(UIAnimatedImageManager.FLUID_EXP_STILL, 6);
         tiledAnimated.setPosition(new Point(200, 80));
         tiledAnimated.setSize(80, 5);
         this.screenContainer.addElement(tiledAnimated);

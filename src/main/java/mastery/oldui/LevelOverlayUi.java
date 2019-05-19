@@ -6,6 +6,7 @@ import mastery.MasteryMod;
 import mastery.capability.player.IMastery;
 import mastery.capability.player.skillclasses.MasteryClass;
 import mastery.capability.player.skillclasses.MasterySpec;
+import mastery.common.annotations.SubscribeToClientEventBus;
 import mastery.common.util.MasteryUtils;
 import mastery.configuration.MasteryConfiguration;
 import mastery.eventsystem.MasteryEvent;
@@ -17,6 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SubscribeToClientEventBus
 public class LevelOverlayUi extends Gui {
     // Resources - Area
     private final ResourceLocation bar = new ResourceLocation(MasteryMod.MOD_ID, "textures/gui/expbarsheet.png");
@@ -43,7 +45,7 @@ public class LevelOverlayUi extends Gui {
 
     public LevelOverlayUi() {
         super();
-        // MasteryMod.getEventHandler().addListener(this::performEvent);
+        MasteryMod.getEventHandler().addListener(this::performEvent);
     }
 
     @SubscribeEvent
@@ -84,7 +86,7 @@ public class LevelOverlayUi extends Gui {
         GL11.glColor4d(1, 1, 1, MasteryConfiguration.UI_OVERLAY.uiAlphaValue);
         int xOffset = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetX * (1 / this.ICON_SCALE));
         int yOffset = (int) (MasteryConfiguration.UI_OVERLAY.uiOffsetY * (1 / this.ICON_SCALE));
-        drawModalRectWithCustomSizedTexture(xOffset, yOffset, 0, 0, this.ICON_SIZE, this.ICON_SIZE, this.ICON_SIZE,
+        Gui.drawModalRectWithCustomSizedTexture(xOffset, yOffset, 0, 0, this.ICON_SIZE, this.ICON_SIZE, this.ICON_SIZE,
                 this.ICON_SIZE);
         GL11.glPopMatrix();
 

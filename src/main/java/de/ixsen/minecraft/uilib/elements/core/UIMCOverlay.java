@@ -1,5 +1,7 @@
 package de.ixsen.minecraft.uilib.elements.core;
 
+import org.lwjgl.util.Point;
+
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -11,6 +13,16 @@ public abstract class UIMCOverlay extends UIMCScreen {
     private long visibilityStart = 0;
     private long visibilityTimeFrame = 0;
 
+    public UIMCOverlay(Point position) {
+        super(position);
+
+        this.initGui();
+    }
+
+    public UIMCOverlay() {
+        this.initGui();
+    }
+
     @SubscribeEvent
     public void drawOverlay(RenderGameOverlayEvent event) {
         if (this.shouldBeShown()) {
@@ -19,7 +31,7 @@ public abstract class UIMCOverlay extends UIMCScreen {
     }
 
     private boolean shouldBeShown() {
-        return (System.currentTimeMillis() - this.visibilityTimeFrame) < this.visibilityStart;
+        return (System.currentTimeMillis() - this.visibilityStart) < this.visibilityTimeFrame;
     }
 
     /**

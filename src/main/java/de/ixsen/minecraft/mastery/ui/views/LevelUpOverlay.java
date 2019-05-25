@@ -5,9 +5,15 @@ import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasterySpec;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEventType;
 import de.ixsen.minecraft.uilib.elements.core.UIMCOverlay;
+import de.ixsen.minecraft.uilib.layout.UILayout;
 import de.ixsen.minecraft.uilib.layout.VerticalLayout;
 
 public class LevelUpOverlay extends UIMCOverlay {
+
+    @Override
+    protected UILayout createLayout() {
+        return null;
+    }
 
     public LevelUpOverlay() {
         super();
@@ -15,6 +21,11 @@ public class LevelUpOverlay extends UIMCOverlay {
         MasteryMod.getEventHandler().addListener(this::processEvent);
 
         this.createUI();
+    }
+
+    @Override
+    protected void initializeGui() {
+
     }
 
     private void processEvent(MasteryEvent masteryEvent) {

@@ -1,22 +1,23 @@
 package de.ixsen.minecraft.mastery.ui.views;
 
-import de.ixsen.minecraft.uilib.elements.basic.UIAnimatedImage;
-import de.ixsen.minecraft.uilib.elements.basic.UIButton;
-import de.ixsen.minecraft.uilib.elements.basic.UIFluid;
-import de.ixsen.minecraft.uilib.elements.basic.UIImageButton;
-import de.ixsen.minecraft.uilib.elements.basic.UIItem;
-import de.ixsen.minecraft.uilib.elements.basic.UITextField;
-import de.ixsen.minecraft.uilib.elements.basic.UITiledAnimatedImage;
-import de.ixsen.minecraft.uilib.elements.basic.UITiledImage;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
 import de.ixsen.minecraft.mastery.common.annotations.SubscribeToClientEventBus;
 import de.ixsen.minecraft.mastery.ui.resources.UIAnimatedImageManager;
 import de.ixsen.minecraft.mastery.ui.resources.UIImageManager;
+import de.ixsen.minecraft.uilib.elements.basic.UIAnimatedImage;
+import de.ixsen.minecraft.uilib.elements.basic.UIButton;
+import de.ixsen.minecraft.uilib.elements.basic.UIFluid;
+import de.ixsen.minecraft.uilib.elements.basic.UIImageButton;
+import de.ixsen.minecraft.uilib.elements.basic.UIItem;
 import de.ixsen.minecraft.uilib.elements.basic.UILabel.UIAlignment;
+import de.ixsen.minecraft.uilib.elements.basic.UITextField;
+import de.ixsen.minecraft.uilib.elements.basic.UITiledAnimatedImage;
+import de.ixsen.minecraft.uilib.elements.basic.UITiledImage;
 import de.ixsen.minecraft.uilib.elements.core.UIMCScreen;
 import de.ixsen.minecraft.uilib.layout.FreeFormLayout;
+import de.ixsen.minecraft.uilib.layout.UILayout;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -34,14 +35,13 @@ public class ExampleUI extends UIMCScreen {
     }
 
     @Override
-    public void initGui() {
-        this.initExampleScene();
-
-        // Always call super
-        super.initGui();
+    protected UILayout createLayout() {
+        return new FreeFormLayout();
     }
 
-    private void initExampleScene() {
+    @Override
+    protected void initializeGui() {
+
         // Tiled animated image
         UITiledAnimatedImage tiledAnimated = new UITiledAnimatedImage(UIAnimatedImageManager.FLUID_EXP_STILL, 6);
         tiledAnimated.setPosition(new Point(200, 80));

@@ -21,7 +21,7 @@ import de.ixsen.minecraft.uilib.layout.UILayout;
 /**
  * @author Subaro
  */
-public abstract class UIContainer extends UIElement {
+public class UIContainer extends UIElement {
 
     /** The default layout used by ui containers. */
     private static UILayout DEFAULT_LAYOUT = new HorizontalLayout();

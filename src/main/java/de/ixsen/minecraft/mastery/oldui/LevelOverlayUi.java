@@ -6,7 +6,6 @@ import de.ixsen.minecraft.mastery.MasteryMod;
 import de.ixsen.minecraft.mastery.capability.player.IMastery;
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasteryClass;
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasterySpec;
-import de.ixsen.minecraft.mastery.common.annotations.SubscribeToClientEventBus;
 import de.ixsen.minecraft.mastery.common.util.MasteryUtils;
 import de.ixsen.minecraft.mastery.configuration.MasteryConfiguration;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
@@ -18,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@SubscribeToClientEventBus
+//@SubscribeToClientEventBus
 public class LevelOverlayUi extends Gui {
     // Resources - Area
     private final ResourceLocation bar = new ResourceLocation(MasteryMod.MOD_ID, "textures/gui/expbarsheet.png");

@@ -10,9 +10,12 @@ public class AnnotationProcessor {
     private SubscribeToEventBusAnnotationListener subscribeToEventBusAnnotationListener;
 
     public void initialize() {
-        Discoverer discoverer = new ClasspathDiscoverer();
         this.subscribeToEventBusAnnotationListener = new SubscribeToEventBusAnnotationListener();
+
+        Discoverer discoverer = new ClasspathDiscoverer();
         discoverer.addAnnotationListener(this.subscribeToEventBusAnnotationListener);
+
+        // TODO remove error output from annovention
         discoverer.discover(true, false, false, false, true, true);
     }
 

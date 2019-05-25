@@ -2,18 +2,19 @@ package de.ixsen.minecraft.uilib.elements.core;
 
 import java.io.IOException;
 
-import de.ixsen.minecraft.uilib.functions.Focusable;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
+import de.ixsen.minecraft.uilib.functions.Focusable;
+import de.ixsen.minecraft.uilib.layout.UILayout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
  * @author Subaro
  */
-public class UIMCScreen extends GuiScreen {
+public abstract class UIMCScreen extends GuiScreen {
 
     /** Root container containing all elements */
     protected UIContainer screenContainer;
@@ -31,23 +32,15 @@ public class UIMCScreen extends GuiScreen {
 
     public UIMCScreen(Point position) {
         this.position = position;
-        this.screenContainer = new UIContainer(this) {
-
-            @Override
-            public void initGui() {
-                super.initGui();
-            }
-        };
+        this.screenContainer = new UIContainer(this);
+        this.screenContainer.setLayout(this.createLayout());
     }
+
+    protected abstract UILayout createLayout();
 
     public UIMCScreen() {
         this.position = new Point(0, 0);
-        this.screenContainer = new UIContainer(this) {
-            @Override
-            public void initGui() {
-                super.initGui();
-            }
-        };
+        this.screenContainer = new UIContainer(this);
     }
 
     @Override
@@ -68,9 +61,15 @@ public class UIMCScreen extends GuiScreen {
 
     @Override
     public void initGui() {
+        this.initializeGui();
         this.screenContainer.initGui();
         this.screenContainer.layoutElements();
     }
+
+    /**
+     * Draw the UI in this method, by adding {@link UIElement}s to the screenContainer
+     */
+    protected abstract void initializeGui();
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {

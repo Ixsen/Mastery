@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.impetus.annovention.listener.ClassAnnotationDiscoveryListener;
 
-class SubscribeToEventBusAnnotationListener implements ClassAnnotationDiscoveryListener {
+import de.ixsen.minecraft.mastery.common.HasLogger;
+
+class SubscribeToEventBusAnnotationListener implements ClassAnnotationDiscoveryListener, HasLogger {
 
     private List<Class<?>> clientClasses = new ArrayList<>();
     private List<Class<?>> serverClasses = new ArrayList<>();
@@ -24,7 +26,7 @@ class SubscribeToEventBusAnnotationListener implements ClassAnnotationDiscoveryL
                 this.serverClasses.add(Class.forName(clazz));
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            this.getLogger().error("Was not able to find annotated class, this may be a big problem!", e);
         }
     }
 

@@ -9,7 +9,7 @@ import org.lwjgl.util.Point;
  */
 public abstract class UIScalableElement extends UIElement {
 
-    private float scale = 1;
+    private float scale;
 
     public UIScalableElement(float scale) {
         super();
@@ -28,8 +28,10 @@ public abstract class UIScalableElement extends UIElement {
     }
 
     /**
-     * @param mouseX X Position of the mouse
-     * @param mouseY Y Position of the mouse
+     * @param mouseX
+     *            X Position of the mouse
+     * @param mouseY
+     *            Y Position of the mouse
      * @return true, if the mouse position is inside the element's bounds. Works for scaled elements
      */
     @Override
@@ -46,7 +48,8 @@ public abstract class UIScalableElement extends UIElement {
     }
 
     /**
-     * @param scale the scale to set
+     * @param scale
+     *            the scale to set
      */
     public void setScale(float scale) {
         this.scale = scale;

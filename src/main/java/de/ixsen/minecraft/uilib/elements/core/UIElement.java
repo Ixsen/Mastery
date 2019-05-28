@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import de.ixsen.minecraft.uilib.event.UIEnableChangeEvent;
-import de.ixsen.minecraft.uilib.event.UIVisibleChangeEvent;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
 import de.ixsen.minecraft.uilib.colors.UIColors;
+import de.ixsen.minecraft.uilib.event.UIEnableChangeEvent;
+import de.ixsen.minecraft.uilib.event.UIVisibleChangeEvent;
 import net.minecraft.client.gui.Gui;
 
 /**

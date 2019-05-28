@@ -14,10 +14,10 @@ import net.minecraft.client.gui.GuiScreen;
 /**
  * @author Subaro
  */
-public abstract class UIMCScreen extends GuiScreen {
+public abstract class UIMCScreen<CONTAINER_TYPE extends UIContainer> extends GuiScreen {
 
     /** Root container containing all elements */
-    protected UIContainer screenContainer;
+    protected CONTAINER_TYPE screenContainer;
     /** The currently focused element */
     private Focusable focusedElement = null;
     /** Position of the Gui Screen. Mostly 0,0 */
@@ -32,15 +32,19 @@ public abstract class UIMCScreen extends GuiScreen {
 
     public UIMCScreen(Point position) {
         this.position = position;
-        this.screenContainer = new UIContainer(this);
+        this.screenContainer = this.createScreenContainer();
         this.screenContainer.setLayout(this.createLayout());
     }
 
     protected abstract UILayout createLayout();
 
+    /**
+     * Create and draw into the screen container in this method
+     */
+    protected abstract CONTAINER_TYPE createScreenContainer();
+
     public UIMCScreen() {
-        this.position = new Point(0, 0);
-        this.screenContainer = new UIContainer(this);
+        this(new Point(0, 0));
     }
 
     @Override
@@ -61,15 +65,9 @@ public abstract class UIMCScreen extends GuiScreen {
 
     @Override
     public void initGui() {
-        this.initializeGui();
         this.screenContainer.initGui();
         this.screenContainer.layoutElements();
     }
-
-    /**
-     * Draw the UI in this method, by adding {@link UIElement}s to the screenContainer
-     */
-    protected abstract void initializeGui();
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {

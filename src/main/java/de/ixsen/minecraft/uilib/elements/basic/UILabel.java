@@ -15,13 +15,6 @@ import net.minecraft.client.gui.FontRenderer;
  */
 public class UILabel extends UIClickableElement {
 
-    /**
-     * Determines the alignment of the ui label.
-     */
-    public enum UIAlignment {
-        TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
-    }
-
     /** Text to show */
     private String text;
     /** Color for the text element */
@@ -36,11 +29,18 @@ public class UILabel extends UIClickableElement {
         this.alignment = alignment;
     }
 
-    public UILabel(UIContainer parentContainer, String text, ReadableColor textColor, float scale,
-            UIAlignment alignment) {
+    public UILabel(UIContainer parentContainer, String text, ReadableColor textColor, float scale) {
         super(parentContainer, scale);
         this.text = text;
         this.textColor = textColor;
+        this.alignment = UIAlignment.MIDDLE_CENTER;
+    }
+
+    /**
+     * Determines the alignment of the ui label.
+     */
+    public enum UIAlignment {
+        TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
     }
 
     @Override
@@ -49,57 +49,61 @@ public class UILabel extends UIClickableElement {
         {
             Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
             // Draw background
-            super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
+            this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
 
-            // Draw 'label'
-            FontRenderer fontRenderer = this.mc.fontRenderer;
-            ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(this.text),
-                    fontRenderer.FONT_HEIGHT);
-            int y, x;
+            if (!this.text.equals("")) {
+                // Draw 'label'
+                FontRenderer fontRenderer = this.mc.fontRenderer;
+                ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(this.text),
+                        fontRenderer.FONT_HEIGHT);
+                this.setSize(calculatedSize);
 
-            switch (this.alignment) {
-            case BOT_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case BOT_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case BOT_LEFT:
-                x = 0;
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case MIDDLE_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case MIDDLE_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case MIDDLE_LEFT:
-                x = 0;
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case TOP_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = 0;
-                break;
-            case TOP_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = 0;
-                break;
-            case TOP_LEFT:
-            default:
-                x = 0;
-                y = 0;
-                break;
+                int y, x;
+
+                switch (this.alignment) {
+                case BOT_RIGHT:
+                    x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+                    y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+                    break;
+                case BOT_CENTER:
+                    x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+                    y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+                    break;
+                case BOT_LEFT:
+                    x = 0;
+                    y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+                    break;
+                case MIDDLE_RIGHT:
+                    x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+                    y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+                    break;
+                case MIDDLE_CENTER:
+                    x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+                    y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+                    break;
+                case MIDDLE_LEFT:
+                    x = 0;
+                    y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+                    break;
+                case TOP_RIGHT:
+                    x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+                    y = 0;
+                    break;
+                case TOP_CENTER:
+                    x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+                    y = 0;
+                    break;
+                case TOP_LEFT:
+                default:
+                    x = 0;
+                    y = 0;
+                    break;
+                }
+
+                Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+                this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
+                        UIColors.toInt(this.textColor));
             }
-
-            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
-            this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
-                    UIColors.toInt(this.textColor));
         }
         this.endScaling();
     }

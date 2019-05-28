@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Base class with helper methods for easier creation of overlays
  */
-public abstract class UIMCOverlay extends UIMCScreen {
+public abstract class UIMCOverlay<CONTAINER_TYPE extends UIContainer> extends UIMCScreen<CONTAINER_TYPE> {
 
     private long visibilityStart = 0;
     private long visibilityTimeFrame = 0;

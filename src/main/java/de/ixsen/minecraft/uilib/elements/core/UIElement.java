@@ -12,7 +12,6 @@ import org.lwjgl.util.ReadableDimension;
 import de.ixsen.minecraft.uilib.colors.UIColors;
 import de.ixsen.minecraft.uilib.event.UIEnableChangeEvent;
 import de.ixsen.minecraft.uilib.event.UIVisibleChangeEvent;
-import net.minecraft.client.gui.Gui;
 
 /**
  * The basic element for every UI element. Every other element need to subclass this element. It actually introduces different kind of
@@ -24,31 +23,51 @@ import net.minecraft.client.gui.Gui;
  */
 public abstract class UIElement extends UIGuiWrapper {
 
-    /** Contains the list for every visibility listener for this ui element. */
+    /**
+     * Contains the list for every visibility listener for this ui element.
+     */
     protected List<Consumer<UIVisibleChangeEvent>> visibilityListener;
-    /** Contains the list for every enable listener for this ui element. */
+    /**
+     * Contains the list for every enable listener for this ui element.
+     */
     protected List<Consumer<UIEnableChangeEvent>> enabledListener;
 
-    /** Visible means that it will be draw and is interactable via listeners. */
+    /**
+     * Visible means that it will be draw and is interactable via listeners.
+     */
     private boolean visible;
     /**
      * Enable splits the element into two different states. The enabled state can allows interaction via listeners. The disabled state is still
      * drawn but has no listener interactions.
      */
     private boolean enabled;
-    /** The parent container for this ui element. */
+    /**
+     * The parent container for this ui element.
+     */
     private UIContainer parentContainer;
-    /** Determines the minimum size for an ui element. */
+    /**
+     * Determines the minimum size for an ui element.
+     */
     private ReadableDimension minimumSize;
-    /** Determines the maximum size for an ui element. */
+    /**
+     * Determines the maximum size for an ui element.
+     */
     private ReadableDimension maximumSize;
-    /** The current relative position of the element to its parent. Mostley determined by the current layout. */
+    /**
+     * The current relative position of the element to its parent. Mostley determined by the current layout.
+     */
     private Point position;
-    /** Tooltip element for this element. */
+    /**
+     * Tooltip element for this element.
+     */
     private UIElement tooltip;
-    /** The color of the background of the element */
+    /**
+     * The color of the background of the element
+     */
     private ReadableColor backgroundColor;
-    /** Screen reference of this container */
+    /**
+     * Screen reference of this container
+     */
     protected UIMCScreen screen;
 
     public UIElement() {
@@ -69,18 +88,26 @@ public abstract class UIElement extends UIGuiWrapper {
         parentContainer.addElement(this);
     }
 
-    /** Method used to draw the current element to the screen. By default it will only draw the background as a solid colored rectangle. */
+    /**
+     * Method used to draw the current element to the screen. By default it will only draw the background as a solid colored rectangle.
+     */
     public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
     }
 
-    /** Draws the background for the ui element. Commonly a colored rect. */
+    /**
+     * Draws the background for the ui element. Commonly a colored rect.
+     */
     public void drawBackground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         // Draw Background
         if (this.backgroundColor != null) {
             Point globalPos = this.getGlobalPosition(parentX, parentY);
-            Gui.drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
+            // DrawUtils.drawRectangle(globalPos.getX(), globalPos.getY(),
+            // globalPos.getX() + this.getMinimumSize().getWidth(),
+            // globalPos.getY() + this.getMinimumSize().getHeight(), UIColors.toInt(this.backgroundColor));
+            drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
                     globalPos.getY() + this.getMinimumSize().getHeight(), UIColors.toInt(this.backgroundColor));
+
         }
     }
 

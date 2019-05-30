@@ -17,7 +17,6 @@ import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
 import de.ixsen.minecraft.uilib.colors.UIColors;
-import de.ixsen.minecraft.uilib.elements.basic.UILabel.UIAlignment;
 import de.ixsen.minecraft.uilib.elements.core.UIContainer;
 import de.ixsen.minecraft.uilib.elements.core.UIScalableElement;
 import net.minecraft.client.gui.FontRenderer;

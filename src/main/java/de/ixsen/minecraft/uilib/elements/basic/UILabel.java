@@ -36,20 +36,11 @@ public class UILabel extends UIClickableElement {
         this.alignment = UIAlignment.MIDDLE_CENTER;
     }
 
-    /**
-     * Determines the alignment of the ui label.
-     */
-    public enum UIAlignment {
-        TOP_LEFT, TOP_CENTER, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT, BOT_LEFT, BOT_CENTER, BOT_RIGHT
-    }
-
     @Override
     public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         this.startScaling(this.getScale());
         {
             Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-            // Draw background
-            this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
 
             if (!this.text.equals("")) {
                 // Draw 'label'
@@ -100,10 +91,15 @@ public class UILabel extends UIClickableElement {
                     break;
                 }
 
+                // Draw background
+                this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
+
                 Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+
                 this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
                         UIColors.toInt(this.textColor));
             }
+
         }
         this.endScaling();
     }

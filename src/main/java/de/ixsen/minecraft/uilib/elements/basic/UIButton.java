@@ -49,13 +49,13 @@ public class UIButton extends UIClickableElement {
     /** Color for the text element */
     private ReadableColor textColor;
     /** Alignment for this lable */
-    private UILabel.UIAlignment alignment;
+    private UIAlignment alignment;
 
     public UIButton(String text) {
         super(1);
         this.text = text;
         this.textColor = ReadableColor.WHITE;
-        this.alignment = UILabel.UIAlignment.MIDDLE_CENTER;
+        this.alignment = UIAlignment.MIDDLE_CENTER;
         this.setSize(150, 20);
     }
 
@@ -236,11 +236,11 @@ public class UIButton extends UIClickableElement {
         this.textColor = textColor;
     }
 
-    public UILabel.UIAlignment getAlignment() {
+    public UIAlignment getAlignment() {
         return this.alignment;
     }
 
-    public void setAlignment(UILabel.UIAlignment alignment) {
+    public void setAlignment(UIAlignment alignment) {
         this.alignment = alignment;
     }
 

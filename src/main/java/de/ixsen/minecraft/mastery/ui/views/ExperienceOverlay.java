@@ -37,8 +37,7 @@ public class ExperienceOverlay extends UIMCOverlay<ExperienceComponent> {
 
             MasteryClass mastery = MasteryUtils.getMastery(Minecraft.getMinecraft().player,
                     (MasterySpec) masteryEvent.getSource());
-            this.screenContainer = new ExperienceComponent(mastery);
-            // this.screenContainer.setMastery(mastery);
+             this.screenContainer.setMasteryInfo(mastery);
 
             this.setVisibleTemporarily(5000);
         }

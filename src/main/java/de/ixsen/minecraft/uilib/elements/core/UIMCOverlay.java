@@ -25,8 +25,8 @@ public abstract class UIMCOverlay<CONTAINER_TYPE extends UIContainer> extends UI
 
     @SubscribeEvent
     public void drawOverlay(RenderGameOverlayEvent event) {
-        if (this.shouldBeShown()) {
-            this.drawScreen(0, 0, 1);
+        if (event.getType() == RenderGameOverlayEvent.ElementType.TEXT && this.shouldBeShown()) {
+            this.drawScreen(0, 0, event.getPartialTicks());
         }
     }
 

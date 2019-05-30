@@ -1,20 +1,13 @@
 package de.ixsen.minecraft.mastery.ui.views;
 
+import de.ixsen.minecraft.uilib.elements.basic.*;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
 import de.ixsen.minecraft.mastery.common.annotations.SubscribeToClientEventBus;
 import de.ixsen.minecraft.mastery.ui.resources.UIAnimatedImageManager;
 import de.ixsen.minecraft.mastery.ui.resources.UIImageManager;
-import de.ixsen.minecraft.uilib.elements.basic.UIAnimatedImage;
-import de.ixsen.minecraft.uilib.elements.basic.UIButton;
-import de.ixsen.minecraft.uilib.elements.basic.UIFluid;
-import de.ixsen.minecraft.uilib.elements.basic.UIImageButton;
-import de.ixsen.minecraft.uilib.elements.basic.UIItem;
-import de.ixsen.minecraft.uilib.elements.basic.UILabel.UIAlignment;
-import de.ixsen.minecraft.uilib.elements.basic.UITextField;
-import de.ixsen.minecraft.uilib.elements.basic.UITiledAnimatedImage;
-import de.ixsen.minecraft.uilib.elements.basic.UITiledImage;
+import de.ixsen.minecraft.uilib.elements.basic.UIAlignment;
 import de.ixsen.minecraft.uilib.elements.core.UIContainer;
 import de.ixsen.minecraft.uilib.elements.core.UIMCScreen;
 import de.ixsen.minecraft.uilib.layout.FreeFormLayout;
@@ -118,6 +111,10 @@ public class ExampleUI extends UIMCScreen {
         // buttonWaterPlus.setSize(15, 15);
         // buttonWaterPlus.addClickListener((e) -> barWater.setFillAmount(barWater.getFillAmount() + 5));
         // screenContainer.addElement(buttonWaterPlus);
+
+
+        UILabel abc = new UILabel("ABC", ReadableColor.YELLOW, 1F, UIAlignment.MIDDLE_CENTER);
+        container.addElement(abc);
 
         return container;
     }

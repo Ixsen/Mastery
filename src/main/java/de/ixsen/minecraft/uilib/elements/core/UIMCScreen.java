@@ -49,11 +49,11 @@ public abstract class UIMCScreen<CONTAINER_TYPE extends UIContainer> extends Gui
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        GL11.glPushMatrix();
         if (this.screenContainer.isVisible()) {
+            GL11.glPushMatrix();
             this.screenContainer.draw(this.position.getX(), this.position.getY(), mouseX, mouseY, partialTicks);
+            GL11.glPopMatrix();
         }
-        GL11.glPopMatrix();
         // Draw Tooltip
         if (this.currentTooltip != null && this.currentTooltip.isVisible()) {
             GL11.glPushMatrix();

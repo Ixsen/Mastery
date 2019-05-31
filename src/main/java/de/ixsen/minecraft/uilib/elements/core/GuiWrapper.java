@@ -1,6 +1,6 @@
 package de.ixsen.minecraft.uilib.elements.core;
 
-import de.ixsen.minecraft.uilib.elements.core.data.UIImageData;
+import de.ixsen.minecraft.uilib.elements.core.data.ImageData;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -12,14 +12,14 @@ import net.minecraft.client.gui.Gui;
  *
  * @author Subaro
  */
-public abstract class UIGuiWrapper extends Gui {
+public abstract class GuiWrapper extends Gui {
 
     /** Reference to the current Minecraft instance. */
     protected Minecraft mc;
 
     protected float currentScaleFactor = 1;
 
-    public UIGuiWrapper() {
+    public GuiWrapper() {
         this.mc = Minecraft.getMinecraft();
     }
 
@@ -27,7 +27,7 @@ public abstract class UIGuiWrapper extends Gui {
      * Used to create a drawing area that clips all elements that are outside. CAUTION you always need to end the scissoring with the
      * endScissors method
      */
-    public void startScissors(UIMCScreen screen, int x, int y, int width, int height) {
+    public void startScissors(MasteryGuiScreen screen, int x, int y, int width, int height) {
         float localFactor = this.currentScaleFactor != 1 ? this.currentScaleFactor : 1;
 
         // Calculate the ratios
@@ -75,7 +75,7 @@ public abstract class UIGuiWrapper extends Gui {
     /**
      * Draws an image to the screen. The texture is especially binded. If that is not wanted use drawImage(...).
      */
-    protected void drawImageBind(UIImageData data, int x, int y, int width, int height) {
+    protected void drawImageBind(ImageData data, int x, int y, int width, int height) {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
             this.mc.renderEngine.bindTexture(data.getLocation());
@@ -88,7 +88,7 @@ public abstract class UIGuiWrapper extends Gui {
     /**
      * Draws an image to the screen. The texture is NOT binded. If that is not wanted use drawImageBind(...)
      */
-    protected void drawImage(UIImageData data, int x, int y, int width, int height) {
+    protected void drawImage(ImageData data, int x, int y, int width, int height) {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
             Gui.drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), data.getuWidth(), data.getvHeight(), width,
@@ -100,8 +100,8 @@ public abstract class UIGuiWrapper extends Gui {
     /**
      * Draws an image to the screen. The texture is NOT binded. If that is not wanted use drawImageBind(...)
      */
-    protected void drawSnippedImage(UIImageData data, int x, int y, int width, int height, float uFactor,
-            float vFactor) {
+    protected void drawSnippedImage(ImageData data, int x, int y, int width, int height, float uFactor,
+                                    float vFactor) {
         GL11.glEnable(GL11.GL_BLEND);
         if (data != null) {
             Gui.drawScaledCustomSizeModalRect(x, y, data.getU(), data.getV(), (int) (data.getuWidth() * uFactor),

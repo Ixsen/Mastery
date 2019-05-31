@@ -1,10 +1,10 @@
-package de.ixsen.minecraft.uilib.elements.basic;
+package de.ixsen.minecraft.uilib.elements;
 
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import de.ixsen.minecraft.uilib.elements.core.ScalableGuiElement;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import de.ixsen.minecraft.uilib.elements.core.UIContainer;
-import de.ixsen.minecraft.uilib.elements.core.UIScalableElement;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,20 +15,20 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * @author Subaro
  */
-public class UIFluid extends UIScalableElement {
+public class Fluid extends ScalableGuiElement {
 
     /** the fluid to render */
     private FluidStack fluidStack;
     /** indicated if the rendered fluid should be flowing */
-    private boolean flowing;
+    private boolean isFlowing;
     public static float FLUID_OFFSET = 0.005f;
 
-    public UIFluid(FluidStack fluidStack) {
+    public Fluid(FluidStack fluidStack) {
         super(1f);
         this.fluidStack = fluidStack;
     }
 
-    public UIFluid(UIContainer parentContainer, FluidStack fluidStack) {
+    public Fluid(GuiContainer parentContainer, FluidStack fluidStack) {
         super(parentContainer, 1f);
         this.fluidStack = fluidStack;
     }
@@ -38,29 +38,22 @@ public class UIFluid extends UIScalableElement {
     }
 
     @Override
-    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+    public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         if (this.fluidStack == null) {
             return;
         }
-        this.startScaling(this.getScale());
-        {
-            this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
 
-            Point gPos = this.getGlobalPosition(parentX, parentY);
-            float quotient = this.fluidStack.amount / 100f;
-            int barHeight = (int) (this.getMinimumSize().getHeight() * quotient);
-            int yOffset = this.getMinimumSize().getHeight() - barHeight;
-            if (this.flowing) {
-                this.renderTiledFluidFlowing(gPos.getX(), gPos.getY() + yOffset,
-                        this.getMinimumSize().getWidth(),
-                        barHeight, this.zLevel, this.fluidStack);
-            } else {
-                this.renderTiledFluidStill(gPos.getX(), gPos.getY() + yOffset,
-                        this.getMinimumSize().getWidth(),
-                        barHeight, this.zLevel, this.fluidStack);
-            }
+        Point gPos = this.getGlobalPosition(parentX, parentY);
+        float quotient = this.fluidStack.amount / 100f;
+        int barHeight = (int) (this.getMinimumSize().getHeight() * quotient);
+        int yOffset = this.getMinimumSize().getHeight() - barHeight;
+        if (this.isFlowing) {
+            this.renderTiledFluidFlowing(gPos.getX(), gPos.getY() + yOffset, this.getMinimumSize().getWidth(),
+                    barHeight, this.zLevel, this.fluidStack);
+        } else {
+            this.renderTiledFluidStill(gPos.getX(), gPos.getY() + yOffset, this.getMinimumSize().getWidth(), barHeight,
+                    this.zLevel, this.fluidStack);
         }
-        this.endScaling();
     }
 
     public void setFillAmount(int percent) {
@@ -77,17 +70,17 @@ public class UIFluid extends UIScalableElement {
     }
 
     public boolean isFlowing() {
-        return this.flowing;
+        return this.isFlowing;
     }
 
     public void setFlowing(boolean flowing) {
-        this.flowing = flowing;
+        this.isFlowing = flowing;
     }
 
     // Methods used to draw the fluids, credits to TinkerMod
     /** Renders the given texture tiled into a GUI */
-    private void renderTiledTextureAtlas(
-            int x, int y, int width, int height, float depth, TextureAtlasSprite sprite, boolean upsideDown) {
+    private void renderTiledTextureAtlas(int x, int y, int width, int height, float depth, TextureAtlasSprite sprite,
+            boolean upsideDown) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder worldrenderer = tessellator.getBuffer();
         worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -107,8 +100,7 @@ public class UIFluid extends UIScalableElement {
                 fluidStack.getFluid().isGaseous(fluidStack));
     }
 
-    private void renderTiledFluidFlowing(
-            int x, int y, int width, int height, float depth, FluidStack fluidStack) {
+    private void renderTiledFluidFlowing(int x, int y, int width, int height, float depth, FluidStack fluidStack) {
         TextureAtlasSprite fluidSprite = this.mc.getTextureMapBlocks()
                 .getAtlasSprite(fluidStack.getFluid().getStill(fluidStack).toString());
         this.setColorRGBA(fluidStack.getFluid().getColor(fluidStack));
@@ -117,9 +109,8 @@ public class UIFluid extends UIScalableElement {
     }
 
     /** Adds a quad to the rendering pipeline. Call startDrawingQuads beforehand. You need to call draw() yourself. */
-    private void putTiledTextureQuads(
-            BufferBuilder renderer, int x, int y, int width, int height, float depth, TextureAtlasSprite sprite,
-            boolean upsideDown) {
+    private void putTiledTextureQuads(BufferBuilder renderer, int x, int y, int width, int height, float depth,
+            TextureAtlasSprite sprite, boolean upsideDown) {
         sprite.initSprite(0, 0, 0, 0, false);
         float u1 = sprite.getMinU();
         float v1 = sprite.getMinV();

@@ -1,4 +1,4 @@
-package de.ixsen.minecraft.uilib.colors;
+package de.ixsen.minecraft.uilib.common;
 
 import org.lwjgl.util.Color;
 import org.lwjgl.util.ReadableColor;
@@ -8,7 +8,7 @@ import org.lwjgl.util.ReadableColor;
  *
  * @author Subaro
  */
-public class UIColors {
+public class ColorUtils {
 
     public static int toInt(ReadableColor color) {
         return color.getAlpha() << 24

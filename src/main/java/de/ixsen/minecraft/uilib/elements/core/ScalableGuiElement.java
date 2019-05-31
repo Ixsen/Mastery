@@ -1,30 +1,39 @@
 package de.ixsen.minecraft.uilib.elements.core;
 
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
 import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableDimension;
 
 /**
  * An element that can be scaled.
  *
  * @author Subaro
  */
-public abstract class UIScalableElement extends UIElement {
+public abstract class ScalableGuiElement extends GuiElement {
 
     private float scale;
 
-    public UIScalableElement(float scale) {
+    public ScalableGuiElement(float scale) {
         super();
         this.scale = scale;
     }
 
-    public UIScalableElement(UIContainer parentContainer, float scale) {
+    public ScalableGuiElement(GuiContainer parentContainer, float scale) {
         super(parentContainer);
         this.scale = scale;
     }
 
     @Override
-    public void setPosition(Point position) {
-        super.setPosition(new Point((int) (position.getX() * 1 / this.getScale()),
-                (int) (position.getY() * 1 / this.getScale())));
+    public void setRelativePosition(Point relativePosition) {
+        super.setRelativePosition(new Point((int) (relativePosition.getX() * 1 / this.getScale()),
+                (int) (relativePosition.getY() * 1 / this.getScale())));
+    }
+
+    @Override
+    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+        this.startScaling(this.getScale());
+        super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
+        this.endScaling();
     }
 
     /**
@@ -60,5 +69,10 @@ public abstract class UIScalableElement extends UIElement {
      */
     public float getScale() {
         return this.scale;
+    }
+
+    @Override
+    public ReadableDimension getSize() {
+        return this.getMinimumSize();
     }
 }

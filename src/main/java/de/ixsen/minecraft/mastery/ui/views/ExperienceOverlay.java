@@ -5,16 +5,17 @@ import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasteryClass;
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasterySpec;
 import de.ixsen.minecraft.mastery.common.annotations.SubscribeToClientEventBus;
 import de.ixsen.minecraft.mastery.common.util.MasteryUtils;
+import de.ixsen.minecraft.mastery.configuration.MasteryConfiguration;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEventType;
 import de.ixsen.minecraft.mastery.ui.components.ExperienceComponent;
-import de.ixsen.minecraft.uilib.elements.core.UIMCOverlay;
+import de.ixsen.minecraft.uilib.elements.core.MasteryGuiOverlay;
 import de.ixsen.minecraft.uilib.layout.FreeFormLayout;
-import de.ixsen.minecraft.uilib.layout.UILayout;
+import de.ixsen.minecraft.uilib.layout.GuiLayout;
 import net.minecraft.client.Minecraft;
 
 @SubscribeToClientEventBus
-public class ExperienceOverlay extends UIMCOverlay<ExperienceComponent> {
+public class ExperienceOverlay extends MasteryGuiOverlay<ExperienceComponent> {
 
     public ExperienceOverlay() {
         super();
@@ -22,7 +23,7 @@ public class ExperienceOverlay extends UIMCOverlay<ExperienceComponent> {
     }
 
     @Override
-    protected UILayout createLayout() {
+    protected GuiLayout createLayout() {
         return new FreeFormLayout();
     }
 
@@ -39,7 +40,7 @@ public class ExperienceOverlay extends UIMCOverlay<ExperienceComponent> {
                     (MasterySpec) masteryEvent.getSource());
              this.screenContainer.setMasteryInfo(mastery);
 
-            this.setVisibleTemporarily(5000);
+            this.setVisibleTemporarily(MasteryConfiguration.UI_OVERLAY.overlayTime);
         }
     }
 

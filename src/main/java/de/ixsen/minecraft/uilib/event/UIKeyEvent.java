@@ -1,6 +1,6 @@
 package de.ixsen.minecraft.uilib.event;
 
-import de.ixsen.minecraft.uilib.elements.core.UIElement;
+import de.ixsen.minecraft.uilib.elements.core.GuiElement;
 
 /**
  * Event is delivered for the typeable ui elements.
@@ -12,7 +12,7 @@ public class UIKeyEvent extends UIEvent {
     private char typedChar;
     private int keyCode;
 
-    public UIKeyEvent(UIElement actuatorElement, char typedChar, int keyCode) {
+    public UIKeyEvent(GuiElement actuatorElement, char typedChar, int keyCode) {
         super(actuatorElement);
         this.typedChar = typedChar;
         this.keyCode = keyCode;

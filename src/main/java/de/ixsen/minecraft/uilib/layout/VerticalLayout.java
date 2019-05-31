@@ -2,17 +2,19 @@ package de.ixsen.minecraft.uilib.layout;
 
 import java.util.HashMap;
 
-import de.ixsen.minecraft.uilib.elements.core.UIElement;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
+
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import de.ixsen.minecraft.uilib.elements.core.GuiElement;
 
 /**
  * Vertical layout.
  *
  * @author Subaro
  */
-public class VerticalLayout implements UILayout {
+public class VerticalLayout implements GuiLayout {
 
     private int paddingLeft = 0;
     private int paddingRight = 0;
@@ -33,10 +35,14 @@ public class VerticalLayout implements UILayout {
     }
 
     @Override
-    public void layoutElements(HashMap<UIElement, LayoutData> elementData) {
+    public void layoutElements(HashMap<GuiElement, LayoutData> elementData) {
         int currentX = this.paddingLeft;
         int currentY = this.paddingTop;
-        for (UIElement element : elementData.keySet()) {
+        for (GuiElement element : elementData.keySet()) {
+            if (element instanceof GuiContainer) {
+                ((GuiContainer) element).layoutElements();
+            }
+
             VerticalData data = null;
             if (elementData.get(element) instanceof VerticalData) {
                 data = (VerticalData) elementData.get(element);
@@ -44,7 +50,7 @@ public class VerticalLayout implements UILayout {
                 data = VerticalData.DEFAULT;
             }
             currentY += data.getPaddingTop();
-            element.setPosition(new Point(currentX, currentY));
+            element.setRelativePosition(new Point(currentX, currentY));
             currentY += data.getPaddingBot();
 
             // Shift the elements to the bottom
@@ -53,14 +59,14 @@ public class VerticalLayout implements UILayout {
     }
 
     @Override
-    public ReadableDimension calculateMinimumSize(HashMap<UIElement, LayoutData> elementData) {
+    public ReadableDimension calculateMinimumSize(HashMap<GuiElement, LayoutData> elementData) {
         // Add top padding, bottom padding and spacing for n-1 elements ;)
         int minHeight = this.paddingTop + this.paddingBot + elementData.keySet().size() > 0
                 ? (elementData.keySet().size() - 1) * this.spacing
                 : 0;
         int minWidth = 0;
 
-        for (UIElement element : elementData.keySet()) {
+        for (GuiElement element : elementData.keySet()) {
             ReadableDimension elementSize = element.getMinimumSize();
             minHeight += elementSize.getHeight();
             if (elementSize.getWidth() > minWidth) {

@@ -2,7 +2,7 @@ package de.ixsen.minecraft.uilib.layout;
 
 import java.util.HashMap;
 
-import de.ixsen.minecraft.uilib.elements.core.UIElement;
+import de.ixsen.minecraft.uilib.elements.core.GuiElement;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
@@ -12,18 +12,18 @@ import org.lwjgl.util.ReadableDimension;
  *
  * @author Subaro
  */
-public class FreeFormLayout implements UILayout {
+public class FreeFormLayout implements GuiLayout {
 
     @Override
-    public void layoutElements(HashMap<UIElement, LayoutData> elementData) {
+    public void layoutElements(HashMap<GuiElement, LayoutData> elementData) {
     }
 
     @Override
-    public ReadableDimension calculateMinimumSize(HashMap<UIElement, LayoutData> elementData) {
+    public ReadableDimension calculateMinimumSize(HashMap<GuiElement, LayoutData> elementData) {
         int maxHeight = 0;
         int maxWidth = 0;
 
-        for (UIElement element : elementData.keySet()) {
+        for (GuiElement element : elementData.keySet()) {
             ReadableDimension elementSize = element.getMinimumSize();
             Point pos = element.getGlobalPosition();
             if (pos.getX() + elementSize.getWidth() > maxWidth) {

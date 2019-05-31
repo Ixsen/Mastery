@@ -5,9 +5,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 /**
  * @author Subaro
  */
-public class UITextureAtlasSprite extends TextureAtlasSprite {
+public class MasteryTextureAtlasSprite extends TextureAtlasSprite {
 
-    public UITextureAtlasSprite(String iconName, int iconWidth, int iconHeight, int frames, boolean rotate) {
+    public MasteryTextureAtlasSprite(String iconName, int iconWidth, int iconHeight, int frames, boolean rotate) {
         super(iconName);
         this.setIconHeight(iconHeight);
         this.setIconWidth(iconWidth);

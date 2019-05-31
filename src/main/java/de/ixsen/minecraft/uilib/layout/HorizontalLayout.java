@@ -2,17 +2,19 @@ package de.ixsen.minecraft.uilib.layout;
 
 import java.util.HashMap;
 
-import de.ixsen.minecraft.uilib.elements.core.UIElement;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
+
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import de.ixsen.minecraft.uilib.elements.core.GuiElement;
 
 /**
  * Default layout. Every element is placed side by side.
  *
  * @author Subaro
  */
-public class HorizontalLayout implements UILayout {
+public class HorizontalLayout implements GuiLayout {
 
     private int paddingLeft = 0;
     private int paddingRight = 0;
@@ -33,18 +35,22 @@ public class HorizontalLayout implements UILayout {
     }
 
     @Override
-    public void layoutElements(HashMap<UIElement, LayoutData> elementData) {
+    public void layoutElements(HashMap<GuiElement, LayoutData> elements) {
         int currentX = this.paddingLeft;
         int currentY = this.paddingTop;
-        for (UIElement element : elementData.keySet()) {
+        for (GuiElement element : elements.keySet()) {
+            if (element instanceof GuiContainer) {
+                ((GuiContainer) element).layoutElements();
+            }
+
             HorizontalData data = null;
-            if (elementData.get(element) instanceof HorizontalData) {
-                data = (HorizontalData) elementData.get(element);
+            if (elements.get(element) instanceof HorizontalData) {
+                data = (HorizontalData) elements.get(element);
             } else {
                 data = HorizontalData.DEFAULT;
             }
             currentX += data.getPaddingLeft();
-            element.setPosition(new Point(currentX, currentY));
+            element.setRelativePosition(new Point(currentX, currentY));
             currentX += data.getPaddingRight();
 
             // Shift the elements to the right
@@ -53,14 +59,14 @@ public class HorizontalLayout implements UILayout {
     }
 
     @Override
-    public ReadableDimension calculateMinimumSize(HashMap<UIElement, LayoutData> elementData) {
+    public ReadableDimension calculateMinimumSize(HashMap<GuiElement, LayoutData> elementData) {
         // Add left padding, right padding and spacing for n-1 elements ;)
         int minWidth = this.paddingLeft + this.paddingRight + elementData.keySet().size() > 0
                 ? (elementData.keySet().size() - 1) * this.spacing
                 : 0;
         int maxHeight = 0;
 
-        for (UIElement element : elementData.keySet()) {
+        for (GuiElement element : elementData.keySet()) {
             ReadableDimension elementSize = element.getMinimumSize();
             minWidth += elementSize.getWidth();
             if (elementSize.getHeight() > maxHeight) {

@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * @author Subaro
  */
-public class UIAnimatedImageData {
+public class AnimatedImageData {
     private ResourceLocation location;
     private int u;
     private int v;
@@ -15,12 +15,12 @@ public class UIAnimatedImageData {
     private int textureHeight;
     private int frames;
     private int tickSpeed;
-    private UIImageData[] data;
+    private ImageData[] data;
     private int currentFrame;
     private int currentTick;
 
-    public UIAnimatedImageData(ResourceLocation location, int u, int v, int uWidth, int vHeight, int textureWidth,
-            int textureHeight) {
+    public AnimatedImageData(ResourceLocation location, int u, int v, int uWidth, int vHeight, int textureWidth,
+                             int textureHeight) {
         this.location = location;
         this.u = u;
         this.v = v;
@@ -34,9 +34,9 @@ public class UIAnimatedImageData {
         this.tickSpeed = 100;
 
         // init data
-        this.data = new UIImageData[this.frames];
+        this.data = new ImageData[this.frames];
         for (int i = 0; i < this.frames; i++) {
-            this.data[i] = new UIImageData(location, u, v + i * vHeight, uWidth, vHeight, textureWidth, textureHeight);
+            this.data[i] = new ImageData(location, u, v + i * vHeight, uWidth, vHeight, textureWidth, textureHeight);
         }
     }
 
@@ -72,8 +72,8 @@ public class UIAnimatedImageData {
         return this.frames;
     }
 
-    public UIImageData getNextImage(int tickAmount) {
-        UIImageData imageData = this.data[this.currentFrame];
+    public ImageData getNextImage(int tickAmount) {
+        ImageData imageData = this.data[this.currentFrame];
         this.currentTick += tickAmount;
         if (this.currentTick >= this.tickSpeed) {
             this.currentTick = 0;

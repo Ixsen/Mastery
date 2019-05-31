@@ -9,9 +9,12 @@ import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
-import de.ixsen.minecraft.uilib.colors.UIColors;
+import de.ixsen.minecraft.uilib.common.ColorUtils;
+import de.ixsen.minecraft.uilib.common.DrawUtils;
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
 import de.ixsen.minecraft.uilib.event.UIEnableChangeEvent;
 import de.ixsen.minecraft.uilib.event.UIVisibleChangeEvent;
+import net.minecraft.client.gui.Gui;
 
 /**
  * The basic element for every UI element. Every other element need to subclass this element. It actually introduces different kind of
@@ -21,7 +24,7 @@ import de.ixsen.minecraft.uilib.event.UIVisibleChangeEvent;
  *
  * @author Subaro
  */
-public abstract class UIElement extends UIGuiWrapper {
+public abstract class GuiElement extends GuiWrapper {
 
     /**
      * Contains the list for every visibility listener for this ui element.
@@ -31,7 +34,10 @@ public abstract class UIElement extends UIGuiWrapper {
      * Contains the list for every enable listener for this ui element.
      */
     protected List<Consumer<UIEnableChangeEvent>> enabledListener;
-
+    /**
+     * Screen reference of this container
+     */
+    protected MasteryGuiScreen screen;
     /**
      * Visible means that it will be draw and is interactable via listeners.
      */
@@ -44,7 +50,7 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * The parent container for this ui element.
      */
-    private UIContainer parentContainer;
+    private GuiContainer parentContainer;
     /**
      * Determines the minimum size for an ui element.
      */
@@ -54,23 +60,22 @@ public abstract class UIElement extends UIGuiWrapper {
      */
     private ReadableDimension maximumSize;
     /**
-     * The current relative position of the element to its parent. Mostley determined by the current layout.
+     * The current relative relativePosition of the element to its parent. Mostley determined by the current layout.
      */
-    private Point position;
+    private Point relativePosition;
+
+    private Point globalPosition;
     /**
      * Tooltip element for this element.
      */
-    private UIElement tooltip;
+    private GuiElement tooltip;
     /**
      * The color of the background of the element
      */
     private ReadableColor backgroundColor;
-    /**
-     * Screen reference of this container
-     */
-    protected UIMCScreen screen;
+    private ReadableColor borderColor;
 
-    public UIElement() {
+    public GuiElement() {
         super();
         this.visibilityListener = new ArrayList<>();
         this.enabledListener = new ArrayList<>();
@@ -78,10 +83,10 @@ public abstract class UIElement extends UIGuiWrapper {
         this.enabled = true;
         this.minimumSize = new Dimension(0, 0);
         this.maximumSize = new Dimension(0, 0);
-        this.position = new Point(0, 0);
+        this.relativePosition = new Point(0, 0);
     }
 
-    public UIElement(UIContainer parentContainer) {
+    public GuiElement(GuiContainer parentContainer) {
         this();
         this.parentContainer = parentContainer;
         this.screen = parentContainer.screen;
@@ -93,23 +98,36 @@ public abstract class UIElement extends UIGuiWrapper {
      */
     public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
+        this.drawBorder(parentX, parentY, mouseX, mouseY, partialTicks);
+        this.drawForeground(parentX, parentY, mouseX, mouseY, partialTicks);
     }
 
     /**
      * Draws the background for the ui element. Commonly a colored rect.
      */
     public void drawBackground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
-        // Draw Background
-        if (this.backgroundColor != null) {
-            Point globalPos = this.getGlobalPosition(parentX, parentY);
-            // DrawUtils.drawRectangle(globalPos.getX(), globalPos.getY(),
-            // globalPos.getX() + this.getMinimumSize().getWidth(),
-            // globalPos.getY() + this.getMinimumSize().getHeight(), UIColors.toInt(this.backgroundColor));
-            drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
-                    globalPos.getY() + this.getMinimumSize().getHeight(), UIColors.toInt(this.backgroundColor));
-
+        if (this.backgroundColor == null) {
+            return;
         }
+
+        Point globalPos = this.getGlobalPosition(parentX, parentY);
+        Gui.drawRect(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
+                globalPos.getY() + this.getMinimumSize().getHeight(), ColorUtils.toInt(this.backgroundColor));
+
     }
+
+    private void drawBorder(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+        if (this.borderColor == null) {
+            return;
+        }
+
+        Point globalPos = this.getGlobalPosition(parentX, parentY);
+        DrawUtils.drawBorder(globalPos.getX(), globalPos.getY(), globalPos.getX() + this.getMinimumSize().getWidth(),
+                globalPos.getY() + this.getMinimumSize().getHeight(), ColorUtils.toInt(this.borderColor));
+
+    }
+
+    public abstract void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks);
 
     /**
      * @return True if the element is visible, false otherwise
@@ -189,14 +207,11 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * Sets the size for this element.
-     *
-     * @param size
-     *            Size to set. Non-Scaled!
+     * @param minimumSize
+     *            The minimum size for this element. Non scaled!
      */
-    public void setSize(ReadableDimension size) {
-        this.minimumSize = size;
-        this.maximumSize = size;
+    public void setMinimumSize(ReadableDimension minimumSize) {
+        this.minimumSize = minimumSize;
     }
 
     /**
@@ -213,15 +228,7 @@ public abstract class UIElement extends UIGuiWrapper {
     }
 
     /**
-     * @param minimumSize
-     *            The minimum size for this element. Non scaled!
-     */
-    public void setMinimumSize(ReadableDimension minimumSize) {
-        this.minimumSize = minimumSize;
-    }
-
-    /**
-     * Should be overitten by every subclassed UIElement.
+     * Should be overitten by every subclassed GuiElement.
      *
      * @return The scaled maximum size of this element.
      */
@@ -240,14 +247,14 @@ public abstract class UIElement extends UIGuiWrapper {
     /**
      * @return The container that contains this element.
      */
-    public UIContainer getParentContainer() {
+    public GuiContainer getParentContainer() {
         return this.parentContainer;
     }
 
     /**
      * @return The tooltip element is it exists, null otherwise.
      */
-    public UIElement getTooltip() {
+    public GuiElement getTooltip() {
         return this.tooltip;
     }
 
@@ -257,44 +264,50 @@ public abstract class UIElement extends UIGuiWrapper {
      * @param tooltip
      *            The ui element that should be drawn as the tooltip.
      */
-    public void setTooltip(UIElement tooltip) {
+    public void setTooltip(GuiElement tooltip) {
         this.tooltip = tooltip;
     }
 
     /**
-     * @return The current global position of the element. If the element is scaled the position also correctly scaled.
+     * @return The current global relativePosition of the element. If the element is scaled the relativePosition also correctly scaled.
      */
     public Point getGlobalPosition() {
         if (this.parentContainer != null) {
             Point parentPos = this.parentContainer.getGlobalPosition();
-            return new Point(parentPos.getX() + this.position.getX(), parentPos.getY() + this.position.getY());
+            return new Point(parentPos.getX() + this.relativePosition.getX(),
+                    parentPos.getY() + this.relativePosition.getY());
         } else {
-            return new Point(this.position.getX(), this.position.getY());
+            return new Point(this.relativePosition.getX(), this.relativePosition.getY());
         }
     }
 
+    public void setGlobalPosition(Point globalPosition) {
+        this.globalPosition = globalPosition;
+    }
+
     /**
-     * @return The current global position of the element. If the element is scaled the position also correctly scaled.
+     * @return The current global relativePosition of the element. If the element is scaled the relativePosition also correctly scaled.
      */
     public Point getGlobalPosition(int parentX, int parentY) {
         return new Point(parentX + this.getRelativePosition().getX(), parentY + this.getRelativePosition().getY());
     }
 
     /**
-     * @return The current relative position of the element to it's parent.
+     * @return The current relative relativePosition of the element to it's parent.
      */
     public Point getRelativePosition() {
-        return new Point(this.position.getX(), this.position.getY());
+        return new Point(this.relativePosition.getX(), this.relativePosition.getY());
     }
 
     /**
-     * CAREFUL do not use this method when using a layout. Will override the position determined by the layout. Sets the not-scaled position;
+     * CAREFUL do not use this method when using a layout. Will override the relativePosition determined by the layout. Sets the not-scaled
+     * relativePosition;
      *
-     * @param position
-     *            The relative non-scaled position to set.
+     * @param relativePosition
+     *            The relative non-scaled relativePosition to set.
      */
-    public void setPosition(Point position) {
-        this.position = position;
+    public void setRelativePosition(Point relativePosition) {
+        this.relativePosition = relativePosition;
     }
 
     /**
@@ -317,7 +330,7 @@ public abstract class UIElement extends UIGuiWrapper {
      *            X Position of the mouse
      * @param mouseY
      *            Y Position of the mouse
-     * @return true, if the mouse position is inside the element's bounds. Works for scaled elements
+     * @return true, if the mouse relativePosition is inside the element's bounds. Works for scaled elements
      */
     public boolean isMouseHovering(int mouseX, int mouseY) {
         Point gPos = this.getGlobalPosition();
@@ -329,5 +342,26 @@ public abstract class UIElement extends UIGuiWrapper {
             return true;
         }
         return false;
+    }
+
+    public MasteryGuiScreen getScreen() {
+        return this.screen;
+    }
+
+    public void setScreen(MasteryGuiScreen screen) {
+        this.screen = screen;
+    }
+
+    public abstract ReadableDimension getSize();
+
+    /**
+     * Sets the size for this element.
+     *
+     * @param size
+     *            Size to set. Non-Scaled!
+     */
+    public void setSize(ReadableDimension size) {
+        this.minimumSize = size;
+        this.maximumSize = size;
     }
 }

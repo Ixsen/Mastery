@@ -2,19 +2,20 @@ package de.ixsen.minecraft.uilib.elements.core;
 
 import java.io.IOException;
 
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 import de.ixsen.minecraft.uilib.functions.Focusable;
-import de.ixsen.minecraft.uilib.layout.UILayout;
+import de.ixsen.minecraft.uilib.layout.GuiLayout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
  * @author Subaro
  */
-public abstract class UIMCScreen<CONTAINER_TYPE extends UIContainer> extends GuiScreen {
+public abstract class MasteryGuiScreen<CONTAINER_TYPE extends GuiContainer> extends GuiScreen {
 
     /** Root container containing all elements */
     protected CONTAINER_TYPE screenContainer;
@@ -23,32 +24,33 @@ public abstract class UIMCScreen<CONTAINER_TYPE extends UIContainer> extends Gui
     /** Position of the Gui Screen. Mostly 0,0 */
     private Point position;
     /** Current ui element to draw as a tooltip */
-    private UIElement currentTooltip;
+    private GuiElement currentTooltip;
 
     private int eventButton;
     private long lastMouseEvent;
     /** Tracks the number of fingers currently on the screen. Prevents subsequent fingers registering as clicks. */
     private int touchValue;
 
-    public UIMCScreen(Point position) {
+    public MasteryGuiScreen(Point position) {
         this.position = position;
         this.screenContainer = this.createScreenContainer();
         this.screenContainer.setLayout(this.createLayout());
     }
 
-    protected abstract UILayout createLayout();
+    protected abstract GuiLayout createLayout();
 
     /**
      * Create and draw into the screen container in this method
      */
     protected abstract CONTAINER_TYPE createScreenContainer();
 
-    public UIMCScreen() {
+    public MasteryGuiScreen() {
         this(new Point(0, 0));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.screenContainer.layoutElements();
         if (this.screenContainer.isVisible()) {
             GL11.glPushMatrix();
             this.screenContainer.draw(this.position.getX(), this.position.getY(), mouseX, mouseY, partialTicks);
@@ -157,11 +159,11 @@ public abstract class UIMCScreen<CONTAINER_TYPE extends UIContainer> extends Gui
         }
     }
 
-    public UIElement getCurrentTooltip() {
+    public GuiElement getCurrentTooltip() {
         return this.currentTooltip;
     }
 
-    public void setCurrentTooltip(UIElement currentTooltip) {
+    public void setCurrentTooltip(GuiElement currentTooltip) {
         currentTooltip.screen = this;
         this.currentTooltip = currentTooltip;
     }

@@ -1,67 +1,65 @@
-package de.ixsen.minecraft.uilib.elements.core;
+package de.ixsen.minecraft.uilib.elements.container;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Dimension;
+import org.lwjgl.util.Point;
+import org.lwjgl.util.ReadableDimension;
+
+import de.ixsen.minecraft.uilib.elements.core.GuiElement;
+import de.ixsen.minecraft.uilib.elements.core.MasteryGuiScreen;
 import de.ixsen.minecraft.uilib.functions.Clickable;
 import de.ixsen.minecraft.uilib.functions.Draggable;
 import de.ixsen.minecraft.uilib.functions.Focusable;
 import de.ixsen.minecraft.uilib.functions.Typeable;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Point;
-
+import de.ixsen.minecraft.uilib.layout.GuiLayout;
 import de.ixsen.minecraft.uilib.layout.HorizontalLayout;
 import de.ixsen.minecraft.uilib.layout.LayoutData;
-import de.ixsen.minecraft.uilib.layout.UILayout;
 
 /**
  * @author Subaro
  */
-public class UIContainer extends UIElement {
+public class GuiContainer extends GuiElement {
 
     /** The default layout used by ui containers. */
-    private static UILayout DEFAULT_LAYOUT = new HorizontalLayout();
+    private static GuiLayout DEFAULT_LAYOUT = new HorizontalLayout();
     /** List containg all the ui elemnts that are assigned to this container. */
-    private final HashMap<UIElement, LayoutData> containedElements;
+    protected final HashMap<GuiElement, LayoutData> containedElements;
     /** The layout determines the position of the children ui elements */
-    private UILayout layout;
+    private GuiLayout layout;
 
     /**
      * Constructor for the root container element.
      *
-     * @param screen Screen to pass.
+     * @param screen
+     *            Screen to pass.
      */
-    public UIContainer(UIMCScreen screen) {
+    public GuiContainer(MasteryGuiScreen screen) {
         super();
         this.screen = screen;
         this.containedElements = new LinkedHashMap<>();
-        this.setLayout(DEFAULT_LAYOUT);
+        this.setLayout(GuiContainer.DEFAULT_LAYOUT);
     }
 
-    public UIContainer() {
+    public GuiContainer() {
         super();
         this.containedElements = new LinkedHashMap<>();
-        this.setLayout(DEFAULT_LAYOUT);
+        this.setLayout(GuiContainer.DEFAULT_LAYOUT);
     }
 
-    public UIContainer(UIContainer parentContainer) {
+    public GuiContainer(GuiContainer parentContainer) {
         super(parentContainer);
         this.containedElements = new LinkedHashMap<>();
-        this.setLayout(DEFAULT_LAYOUT);
+        this.setLayout(GuiContainer.DEFAULT_LAYOUT);
     }
 
     @Override
     public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
-        // Call super to draw background if wanted
-        super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
-
         // Draw all other elements
         Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-        for (UIElement element : this.containedElements.keySet()) {
+        for (GuiElement element : this.containedElements.keySet()) {
             if (element.isVisible()) {
                 // Only draw if visible
                 GL11.glPushMatrix();
@@ -72,66 +70,78 @@ public class UIContainer extends UIElement {
         }
     }
 
+    @Override
+    public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+        // Has no foreground
+    }
+
     /**
      * Delegates the gui call to every component
      */
     public void initGui() {
-        for (UIElement element : this.containedElements.keySet()) {
-            if (element instanceof UIContainer) {
-                ((UIContainer) element).initGui();
+        for (GuiElement element : this.containedElements.keySet()) {
+            if (element instanceof GuiContainer) {
+                ((GuiContainer) element).initGui();
             }
         }
     }
 
-    public UILayout getLayout() {
+    public GuiLayout getLayout() {
         return this.layout;
     }
 
-    public void setLayout(UILayout layout) {
+    public void setLayout(GuiLayout layout) {
         this.layout = layout;
     }
 
     /**
      * Add one or more child to this container with the same default layout data of the set layout.
      *
-     * @param elements UIElements to add.
+     * @param elements
+     *            UIElements to add.
      */
-    public void addElement(UIElement... elements) {
-        for (UIElement uiElement : elements) {
-            this.containedElements.put(uiElement, this.getLayout().getDefaultData());
-            uiElement.screen = this.screen;
+    public void addElement(GuiElement... elements) {
+        for (GuiElement element : elements) {
+            this.containedElements.put(element, this.getLayout().getDefaultData());
+            element.setScreen(this.screen);
         }
+        this.setSize(this.getSize());
     }
 
     /**
      * Add one or more child to this container with the same layout data.
      *
-     * @param data LayoutData to set.
-     * @param elements UIElements to add.
+     * @param data
+     *            LayoutData to set.
+     * @param elements
+     *            UIElements to add.
      */
-    public void addElement(LayoutData data, UIElement... elements) {
-        for (UIElement uiElement : elements) {
-            this.containedElements.put(uiElement, data);
-            uiElement.screen = this.screen;
+    public void addElement(LayoutData data, GuiElement... elements) {
+        for (GuiElement element : elements) {
+            this.containedElements.put(element, data);
+            element.setScreen(this.screen);
         }
     }
 
     /**
      * Removes the child for this container.
      *
-     * @param element UIElement to remove.
+     * @param element
+     *            GuiElement to remove.
      */
-    public void removeElement(UIElement element) {
+    public void removeElement(GuiElement element) {
         this.containedElements.remove(element);
     }
 
     /**
      * Changes the layout data of a certain ui element.
      *
-     * @param data New LayoutData to set.
-     * @param element UIElement to change.
+     * @param data
+     *            New LayoutData to set.
+     * @param element
+     *            GuiElement to change.
      */
-    public void changeLayoutData(LayoutData data, UIElement element) {
+    public void changeLayoutData(LayoutData data, GuiElement element) {
         if (this.containedElements.get(element) != null) {
             this.containedElements.replace(element, data);
         }
@@ -140,7 +150,7 @@ public class UIContainer extends UIElement {
     /**
      * Layouts all elements and sets their position.
      */
-    protected void layoutElements() {
+    public void layoutElements() {
         this.getLayout().layoutElements(this.containedElements);
         this.setSize(this.getLayout().calculateMinimumSize(this.containedElements));
     }
@@ -148,15 +158,15 @@ public class UIContainer extends UIElement {
     /**
      * Handles the forwarding of the mouse click events to the right elements.
      */
-    protected boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    public boolean mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         // Check the containing ui elements
-        for (UIElement element : this.getContainedElementsReversed()) {
+        for (GuiElement element : this.getContainedElementsReversed()) {
             if (!element.isVisible() || !element.isEnabled()) {
                 continue;
             }
-            // Forward when the element is an UIContainer
-            if (element instanceof UIContainer) {
-                if (((UIContainer) element).mouseClicked(mouseX, mouseY, mouseButton)) {
+            // Forward when the element is an GuiContainer
+            if (element instanceof GuiContainer) {
+                if (((GuiContainer) element).mouseClicked(mouseX, mouseY, mouseButton)) {
                     return true;
                 }
             }
@@ -183,19 +193,19 @@ public class UIContainer extends UIElement {
     /**
      * Handles the forwarding of the mouse click events to the right elements.
      */
-    protected boolean processFocus(int mouseX, int mouseY, int mouseButton) throws IOException {
+    public boolean processFocus(int mouseX, int mouseY, int mouseButton) throws IOException {
         // Only focus when left-clicking
         if (mouseButton != 0) {
             return true;
         }
         // Check the containing ui elements
-        for (UIElement element : this.getContainedElementsReversed()) {
+        for (GuiElement element : this.getContainedElementsReversed()) {
             if (!element.isVisible() || !element.isEnabled()) {
                 continue;
             }
-            // Forward when the element is an UIContainer
-            if (element instanceof UIContainer) {
-                if (((UIContainer) element).processFocus(mouseX, mouseY, mouseButton)) {
+            // Forward when the element is an GuiContainer
+            if (element instanceof GuiContainer) {
+                if (((GuiContainer) element).processFocus(mouseX, mouseY, mouseButton)) {
                     return true;
                 }
             }
@@ -220,15 +230,15 @@ public class UIContainer extends UIElement {
     /**
      * Handles the forwarding of the mouse click events to the right elements.
      */
-    protected boolean mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+    public boolean mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
         // Check the containing ui elements
-        for (UIElement element : this.getContainedElementsReversed()) {
+        for (GuiElement element : this.getContainedElementsReversed()) {
             if (!element.isVisible() || !element.isEnabled()) {
                 continue;
             }
-            // Forward when the element is an UIContainer
-            if (element instanceof UIContainer) {
-                if (((UIContainer) element).mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)) {
+            // Forward when the element is an GuiContainer
+            if (element instanceof GuiContainer) {
+                if (((GuiContainer) element).mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick)) {
                     return true;
                 }
             }
@@ -251,15 +261,15 @@ public class UIContainer extends UIElement {
     /**
      * Handles the forwarding of the mouse click events to the right elements.
      */
-    protected boolean mouseReleased(int mouseX, int mouseY, int state) {
+    public boolean mouseReleased(int mouseX, int mouseY, int state) {
         // Check the containing ui elements
-        for (UIElement element : this.getContainedElementsReversed()) {
+        for (GuiElement element : this.getContainedElementsReversed()) {
             if (!element.isVisible() || !element.isEnabled()) {
                 continue;
             }
-            // Forward when the element is an UIContainer
-            if (element instanceof UIContainer) {
-                if (((UIContainer) element).mouseReleased(mouseX, mouseY, state)) {
+            // Forward when the element is an GuiContainer
+            if (element instanceof GuiContainer) {
+                if (((GuiContainer) element).mouseReleased(mouseX, mouseY, state)) {
                     return true;
                 }
             }
@@ -283,14 +293,14 @@ public class UIContainer extends UIElement {
     /**
      * Handles the forwarding of key events to the contained elements.
      */
-    protected void keyTyped(char typedChar, int keyCode) {
+    public void keyTyped(char typedChar, int keyCode) {
         // Check the containing ui elements
-        for (UIElement element : this.getContainedElementsReversed()) {
+        for (GuiElement element : this.getContainedElementsReversed()) {
             if (!element.isVisible() || !element.isEnabled()) {
                 continue;
             }
-            // Forward when the element is an UIContainer
-            if (element instanceof UIContainer) {
+            // Forward when the element is an GuiContainer
+            if (element instanceof GuiContainer) {
                 this.keyTyped(typedChar, keyCode);
             }
 
@@ -312,14 +322,14 @@ public class UIContainer extends UIElement {
      * @param mouseX
      * @param mouseY
      */
-    protected boolean handleTooltip(UIMCScreen screen, int mouseX, int mouseY) {
+    public boolean handleTooltip(MasteryGuiScreen screen, int mouseX, int mouseY) {
         // Check the containing ui elements
-        for (UIElement element : this.getContainedElementsReversed()) {
+        for (GuiElement element : this.getContainedElementsReversed()) {
             if (!element.isVisible() || !element.isEnabled()) {
                 continue;
             }
-            // Forward when the element is an UIContainer
-            if (element instanceof UIContainer) {
+            // Forward when the element is an GuiContainer
+            if (element instanceof GuiContainer) {
                 if (this.handleTooltip(screen, mouseX, mouseY)) {
                     return true;
                 }
@@ -342,9 +352,24 @@ public class UIContainer extends UIElement {
     /**
      * @return List containing all elements in the reversed order as they are drawn.
      */
-    private List<UIElement> getContainedElementsReversed() {
-        List<UIElement> list = new ArrayList<>(this.containedElements.keySet());
+    private List<GuiElement> getContainedElementsReversed() {
+        List<GuiElement> list = new ArrayList<>(this.containedElements.keySet());
         Collections.reverse(list);
         return list;
     }
+
+    @Override
+    public ReadableDimension getSize() {
+        int width = 0;
+        int height = 0;
+
+        for (Map.Entry<GuiElement, LayoutData> guiElementLayoutDataEntry : this.containedElements.entrySet()) {
+            width += guiElementLayoutDataEntry.getKey().getSize().getWidth();
+            height += guiElementLayoutDataEntry.getKey().getSize().getHeight();
+
+        }
+
+        return new Dimension(width, height);
+    }
+
 }

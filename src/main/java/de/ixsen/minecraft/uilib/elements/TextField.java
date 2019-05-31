@@ -1,38 +1,39 @@
-package de.ixsen.minecraft.uilib.elements.basic;
+package de.ixsen.minecraft.uilib.elements;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import de.ixsen.minecraft.uilib.event.UIFocusEvent;
-import de.ixsen.minecraft.uilib.event.UIKeyEvent;
-import de.ixsen.minecraft.uilib.event.UIValueChangeEvent;
-import de.ixsen.minecraft.uilib.functions.Changable;
-import de.ixsen.minecraft.uilib.functions.Focusable;
-import de.ixsen.minecraft.uilib.functions.Typeable;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
-import de.ixsen.minecraft.uilib.colors.UIColors;
-import de.ixsen.minecraft.uilib.elements.core.UIContainer;
-import de.ixsen.minecraft.uilib.elements.core.UIScalableElement;
+import de.ixsen.minecraft.uilib.common.Alignment;
+import de.ixsen.minecraft.uilib.common.ColorUtils;
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import de.ixsen.minecraft.uilib.elements.core.ScalableGuiElement;
+import de.ixsen.minecraft.uilib.event.UIFocusEvent;
+import de.ixsen.minecraft.uilib.event.UIKeyEvent;
+import de.ixsen.minecraft.uilib.event.UIValueChangeEvent;
+import de.ixsen.minecraft.uilib.functions.Changable;
+import de.ixsen.minecraft.uilib.functions.Focusable;
+import de.ixsen.minecraft.uilib.functions.Typeable;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ChatAllowedCharacters;
 
 /**
  * @author Subaro
  */
-public class UITextField extends UIScalableElement implements Typeable, Focusable, Changable<String> {
+public class TextField extends ScalableGuiElement implements Typeable, Focusable, Changable<String> {
 
     /** Text to show */
     private String text;
     /** Text to show when the element is not focused and the current text is empty */
     private String placeholderText;
     /** Alignment for this lable */
-    private UIAlignment alignment;
+    private Alignment alignment;
     /** Determines whether this element is currently focused. */
     private boolean focus = false;
     /** Color for the text element */
@@ -48,12 +49,11 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
     /** List of consumer that are executed when the value of this element changes. */
     private List<Consumer<UIValueChangeEvent<String>>> onChangeListener = new ArrayList<>();
     /** Determines how fast the caret should blink. */
-    int maxTicks = 50;
+    private int maxTicks = 50;
     /** Used for the blinking of the caret. */
-    int currentTicks = 0;
+    private int currentTicks = 0;
 
-    public UITextField(String text, String placeholderText, ReadableColor textColor, float scale,
-            UIAlignment alignment) {
+    public TextField(String text, String placeholderText, ReadableColor textColor, float scale, Alignment alignment) {
         super(scale);
         this.placeholderText = placeholderText;
         this.text = text;
@@ -61,9 +61,8 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
         this.alignment = alignment;
     }
 
-    public UITextField(UIContainer parentContainer, String placeholderText, String text, ReadableColor textColor,
-            float scale,
-            UIAlignment alignment) {
+    public TextField(GuiContainer parentContainer, String placeholderText, String text, ReadableColor textColor,
+            float scale, Alignment alignment) {
         super(parentContainer, scale);
         this.placeholderText = placeholderText;
         this.text = text;
@@ -127,88 +126,82 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
     }
 
     @Override
-    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+    public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         GL11.glEnable(GL11.GL_BLEND);
-        this.startScaling(this.getScale());
-        {
-            Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-            // Draw Background
-            this.drawBackground(parentX, parentY, mouseX, mouseY, partialTicks);
+        Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
 
-            // Increase Ticks
-            this.currentTicks += 1;
+        // Increase Ticks
+        this.currentTicks += 1;
 
-            // Draw 'label'
-            String drawString = this.getText();
-            if (this.text.isEmpty() && !this.isFocused()) {
-                drawString = this.placeholderText;
-            }
+        // Draw 'label'
+        String drawString = this.getText();
+        if (this.text.isEmpty() && !this.isFocused()) {
+            drawString = this.placeholderText;
+        }
 
-            FontRenderer fontRenderer = this.mc.fontRenderer;
-            ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(drawString),
-                    fontRenderer.FONT_HEIGHT);
-            int y, x;
+        FontRenderer fontRenderer = this.mc.fontRenderer;
+        ReadableDimension calculatedSize = new Dimension(fontRenderer.getStringWidth(drawString),
+                fontRenderer.FONT_HEIGHT);
+        int y, x;
 
-            switch (this.getAlignment()) {
-            case BOT_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case BOT_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case BOT_LEFT:
-                x = 0;
-                y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
-                break;
-            case MIDDLE_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case MIDDLE_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case MIDDLE_LEFT:
-                x = 0;
-                y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
-                break;
-            case TOP_RIGHT:
-                x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
-                y = 0;
-                break;
-            case TOP_CENTER:
-                x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
-                y = 0;
-                break;
-            case TOP_LEFT:
-            default:
-                x = 0;
-                y = 0;
-                break;
-            }
+        switch (this.getAlignment()) {
+        case BOT_RIGHT:
+            x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+            y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+            break;
+        case BOT_CENTER:
+            x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+            y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+            break;
+        case BOT_LEFT:
+            x = 0;
+            y = this.getMinimumSize().getHeight() - fontRenderer.FONT_HEIGHT;
+            break;
+        case MIDDLE_RIGHT:
+            x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+            y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+            break;
+        case MIDDLE_CENTER:
+            x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+            y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+            break;
+        case MIDDLE_LEFT:
+            x = 0;
+            y = this.getMinimumSize().getHeight() / 2 - fontRenderer.FONT_HEIGHT / 2;
+            break;
+        case TOP_RIGHT:
+            x = this.getMinimumSize().getWidth() - calculatedSize.getWidth();
+            y = 0;
+            break;
+        case TOP_CENTER:
+            x = this.getMinimumSize().getWidth() / 2 - calculatedSize.getWidth() / 2;
+            y = 0;
+            break;
+        case TOP_LEFT:
+        default:
+            x = 0;
+            y = 0;
+            break;
+        }
 
-            if (this.text.isEmpty() && !this.isFocused()) {
-                Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
-                this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
-                        UIColors.toInt(this.getPlaceHolderColor()));
-            } else {
-                Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
-                this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
-                        UIColors.toInt(this.getTextColor()));
-                if (this.isFocused()) {
-                    if (this.currentTicks <= this.maxTicks) {
-                        Point caretPos = new Point(labelPos.getX() + calculatedSize.getWidth(), labelPos.getY());
-                        this.drawString(this.mc.fontRenderer, "I", caretPos.getX(), caretPos.getY(),
-                                UIColors.toInt(this.caretColor));
-                    } else if (this.currentTicks > 2 * this.maxTicks) {
-                        this.currentTicks = 0;
-                    }
+        if (this.text.isEmpty() && !this.isFocused()) {
+            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+            this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
+                    ColorUtils.toInt(this.getPlaceHolderColor()));
+        } else {
+            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+            this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
+                    ColorUtils.toInt(this.getTextColor()));
+            if (this.isFocused()) {
+                if (this.currentTicks <= this.maxTicks) {
+                    Point caretPos = new Point(labelPos.getX() + calculatedSize.getWidth(), labelPos.getY());
+                    this.drawString(this.mc.fontRenderer, "I", caretPos.getX(), caretPos.getY(),
+                            ColorUtils.toInt(this.caretColor));
+                } else if (this.currentTicks > 2 * this.maxTicks) {
+                    this.currentTicks = 0;
                 }
             }
         }
-        this.endScaling();
         GL11.glDisable(GL11.GL_BLEND);
     }
 
@@ -244,11 +237,11 @@ public class UITextField extends UIScalableElement implements Typeable, Focusabl
         this.textColor = textColor;
     }
 
-    public UIAlignment getAlignment() {
+    public Alignment getAlignment() {
         return this.alignment;
     }
 
-    public void setAlignment(UIAlignment alignment) {
+    public void setAlignment(Alignment alignment) {
         this.alignment = alignment;
     }
 

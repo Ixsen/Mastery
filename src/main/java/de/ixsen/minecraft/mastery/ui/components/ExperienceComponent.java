@@ -1,40 +1,53 @@
 package de.ixsen.minecraft.mastery.ui.components;
 
-import de.ixsen.minecraft.uilib.elements.basic.UIAlignment;
 import org.lwjgl.util.ReadableColor;
 
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasteryClass;
-import de.ixsen.minecraft.uilib.elements.basic.UILabel;
-import de.ixsen.minecraft.uilib.elements.core.UIContainer;
+import de.ixsen.minecraft.uilib.common.Alignment;
+import de.ixsen.minecraft.uilib.common.Orientation;
+import de.ixsen.minecraft.uilib.elements.Label;
+import de.ixsen.minecraft.uilib.elements.ProgressBar;
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
 import de.ixsen.minecraft.uilib.layout.HorizontalLayout;
 import de.ixsen.minecraft.uilib.layout.VerticalLayout;
 
-public class ExperienceComponent extends UIContainer {
+public class ExperienceComponent extends GuiContainer {
 
-    private final UILabel levelLabel;
-    private final UILabel masteryLabel;
+    private final Label levelLabel;
+    private final Label masteryLabel;
 
     public ExperienceComponent() {
         super();
-        this.setLayout(new VerticalLayout());
+        // this.setLayout(new VerticalLayout());
 
-        this.levelLabel = new UILabel("BLa", ReadableColor.WHITE, 1f, UIAlignment.MIDDLE_CENTER);
-         this.levelLabel.setSize(20, 20);
-         this.levelLabel.setBackgroundColor(ReadableColor.GREY);
+        this.levelLabel = new Label("BLa", ReadableColor.WHITE, 1f, Alignment.MIDDLE_CENTER);
+        this.levelLabel.setBackgroundColor(ReadableColor.GREY);
 
-        this.masteryLabel = new UILabel("Bku", ReadableColor.WHITE, 1f, UIAlignment.MIDDLE_CENTER);
-        this.masteryLabel.setSize(20, 20);
+        this.masteryLabel = new Label("Bku", ReadableColor.WHITE, 1f, Alignment.MIDDLE_CENTER);
         this.masteryLabel.setBackgroundColor(ReadableColor.GREY);
 
-        UIContainer uiContainer = new UIContainer();
-        uiContainer.setLayout(new HorizontalLayout());
-        uiContainer.addElement(this.levelLabel, this.masteryLabel);
+        GuiContainer container = new GuiContainer();
+        container.setLayout(new HorizontalLayout());
+        container.addElement(this.levelLabel, this.masteryLabel);
 
-        this.addElement(this.levelLabel, this.masteryLabel);
+        ProgressBar progressBar = new ProgressBar(Orientation.HORIZONTAL, ReadableColor.BLUE);
+        progressBar.setSize(50, 10);
+        progressBar.setBackgroundColor(ReadableColor.BLACK);
+
+        GuiContainer guiContainer = new GuiContainer();
+        guiContainer.setLayout(new VerticalLayout());
+        guiContainer.addElement(container, this.levelLabel, this.masteryLabel);
+
+        this.addElement(progressBar, guiContainer);
     }
 
     public void setMasteryInfo(MasteryClass masteryLabel) {
         this.levelLabel.setText(String.valueOf(masteryLabel.getLevel()));
         this.masteryLabel.setText(masteryLabel.getName());
+    }
+
+    @Override
+    public void draw(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
+        super.draw(parentX, parentY, mouseX, mouseY, partialTicks);
     }
 }

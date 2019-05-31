@@ -1,8 +1,7 @@
 package de.ixsen.minecraft.uilib.event;
 
+import de.ixsen.minecraft.uilib.elements.core.GuiElement;
 import org.lwjgl.util.Point;
-
-import de.ixsen.minecraft.uilib.elements.core.UIElement;
 
 /**
  * @author Subaro
@@ -13,21 +12,21 @@ public class UIMouseEvent extends UIEvent {
     private long timeSinceLastCall = 0;
     private int state = 0;
 
-    public UIMouseEvent(UIElement actuatorElement, Point mousePosition, int mouseButton) {
+    public UIMouseEvent(GuiElement actuatorElement, Point mousePosition, int mouseButton) {
         super(actuatorElement);
         this.mousePosition = mousePosition;
         this.mouseButton = mouseButton;
         this.timeSinceLastCall = 0;
     }
 
-    public UIMouseEvent(UIElement actuatorElement, Point mousePosition, int mouseButton, int state) {
+    public UIMouseEvent(GuiElement actuatorElement, Point mousePosition, int mouseButton, int state) {
         super(actuatorElement);
         this.mousePosition = mousePosition;
         this.mouseButton = mouseButton;
         this.state = state;
     }
 
-    public UIMouseEvent(UIElement actuatorElement, Point mousePosition, int mouseButton, long timeSinceLastCall) {
+    public UIMouseEvent(GuiElement actuatorElement, Point mousePosition, int mouseButton, long timeSinceLastCall) {
         super(actuatorElement);
         this.mousePosition = mousePosition;
         this.mouseButton = mouseButton;

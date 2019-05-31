@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * @author Subaro
  */
-public class UIImageData {
+public class ImageData {
 
     private ResourceLocation location;
     private int u;
@@ -15,8 +15,8 @@ public class UIImageData {
     private int textureWidth;
     private int textureHeight;
 
-    public UIImageData(ResourceLocation location, int u, int v, int uWidth, int vHeight, int textureWidth,
-            int textureHeight) {
+    public ImageData(ResourceLocation location, int u, int v, int uWidth, int vHeight, int textureWidth,
+                     int textureHeight) {
         this.location = location;
         this.u = u;
         this.v = v;

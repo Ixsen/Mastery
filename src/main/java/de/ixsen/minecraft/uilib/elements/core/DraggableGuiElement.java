@@ -4,27 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import org.lwjgl.util.Point;
+
 import de.ixsen.minecraft.uilib.event.UIMouseEvent;
 import de.ixsen.minecraft.uilib.functions.Draggable;
-import org.lwjgl.util.Point;
 
 /**
  * @author Subaro
  */
-public class UIDraggableElement extends UIClickableElement implements Draggable {
+public abstract class DraggableGuiElement extends ClickableGuiElement implements Draggable {
 
-    /** Indicates that the element was clicked. Is used to determine if a drag event is associated to the UIDraggableElement */
+    /** Indicates that the element was clicked. Is used to determine if a drag event is associated to the DraggableGuiElement */
     private boolean isClicked;
     /** List containing the consumers for the on release event */
     private List<Consumer<UIMouseEvent>> onReleaseListener = new ArrayList<>();
     /** List containing the consumers for the on drag event */
     private List<Consumer<UIMouseEvent>> onDragListener = new ArrayList<>();
 
-    public UIDraggableElement(float scale) {
+    public DraggableGuiElement(float scale) {
         super(scale);
     }
 
-    public UIDraggableElement(UIContainer parentContainer, float scale) {
+    public DraggableGuiElement(GuiContainer parentContainer, float scale) {
         super(parentContainer, scale);
     }
 

@@ -1,17 +1,16 @@
 package de.ixsen.minecraft.uilib.elements;
 
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
-import de.ixsen.minecraft.uilib.elements.core.ScalableGuiElement;
 import org.lwjgl.util.Dimension;
-import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
+import de.ixsen.minecraft.uilib.elements.core.ScalableUiElement;
 import net.minecraft.item.ItemStack;
 
 /**
  * @author Subaro
  */
-public class Item extends ScalableGuiElement {
+public class Item extends ScalableUiElement {
 
     private ItemStack item;
     private boolean renderEffect = false;
@@ -22,7 +21,7 @@ public class Item extends ScalableGuiElement {
         this.renderEffect = renderEffect;
     }
 
-    public Item(GuiContainer parentContainer, float scale, ItemStack item, boolean renderEffect) {
+    public Item(UiContainer parentContainer, float scale, ItemStack item, boolean renderEffect) {
         super(parentContainer, scale);
         this.item = item;
         this.renderEffect = renderEffect;
@@ -30,11 +29,12 @@ public class Item extends ScalableGuiElement {
 
     @Override
     public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
-        Point gPos = this.getGlobalPosition(parentX, parentY);
         if (this.renderEffect) {
-            this.mc.getRenderItem().renderItemAndEffectIntoGUI(this.item, gPos.getX(), gPos.getY());
+            this.mc.getRenderItem().renderItemAndEffectIntoGUI(this.item, this.getGlobalPosition().getX(),
+                    this.getGlobalPosition().getY());
         } else {
-            this.mc.getRenderItem().renderItemIntoGUI(this.item, gPos.getX(), gPos.getY());
+            this.mc.getRenderItem().renderItemIntoGUI(this.item, this.getGlobalPosition().getX(),
+                    this.getGlobalPosition().getY());
         }
     }
 

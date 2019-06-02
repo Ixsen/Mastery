@@ -1,18 +1,18 @@
 package de.ixsen.minecraft.uilib.event;
 
-import de.ixsen.minecraft.uilib.elements.core.GuiElement;
+import de.ixsen.minecraft.uilib.elements.core.UiElement;
 
 /**
  * @author Subaro
  */
 public class UIEvent {
-    private GuiElement actuatorElement;
+    private UiElement actuatorElement;
 
-    public UIEvent(GuiElement actuatorElement) {
+    public UIEvent(UiElement actuatorElement) {
         this.actuatorElement = actuatorElement;
     }
 
-    public GuiElement getActuatorElement() {
+    public UiElement getActuatorElement() {
         return this.actuatorElement;
     }
 }

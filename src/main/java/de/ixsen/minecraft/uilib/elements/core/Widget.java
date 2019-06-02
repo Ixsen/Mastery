@@ -3,6 +3,6 @@ package de.ixsen.minecraft.uilib.elements.core;
 /**
  * @author Subaro
  */
-public abstract class Widget extends GuiElement {
+public abstract class Widget extends UiElement {
 
 }

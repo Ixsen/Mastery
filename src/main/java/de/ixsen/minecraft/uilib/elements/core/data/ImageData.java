@@ -16,7 +16,7 @@ public class ImageData {
     private int textureHeight;
 
     public ImageData(ResourceLocation location, int u, int v, int uWidth, int vHeight, int textureWidth,
-                     int textureHeight) {
+            int textureHeight) {
         this.location = location;
         this.u = u;
         this.v = v;
@@ -24,6 +24,10 @@ public class ImageData {
         this.vHeight = vHeight;
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
+    }
+
+    public void setLocation(ResourceLocation location) {
+        this.location = location;
     }
 
     public ResourceLocation getLocation() {

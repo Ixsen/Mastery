@@ -12,8 +12,8 @@ import org.lwjgl.util.ReadableDimension;
 
 import de.ixsen.minecraft.uilib.common.Alignment;
 import de.ixsen.minecraft.uilib.common.ColorUtils;
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
-import de.ixsen.minecraft.uilib.elements.core.ScalableGuiElement;
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
+import de.ixsen.minecraft.uilib.elements.core.ScalableUiElement;
 import de.ixsen.minecraft.uilib.event.UIFocusEvent;
 import de.ixsen.minecraft.uilib.event.UIKeyEvent;
 import de.ixsen.minecraft.uilib.event.UIValueChangeEvent;
@@ -26,7 +26,7 @@ import net.minecraft.util.ChatAllowedCharacters;
 /**
  * @author Subaro
  */
-public class TextField extends ScalableGuiElement implements Typeable, Focusable, Changable<String> {
+public class TextField extends ScalableUiElement implements Typeable, Focusable, Changable<String> {
 
     /** Text to show */
     private String text;
@@ -61,7 +61,7 @@ public class TextField extends ScalableGuiElement implements Typeable, Focusable
         this.alignment = alignment;
     }
 
-    public TextField(GuiContainer parentContainer, String placeholderText, String text, ReadableColor textColor,
+    public TextField(UiContainer parentContainer, String placeholderText, String text, ReadableColor textColor,
             float scale, Alignment alignment) {
         super(parentContainer, scale);
         this.placeholderText = placeholderText;
@@ -128,8 +128,6 @@ public class TextField extends ScalableGuiElement implements Typeable, Focusable
     @Override
     public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
         GL11.glEnable(GL11.GL_BLEND);
-        Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
-
         // Increase Ticks
         this.currentTicks += 1;
 
@@ -185,11 +183,11 @@ public class TextField extends ScalableGuiElement implements Typeable, Focusable
         }
 
         if (this.text.isEmpty() && !this.isFocused()) {
-            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+            Point labelPos = new Point(this.getGlobalPosition().getX() + x, this.getGlobalPosition().getY() + y);
             this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
                     ColorUtils.toInt(this.getPlaceHolderColor()));
         } else {
-            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+            Point labelPos = new Point(this.getGlobalPosition().getX() + x, this.getGlobalPosition().getY() + y);
             this.drawString(this.mc.fontRenderer, drawString, labelPos.getX(), labelPos.getY(),
                     ColorUtils.toInt(this.getTextColor()));
             if (this.isFocused()) {

@@ -2,28 +2,29 @@ package de.ixsen.minecraft.uilib.layout;
 
 import java.util.HashMap;
 
-import de.ixsen.minecraft.uilib.elements.core.GuiElement;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
+
+import de.ixsen.minecraft.uilib.elements.core.UiElement;
 
 /**
  * Vertical layout.
  *
  * @author Subaro
  */
-public class FreeFormLayout implements GuiLayout {
+public class FreeFormLayout implements UiLayout {
 
     @Override
-    public void layoutElements(HashMap<GuiElement, LayoutData> elementData) {
+    public void layoutElements(HashMap<UiElement, LayoutData> elementData) {
     }
 
     @Override
-    public ReadableDimension calculateMinimumSize(HashMap<GuiElement, LayoutData> elementData) {
+    public ReadableDimension calculateMinimumSize(HashMap<UiElement, LayoutData> elementData) {
         int maxHeight = 0;
         int maxWidth = 0;
 
-        for (GuiElement element : elementData.keySet()) {
+        for (UiElement element : elementData.keySet()) {
             ReadableDimension elementSize = element.getMinimumSize();
             Point pos = element.getGlobalPosition();
             if (pos.getX() + elementSize.getWidth() > maxWidth) {

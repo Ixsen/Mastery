@@ -2,10 +2,10 @@ package de.ixsen.minecraft.uilib.elements.container;
 
 import org.lwjgl.util.Point;
 
-import de.ixsen.minecraft.uilib.elements.core.GuiElement;
-import de.ixsen.minecraft.uilib.layout.HorizontalData;
+import de.ixsen.minecraft.uilib.elements.core.ScalableUiElement;
+import de.ixsen.minecraft.uilib.elements.core.UiElement;
 
-public class HorizontalContainer extends GuiContainer {
+public class HorizontalContainer extends UiContainer {
 
     private int paddingLeft = 0;
     private int paddingRight = 0;
@@ -29,25 +29,77 @@ public class HorizontalContainer extends GuiContainer {
     public void layoutElements() {
         int currentX = this.paddingLeft;
         int currentY = this.paddingTop;
+        int maxHeight = 0;
 
-        for (GuiElement element : this.containedElements.keySet()) {
-            if (element instanceof GuiContainer) {
-                ((GuiContainer) element).layoutElements();
+        for (UiElement element : this.containedElements) {
+            if (element instanceof UiContainer) {
+                ((UiContainer) element).layoutElements();
             }
 
-            HorizontalData data = null;
-            if (this.containedElements.get(element) instanceof HorizontalData) {
-                data = (HorizontalData) this.containedElements.get(element);
-            } else {
-                data = HorizontalData.DEFAULT;
-            }
-            currentX += data.getPaddingLeft();
+            currentX = currentX == this.paddingLeft ? currentX : currentX + this.spacing;
+
+            float scaleCounter = element instanceof ScalableUiElement
+                    ? (int) (1 / ((ScalableUiElement) element).getScale())
+                    : 1;
+
             element.setRelativePosition(new Point(currentX, currentY));
-            currentX += data.getPaddingRight();
 
-            // Shift the elements to the right
-            currentX += this.spacing + element.getMinimumSize().getWidth();
+            Point elementGlobalPosition = new Point(
+                    (int) ((this.getGlobalPosition().getX() * scaleCounter + element.getRelativePosition().getX())),
+                    (int) ((this.getGlobalPosition().getY() * scaleCounter + element.getRelativePosition().getY())));
+
+            element.setGlobalPosition(elementGlobalPosition);
+
+            int elementHeight = element.getMinimumSize().getHeight();
+            maxHeight = maxHeight > elementHeight ? maxHeight : elementHeight;
+
+            currentX += element.getMinimumSize().getWidth();
+
         }
 
+        int width = currentX + this.paddingRight;
+        int height = this.paddingTop + maxHeight + this.paddingBot;
+
+        this.setSize(width, height);
+    }
+
+    public int getPaddingLeft() {
+        return this.paddingLeft;
+    }
+
+    public void setPaddingLeft(int paddingLeft) {
+        this.paddingLeft = paddingLeft;
+    }
+
+    public int getPaddingRight() {
+        return this.paddingRight;
+    }
+
+    public void setPaddingRight(int paddingRight) {
+        this.paddingRight = paddingRight;
+    }
+
+    public int getPaddingTop() {
+        return this.paddingTop;
+    }
+
+    public void setPaddingTop(int paddingTop) {
+        this.paddingTop = paddingTop;
+    }
+
+    public int getPaddingBot() {
+        return this.paddingBot;
+    }
+
+    public void setPaddingBot(int paddingBot) {
+        this.paddingBot = paddingBot;
+    }
+
+    public int getSpacing() {
+        return this.spacing;
+    }
+
+    public void setSpacing(int spacing) {
+        this.spacing = spacing;
     }
 }

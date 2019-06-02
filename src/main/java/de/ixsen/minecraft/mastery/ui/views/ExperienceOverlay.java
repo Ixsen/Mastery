@@ -9,22 +9,15 @@ import de.ixsen.minecraft.mastery.configuration.MasteryConfiguration;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEventType;
 import de.ixsen.minecraft.mastery.ui.components.ExperienceComponent;
-import de.ixsen.minecraft.uilib.elements.core.MasteryGuiOverlay;
-import de.ixsen.minecraft.uilib.layout.FreeFormLayout;
-import de.ixsen.minecraft.uilib.layout.GuiLayout;
+import de.ixsen.minecraft.uilib.elements.core.UiOverlay;
 import net.minecraft.client.Minecraft;
 
 @SubscribeToClientEventBus
-public class ExperienceOverlay extends MasteryGuiOverlay<ExperienceComponent> {
+public class ExperienceOverlay extends UiOverlay<ExperienceComponent> {
 
     public ExperienceOverlay() {
         super();
         MasteryMod.getEventHandler().addListener(this::processEvent);
-    }
-
-    @Override
-    protected GuiLayout createLayout() {
-        return new FreeFormLayout();
     }
 
     @Override
@@ -38,7 +31,7 @@ public class ExperienceOverlay extends MasteryGuiOverlay<ExperienceComponent> {
 
             MasteryClass mastery = MasteryUtils.getMastery(Minecraft.getMinecraft().player,
                     (MasterySpec) masteryEvent.getSource());
-             this.screenContainer.setMasteryInfo(mastery);
+            this.screenContainer.setMasteryInfo(mastery);
 
             this.setVisibleTemporarily(MasteryConfiguration.UI_OVERLAY.overlayTime);
         }

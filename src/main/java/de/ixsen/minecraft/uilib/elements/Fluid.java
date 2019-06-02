@@ -1,10 +1,9 @@
 package de.ixsen.minecraft.uilib.elements;
 
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
-import de.ixsen.minecraft.uilib.elements.core.ScalableGuiElement;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Point;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
+import de.ixsen.minecraft.uilib.elements.core.ScalableUiElement;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,7 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * @author Subaro
  */
-public class Fluid extends ScalableGuiElement {
+public class Fluid extends ScalableUiElement {
 
     /** the fluid to render */
     private FluidStack fluidStack;
@@ -28,7 +27,7 @@ public class Fluid extends ScalableGuiElement {
         this.fluidStack = fluidStack;
     }
 
-    public Fluid(GuiContainer parentContainer, FluidStack fluidStack) {
+    public Fluid(UiContainer parentContainer, FluidStack fluidStack) {
         super(parentContainer, 1f);
         this.fluidStack = fluidStack;
     }
@@ -43,16 +42,15 @@ public class Fluid extends ScalableGuiElement {
             return;
         }
 
-        Point gPos = this.getGlobalPosition(parentX, parentY);
         float quotient = this.fluidStack.amount / 100f;
         int barHeight = (int) (this.getMinimumSize().getHeight() * quotient);
         int yOffset = this.getMinimumSize().getHeight() - barHeight;
         if (this.isFlowing) {
-            this.renderTiledFluidFlowing(gPos.getX(), gPos.getY() + yOffset, this.getMinimumSize().getWidth(),
-                    barHeight, this.zLevel, this.fluidStack);
+            this.renderTiledFluidFlowing(this.getGlobalPosition().getX(), this.getGlobalPosition().getY() + yOffset,
+                    this.getMinimumSize().getWidth(), barHeight, this.zLevel, this.fluidStack);
         } else {
-            this.renderTiledFluidStill(gPos.getX(), gPos.getY() + yOffset, this.getMinimumSize().getWidth(), barHeight,
-                    this.zLevel, this.fluidStack);
+            this.renderTiledFluidStill(this.getGlobalPosition().getX(), this.getGlobalPosition().getY() + yOffset,
+                    this.getMinimumSize().getWidth(), barHeight, this.zLevel, this.fluidStack);
         }
     }
 

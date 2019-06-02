@@ -12,14 +12,14 @@ import net.minecraft.client.gui.Gui;
  *
  * @author Subaro
  */
-public abstract class GuiWrapper extends Gui {
+public abstract class UiWrapper extends Gui {
 
     /** Reference to the current Minecraft instance. */
     protected Minecraft mc;
 
     protected float currentScaleFactor = 1;
 
-    public GuiWrapper() {
+    public UiWrapper() {
         this.mc = Minecraft.getMinecraft();
     }
 
@@ -27,7 +27,7 @@ public abstract class GuiWrapper extends Gui {
      * Used to create a drawing area that clips all elements that are outside. CAUTION you always need to end the scissoring with the
      * endScissors method
      */
-    public void startScissors(MasteryGuiScreen screen, int x, int y, int width, int height) {
+    public void startScissors(UiScreen screen, int x, int y, int width, int height) {
         float localFactor = this.currentScaleFactor != 1 ? this.currentScaleFactor : 1;
 
         // Calculate the ratios

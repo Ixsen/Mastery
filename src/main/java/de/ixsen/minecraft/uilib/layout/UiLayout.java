@@ -2,7 +2,7 @@ package de.ixsen.minecraft.uilib.layout;
 
 import java.util.HashMap;
 
-import de.ixsen.minecraft.uilib.elements.core.GuiElement;
+import de.ixsen.minecraft.uilib.elements.core.UiElement;
 import org.lwjgl.util.ReadableDimension;
 
 /**
@@ -10,7 +10,7 @@ import org.lwjgl.util.ReadableDimension;
  *
  * @author Subaro
  */
-public interface GuiLayout {
+public interface UiLayout {
 
     /**
      * Call this method to layout all elements. The position of the UI elements can be changed afterward and are only reset after calling this
@@ -18,14 +18,14 @@ public interface GuiLayout {
      *
      * @param elementData The data of the elements to layout.
      */
-    void layoutElements(HashMap<GuiElement, LayoutData> elementData);
+    void layoutElements(HashMap<UiElement, LayoutData> elementData);
 
     /**
      * Calculates the minimum size of the container that refers to the specific layout.
      *
      * @return ReadableDimension containing the minimum size.
      */
-    ReadableDimension calculateMinimumSize(HashMap<GuiElement, LayoutData> elementData);
+    ReadableDimension calculateMinimumSize(HashMap<UiElement, LayoutData> elementData);
 
     /**
      * Returns the default layout data for this specific layout.

@@ -1,11 +1,11 @@
 package de.ixsen.minecraft.uilib.elements;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
 import de.ixsen.minecraft.mastery.ui.resources.UIImageManager;
 import de.ixsen.minecraft.uilib.common.ColorUtils;
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -19,16 +19,15 @@ public class FluidBar extends Fluid {
         super(fluidStack);
     }
 
-    public FluidBar(GuiContainer parentContainer, FluidStack fluidStack) {
+    public FluidBar(UiContainer parentContainer, FluidStack fluidStack) {
         super(parentContainer, fluidStack);
     }
 
     @Override
     public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
-        Point gPos = this.getGlobalPosition(parentX, parentY);
         this.setColorRGB(ColorUtils.toInt(this.gaugeTintColor));
         // Draw container with gauge
-        this.drawImageBind(UIImageManager.UI_FLUID_BAR_CONTAINER, gPos.getX(), gPos.getY(),
+        this.drawImageBind(UIImageManager.UI_FLUID_BAR_CONTAINER, getGlobalPosition().getX(), getGlobalPosition().getY(),
                 this.getMinimumSize().getWidth(), this.getMaximumSize().getHeight());
     }
 

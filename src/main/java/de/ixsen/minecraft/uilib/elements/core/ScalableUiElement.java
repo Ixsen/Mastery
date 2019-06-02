@@ -1,24 +1,26 @@
 package de.ixsen.minecraft.uilib.elements.core;
 
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
+
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 
 /**
  * An element that can be scaled.
  *
  * @author Subaro
  */
-public abstract class ScalableGuiElement extends GuiElement {
+public abstract class ScalableUiElement extends UiElement {
 
     private float scale;
 
-    public ScalableGuiElement(float scale) {
+    public ScalableUiElement(float scale) {
         super();
         this.scale = scale;
     }
 
-    public ScalableGuiElement(GuiContainer parentContainer, float scale) {
+    public ScalableUiElement(UiContainer parentContainer, float scale) {
         super(parentContainer);
         this.scale = scale;
     }
@@ -72,7 +74,10 @@ public abstract class ScalableGuiElement extends GuiElement {
     }
 
     @Override
-    public ReadableDimension getSize() {
-        return this.getMinimumSize();
+    public ReadableDimension getMinimumSize() {
+//        return super.getMinimumSize();
+        ReadableDimension minimumSize = super.getMinimumSize();
+        return new Dimension((int) (minimumSize.getWidth() * this.getScale()),
+                (int) (minimumSize.getHeight() * this.getScale()));
     }
 }

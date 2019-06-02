@@ -1,15 +1,15 @@
 package de.ixsen.minecraft.uilib.elements;
 
-import de.ixsen.minecraft.uilib.elements.core.ClickableGuiElement;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 import org.lwjgl.util.ReadableDimension;
 
 import de.ixsen.minecraft.mastery.ui.resources.UIResourceLocationManager;
-import de.ixsen.minecraft.uilib.common.ColorUtils;
 import de.ixsen.minecraft.uilib.common.Alignment;
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import de.ixsen.minecraft.uilib.common.ColorUtils;
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
+import de.ixsen.minecraft.uilib.elements.core.ClickableUiElement;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
@@ -18,7 +18,7 @@ import net.minecraft.client.gui.Gui;
  *
  * @author Subaro
  */
-public class Button extends ClickableGuiElement {
+public class Button extends ClickableUiElement {
 
     // TOP
     private static final Point TOP_LEFT_POS = new Point(0, 0);
@@ -61,7 +61,7 @@ public class Button extends ClickableGuiElement {
         this.setSize(150, 20);
     }
 
-    public Button(GuiContainer parentContainer, String text) {
+    public Button(UiContainer parentContainer, String text) {
         super(parentContainer, 1);
         this.text = text;
         this.textColor = ReadableColor.WHITE;
@@ -92,68 +92,66 @@ public class Button extends ClickableGuiElement {
 
         // Prepare information before drawing the background
         ReadableDimension size = this.getMinimumSize();
-        Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
         this.mc.renderEngine.bindTexture(UIResourceLocationManager.WIDGETS_ATLAS);
         int innerWidth = size.getWidth() - Button.TOP_LEFT_SIZE.getX() - Button.TOP_RIGHT_SIZE.getX();
         int innerHeight = size.getHeight() - Button.TOP_LEFT_SIZE.getY() - Button.BOT_LEFT_SIZE.getY();
 
         // Draw Top Left
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX(), myGlobalPos.getY(), Button.TOP_LEFT_POS.getX(),
-                Button.TOP_LEFT_POS.getY() + offsetY, Button.TOP_LEFT_SIZE.getX(), Button.TOP_LEFT_SIZE.getY(),
-                Button.TOP_LEFT_SIZE.getX(), Button.TOP_LEFT_SIZE.getY(), 512, 512);
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX(), this.getGlobalPosition().getY(),
+                Button.TOP_LEFT_POS.getX(), Button.TOP_LEFT_POS.getY() + offsetY, Button.TOP_LEFT_SIZE.getX(),
+                Button.TOP_LEFT_SIZE.getY(), Button.TOP_LEFT_SIZE.getX(), Button.TOP_LEFT_SIZE.getY(), 512, 512);
 
         // Draw Top Center
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX() + Button.TOP_LEFT_SIZE.getX(), myGlobalPos.getY(),
-                Button.TOP_CENTER_POS.getX(), Button.TOP_CENTER_POS.getY() + offsetY,
-                Button.TOP_CENTER_SIZE.getX(), Button.TOP_CENTER_SIZE.getY(), innerWidth,
-                Button.TOP_CENTER_SIZE.getY(), 512, 512);
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX() + Button.TOP_LEFT_SIZE.getX(),
+                this.getGlobalPosition().getY(), Button.TOP_CENTER_POS.getX(), Button.TOP_CENTER_POS.getY() + offsetY,
+                Button.TOP_CENTER_SIZE.getX(), Button.TOP_CENTER_SIZE.getY(), innerWidth, Button.TOP_CENTER_SIZE.getY(),
+                512, 512);
 
         // Draw Top Right
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX() + Button.TOP_LEFT_SIZE.getX() + innerWidth,
-                myGlobalPos.getY(), Button.TOP_RIGHT_POS.getX(), Button.TOP_RIGHT_POS.getY() + offsetY,
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX() + Button.TOP_LEFT_SIZE.getX() + innerWidth,
+                this.getGlobalPosition().getY(), Button.TOP_RIGHT_POS.getX(), Button.TOP_RIGHT_POS.getY() + offsetY,
                 Button.TOP_RIGHT_SIZE.getX(), Button.TOP_RIGHT_SIZE.getY(), Button.TOP_RIGHT_SIZE.getX(),
                 Button.TOP_RIGHT_SIZE.getY(), 512, 512);
 
         // Draw Middle Left
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX(), myGlobalPos.getY() + Button.TOP_LEFT_SIZE.getY(),
-                Button.MIDDLE_LEFT_POS.getX(), Button.MIDDLE_LEFT_POS.getY() + offsetY,
-                Button.MIDDLE_LEFT_SIZE.getX(), Button.MIDDLE_LEFT_SIZE.getY(), Button.MIDDLE_LEFT_SIZE.getX(),
-                innerHeight, 512, 512);
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX(),
+                this.getGlobalPosition().getY() + Button.TOP_LEFT_SIZE.getY(), Button.MIDDLE_LEFT_POS.getX(),
+                Button.MIDDLE_LEFT_POS.getY() + offsetY, Button.MIDDLE_LEFT_SIZE.getX(), Button.MIDDLE_LEFT_SIZE.getY(),
+                Button.MIDDLE_LEFT_SIZE.getX(), innerHeight, 512, 512);
 
         // Draw Middle Center
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX() + Button.TOP_LEFT_SIZE.getX(),
-                myGlobalPos.getY() + Button.TOP_LEFT_SIZE.getY(), Button.MIDDLE_CENTER_POS.getX(),
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX() + Button.TOP_LEFT_SIZE.getX(),
+                this.getGlobalPosition().getY() + Button.TOP_LEFT_SIZE.getY(), Button.MIDDLE_CENTER_POS.getX(),
                 Button.MIDDLE_CENTER_POS.getY() + offsetY, Button.MIDDLE_CENTER_SIZE.getX(),
                 Button.MIDDLE_CENTER_SIZE.getY(), innerWidth, innerHeight, 512, 512);
 
         // Draw Middle Right
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX() + Button.TOP_LEFT_SIZE.getX() + innerWidth,
-                myGlobalPos.getY() + Button.TOP_RIGHT_SIZE.getY(), Button.MIDDLE_RIGHT_POS.getX(),
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX() + Button.TOP_LEFT_SIZE.getX() + innerWidth,
+                this.getGlobalPosition().getY() + Button.TOP_RIGHT_SIZE.getY(), Button.MIDDLE_RIGHT_POS.getX(),
                 Button.MIDDLE_RIGHT_POS.getY() + offsetY, Button.MIDDLE_RIGHT_SIZE.getX(),
                 Button.MIDDLE_RIGHT_SIZE.getY(), Button.MIDDLE_RIGHT_SIZE.getX(), innerHeight, 512, 512);
 
         // Draw Bot Left
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX(),
-                myGlobalPos.getY() + Button.TOP_LEFT_SIZE.getY() + innerHeight, Button.BOT_LEFT_POS.getX(),
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX(),
+                this.getGlobalPosition().getY() + Button.TOP_LEFT_SIZE.getY() + innerHeight, Button.BOT_LEFT_POS.getX(),
                 Button.BOT_LEFT_POS.getY() + offsetY, Button.BOT_LEFT_SIZE.getX(), Button.BOT_LEFT_SIZE.getY(),
                 Button.BOT_LEFT_SIZE.getX(), Button.BOT_LEFT_SIZE.getY(), 512, 512);
 
         // Draw Bot Center
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX() + Button.TOP_LEFT_SIZE.getX(),
-                myGlobalPos.getY() + Button.TOP_LEFT_SIZE.getY() + innerHeight, Button.BOT_CENTER_POS.getX(),
-                Button.BOT_CENTER_POS.getY() + offsetY, Button.BOT_CENTER_SIZE.getX(),
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX() + Button.TOP_LEFT_SIZE.getX(),
+                this.getGlobalPosition().getY() + Button.TOP_LEFT_SIZE.getY() + innerHeight,
+                Button.BOT_CENTER_POS.getX(), Button.BOT_CENTER_POS.getY() + offsetY, Button.BOT_CENTER_SIZE.getX(),
                 Button.BOT_CENTER_SIZE.getY(), innerWidth, Button.BOT_CENTER_SIZE.getY(), 512, 512);
 
         // Draw Bot Right
-        Gui.drawScaledCustomSizeModalRect(myGlobalPos.getX() + Button.TOP_LEFT_SIZE.getX() + innerWidth,
-                myGlobalPos.getY() + Button.TOP_RIGHT_SIZE.getY() + innerHeight, Button.BOT_RIGHT_POS.getX(),
-                Button.BOT_RIGHT_POS.getY() + offsetY, Button.BOT_RIGHT_SIZE.getX(), Button.BOT_RIGHT_SIZE.getY(),
-                Button.BOT_RIGHT_SIZE.getX(), Button.BOT_RIGHT_SIZE.getY(), 512, 512);
+        Gui.drawScaledCustomSizeModalRect(this.getGlobalPosition().getX() + Button.TOP_LEFT_SIZE.getX() + innerWidth,
+                this.getGlobalPosition().getY() + Button.TOP_RIGHT_SIZE.getY() + innerHeight,
+                Button.BOT_RIGHT_POS.getX(), Button.BOT_RIGHT_POS.getY() + offsetY, Button.BOT_RIGHT_SIZE.getX(),
+                Button.BOT_RIGHT_SIZE.getY(), Button.BOT_RIGHT_SIZE.getX(), Button.BOT_RIGHT_SIZE.getY(), 512, 512);
     }
 
     @Override
     public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
-        Point myGlobalPos = this.getGlobalPosition(parentX, parentY);
         if (!this.text.equals("")) {
             // Draw 'label'
             FontRenderer fontRenderer = this.mc.fontRenderer;
@@ -201,7 +199,7 @@ public class Button extends ClickableGuiElement {
                 break;
             }
 
-            Point labelPos = new Point(myGlobalPos.getX() + x, myGlobalPos.getY() + y);
+            Point labelPos = new Point(this.getGlobalPosition().getX() + x, this.getGlobalPosition().getY() + y);
             this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
                     ColorUtils.toInt(this.textColor));
         }

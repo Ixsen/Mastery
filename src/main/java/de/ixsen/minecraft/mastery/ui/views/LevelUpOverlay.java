@@ -4,21 +4,15 @@ import de.ixsen.minecraft.mastery.MasteryMod;
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasterySpec;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEventType;
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
-import de.ixsen.minecraft.uilib.elements.core.MasteryGuiOverlay;
-import de.ixsen.minecraft.uilib.layout.GuiLayout;
-import de.ixsen.minecraft.uilib.layout.VerticalLayout;
+import de.ixsen.minecraft.uilib.elements.container.HorizontalContainer;
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
+import de.ixsen.minecraft.uilib.elements.core.UiOverlay;
 
-public class LevelUpOverlay extends MasteryGuiOverlay {
-
-    @Override
-    protected GuiLayout createLayout() {
-        return null;
-    }
+public class LevelUpOverlay extends UiOverlay {
 
     @Override
-    protected GuiContainer createScreenContainer() {
-        return new GuiContainer();
+    protected UiContainer createScreenContainer() {
+        return new HorizontalContainer();
     }
 
     public LevelUpOverlay() {
@@ -26,7 +20,6 @@ public class LevelUpOverlay extends MasteryGuiOverlay {
 
         MasteryMod.getEventHandler().addListener(this::processEvent);
 
-        this.createUI();
     }
 
     private void processEvent(MasteryEvent masteryEvent) {
@@ -34,10 +27,6 @@ public class LevelUpOverlay extends MasteryGuiOverlay {
                 && masteryEvent.getSource() instanceof MasterySpec && masteryEvent.getTarget() instanceof Boolean) {
             this.setVisibleTemporarily(5);
         }
-    }
-
-    private void createUI() {
-        this.screenContainer.setLayout(new VerticalLayout());
     }
 
 }

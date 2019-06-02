@@ -1,6 +1,6 @@
 package de.ixsen.minecraft.uilib.elements.core;
 
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import org.lwjgl.util.Point;
 
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -9,18 +9,18 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * Base class with helper methods for easier creation of overlays
  */
-public abstract class MasteryGuiOverlay<CONTAINER_TYPE extends GuiContainer> extends MasteryGuiScreen<CONTAINER_TYPE> {
+public abstract class UiOverlay<CONTAINER_TYPE extends UiContainer> extends UiScreen<CONTAINER_TYPE> {
 
     private long visibilityStart = 0;
     private long visibilityTimeFrame = 0;
 
-    public MasteryGuiOverlay(Point position) {
+    public UiOverlay(Point position) {
         super(position);
 
         this.initGui();
     }
 
-    public MasteryGuiOverlay() {
+    public UiOverlay() {
         this.initGui();
     }
 

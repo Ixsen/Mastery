@@ -2,20 +2,19 @@ package de.ixsen.minecraft.uilib.elements.core;
 
 import java.io.IOException;
 
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import de.ixsen.minecraft.uilib.functions.Focusable;
-import de.ixsen.minecraft.uilib.layout.GuiLayout;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
  * @author Subaro
  */
-public abstract class MasteryGuiScreen<CONTAINER_TYPE extends GuiContainer> extends GuiScreen {
+public abstract class UiScreen<CONTAINER_TYPE extends UiContainer> extends GuiScreen {
 
     /** Root container containing all elements */
     protected CONTAINER_TYPE screenContainer;
@@ -24,27 +23,24 @@ public abstract class MasteryGuiScreen<CONTAINER_TYPE extends GuiContainer> exte
     /** Position of the Gui Screen. Mostly 0,0 */
     private Point position;
     /** Current ui element to draw as a tooltip */
-    private GuiElement currentTooltip;
+    private UiElement currentTooltip;
 
     private int eventButton;
     private long lastMouseEvent;
     /** Tracks the number of fingers currently on the screen. Prevents subsequent fingers registering as clicks. */
     private int touchValue;
 
-    public MasteryGuiScreen(Point position) {
+    public UiScreen(Point position) {
         this.position = position;
         this.screenContainer = this.createScreenContainer();
-        this.screenContainer.setLayout(this.createLayout());
     }
-
-    protected abstract GuiLayout createLayout();
 
     /**
      * Create and draw into the screen container in this method
      */
     protected abstract CONTAINER_TYPE createScreenContainer();
 
-    public MasteryGuiScreen() {
+    public UiScreen() {
         this(new Point(0, 0));
     }
 
@@ -67,7 +63,6 @@ public abstract class MasteryGuiScreen<CONTAINER_TYPE extends GuiContainer> exte
 
     @Override
     public void initGui() {
-        this.screenContainer.initGui();
         this.screenContainer.layoutElements();
     }
 
@@ -159,11 +154,11 @@ public abstract class MasteryGuiScreen<CONTAINER_TYPE extends GuiContainer> exte
         }
     }
 
-    public GuiElement getCurrentTooltip() {
+    public UiElement getCurrentTooltip() {
         return this.currentTooltip;
     }
 
-    public void setCurrentTooltip(GuiElement currentTooltip) {
+    public void setCurrentTooltip(UiElement currentTooltip) {
         currentTooltip.screen = this;
         this.currentTooltip = currentTooltip;
     }

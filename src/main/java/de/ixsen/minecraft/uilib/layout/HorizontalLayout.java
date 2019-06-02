@@ -2,19 +2,19 @@ package de.ixsen.minecraft.uilib.layout;
 
 import java.util.HashMap;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
-import de.ixsen.minecraft.uilib.elements.container.GuiContainer;
-import de.ixsen.minecraft.uilib.elements.core.GuiElement;
+import de.ixsen.minecraft.uilib.elements.core.UiElement;
 
 /**
  * Default layout. Every element is placed side by side.
  *
  * @author Subaro
  */
-public class HorizontalLayout implements GuiLayout {
+public class HorizontalLayout implements UiLayout {
 
     private int paddingLeft = 0;
     private int paddingRight = 0;
@@ -35,12 +35,12 @@ public class HorizontalLayout implements GuiLayout {
     }
 
     @Override
-    public void layoutElements(HashMap<GuiElement, LayoutData> elements) {
+    public void layoutElements(HashMap<UiElement, LayoutData> elements) {
         int currentX = this.paddingLeft;
         int currentY = this.paddingTop;
-        for (GuiElement element : elements.keySet()) {
-            if (element instanceof GuiContainer) {
-                ((GuiContainer) element).layoutElements();
+        for (UiElement element : elements.keySet()) {
+            if (element instanceof UiContainer) {
+                ((UiContainer) element).layoutElements();
             }
 
             HorizontalData data = null;
@@ -59,14 +59,14 @@ public class HorizontalLayout implements GuiLayout {
     }
 
     @Override
-    public ReadableDimension calculateMinimumSize(HashMap<GuiElement, LayoutData> elementData) {
+    public ReadableDimension calculateMinimumSize(HashMap<UiElement, LayoutData> elementData) {
         // Add left padding, right padding and spacing for n-1 elements ;)
         int minWidth = this.paddingLeft + this.paddingRight + elementData.keySet().size() > 0
                 ? (elementData.keySet().size() - 1) * this.spacing
                 : 0;
         int maxHeight = 0;
 
-        for (GuiElement element : elementData.keySet()) {
+        for (UiElement element : elementData.keySet()) {
             ReadableDimension elementSize = element.getMinimumSize();
             minWidth += elementSize.getWidth();
             if (elementSize.getHeight() > maxHeight) {

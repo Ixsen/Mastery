@@ -1,4 +1,4 @@
-package de.ixsen.minecraft.mastery.oldui;
+package de.ixsen.minecraft.mastery.ui;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,6 +18,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 //@SubscribeToClientEventBus
+@Deprecated
 public class LevelOverlayUi extends Gui {
     // Resources - Area
     private final ResourceLocation bar = new ResourceLocation(MasteryMod.MOD_ID, "textures/gui/expbarsheet.png");

@@ -1,6 +1,5 @@
 package de.ixsen.minecraft.mastery.ui.views;
 
-import de.ixsen.minecraft.uilib.elements.container.HorizontalContainer;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
 
@@ -107,11 +106,6 @@ public class ExampleUI extends UiScreen {
         // buttonWaterPlus.addClickListener((e) -> barWater.setFillAmount(barWater.getFillAmount() + 5));
         // screenContainer.addElements(buttonWaterPlus);
 
-        Label abc = new Label("ABC", ReadableColor.YELLOW, 1F, Alignment.MIDDLE_CENTER);
-//        container.addElements(abc);
-
-
-
-        return new HorizontalContainer();
+        return container;
     }
 }

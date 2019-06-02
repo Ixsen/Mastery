@@ -26,8 +26,11 @@ public class ExperienceOverlay extends UiOverlay<ExperienceComponent> {
     }
 
     private void processEvent(MasteryEvent masteryEvent) {
-        if (masteryEvent.getType() == MasteryEventType.PLAYER_EXP_CHANGED
-                && masteryEvent.getSource() instanceof MasterySpec && masteryEvent.getTarget() instanceof Boolean) {
+        boolean isExpChanged = masteryEvent.getType() == MasteryEventType.PLAYER_EXP_CHANGED;
+        boolean isSourceMasterySpec = masteryEvent.getSource() instanceof MasterySpec;
+        boolean showUi = masteryEvent.getTarget() instanceof Boolean &&  (Boolean) masteryEvent.getTarget();
+
+        if (isExpChanged || isSourceMasterySpec || showUi) {
 
             MasteryClass mastery = MasteryUtils.getMastery(Minecraft.getMinecraft().player,
                     (MasterySpec) masteryEvent.getSource());

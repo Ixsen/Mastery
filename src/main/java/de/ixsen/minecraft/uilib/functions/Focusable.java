@@ -17,15 +17,15 @@ public interface Focusable {
     void addFocusChangeListener(Consumer<UIFocusEvent> onFocusChanged);
 
     /**
+     * @return true, if the element is currently focused.
+     */
+    boolean isFocused();
+
+    /**
      * Sets the current element to focus.
-     * 
+     *
      * @param focus
      *            sets the focus value
      */
     void setFocused(boolean focus);
-
-    /**
-     * @return true, if the element is currently focused.
-     */
-    boolean isFocused();
 }

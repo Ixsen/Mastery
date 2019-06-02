@@ -40,7 +40,7 @@ public class AnimatedImage extends ScalableUiElement {
 
         ImageData currentImage = this.imageData.getNextImage(this.tickSpeed);
         ReadableDimension size = this.getMinimumSize();
-        this.drawImageBind(currentImage, this.getGlobalPosition().getX(), this.getGlobalPosition().getY(), size.getWidth(),
-                size.getHeight());
+        this.drawImageBind(currentImage, this.getGlobalPosition().getX(), this.getGlobalPosition().getY(),
+                size.getWidth(), size.getHeight());
     }
 }

@@ -59,6 +59,13 @@ public abstract class ScalableUiElement extends UiElement {
     }
 
     /**
+     * @return the scale
+     */
+    public float getScale() {
+        return this.scale;
+    }
+
+    /**
      * @param scale
      *            the scale to set
      */
@@ -66,16 +73,9 @@ public abstract class ScalableUiElement extends UiElement {
         this.scale = scale;
     }
 
-    /**
-     * @return the scale
-     */
-    public float getScale() {
-        return this.scale;
-    }
-
     @Override
     public ReadableDimension getMinimumSize() {
-//        return super.getMinimumSize();
+        // return super.getMinimumSize();
         ReadableDimension minimumSize = super.getMinimumSize();
         return new Dimension((int) (minimumSize.getWidth() * this.getScale()),
                 (int) (minimumSize.getHeight() * this.getScale()));

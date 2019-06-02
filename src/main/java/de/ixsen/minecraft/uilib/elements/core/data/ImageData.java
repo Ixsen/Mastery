@@ -26,12 +26,12 @@ public class ImageData {
         this.textureHeight = textureHeight;
     }
 
-    public void setLocation(ResourceLocation location) {
-        this.location = location;
-    }
-
     public ResourceLocation getLocation() {
         return this.location;
+    }
+
+    public void setLocation(ResourceLocation location) {
+        this.location = location;
     }
 
     public int getU() {

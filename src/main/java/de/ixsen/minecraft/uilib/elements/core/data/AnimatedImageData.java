@@ -20,7 +20,7 @@ public class AnimatedImageData {
     private int currentTick;
 
     public AnimatedImageData(ResourceLocation location, int u, int v, int uWidth, int vHeight, int textureWidth,
-                             int textureHeight) {
+            int textureHeight) {
         this.location = location;
         this.u = u;
         this.v = v;

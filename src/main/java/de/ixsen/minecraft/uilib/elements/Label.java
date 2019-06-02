@@ -85,11 +85,7 @@ public class Label extends ClickableUiElement {
                 y = 0;
                 break;
             }
-            Point labelPos = new Point((int) (this.getGlobalPosition().getX()),
-                    (int) (this.getGlobalPosition().getY()));
-
-//            Point labelPos = new Point((int) (this.getGlobalPosition().getX() + x),
-//                    (int) (this.getGlobalPosition().getY() + y));
+            Point labelPos = new Point(this.getGlobalPosition().getX(), this.getGlobalPosition().getY());
 
             this.drawString(this.mc.fontRenderer, this.text, labelPos.getX(), labelPos.getY(),
                     ColorUtils.toInt(this.textColor));

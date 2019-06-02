@@ -1,7 +1,8 @@
 package de.ixsen.minecraft.uilib.event;
 
-import de.ixsen.minecraft.uilib.elements.core.UiElement;
 import org.lwjgl.util.Point;
+
+import de.ixsen.minecraft.uilib.elements.core.UiElement;
 
 /**
  * @author Subaro

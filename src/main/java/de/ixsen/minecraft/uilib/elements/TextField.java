@@ -110,6 +110,11 @@ public class TextField extends ScalableUiElement implements Typeable, Focusable,
     }
 
     @Override
+    public boolean isFocused() {
+        return this.focus;
+    }
+
+    @Override
     public void setFocused(boolean focus) {
         // Focus changed, fire event
         if (this.focus != focus) {
@@ -118,11 +123,6 @@ public class TextField extends ScalableUiElement implements Typeable, Focusable,
                 consumer.accept(new UIFocusEvent(this, !this.focus, this.focus));
             }
         }
-    }
-
-    @Override
-    public boolean isFocused() {
-        return this.focus;
     }
 
     @Override

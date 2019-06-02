@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.lwjgl.util.Point;
+
 import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import de.ixsen.minecraft.uilib.event.UIMouseEvent;
 import de.ixsen.minecraft.uilib.functions.Clickable;
-import org.lwjgl.util.Point;
 
 /**
  * @author Subaro

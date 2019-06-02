@@ -16,11 +16,11 @@ import net.minecraftforge.fluids.FluidStack;
  */
 public class Fluid extends ScalableUiElement {
 
+    public static float FLUID_OFFSET = 0.005f;
     /** the fluid to render */
     private FluidStack fluidStack;
     /** indicated if the rendered fluid should be flowing */
     private boolean isFlowing;
-    public static float FLUID_OFFSET = 0.005f;
 
     public Fluid(FluidStack fluidStack) {
         super(1f);
@@ -54,6 +54,10 @@ public class Fluid extends ScalableUiElement {
         }
     }
 
+    public int getFillAmount() {
+        return this.fluidStack.amount;
+    }
+
     public void setFillAmount(int percent) {
         if (percent <= 0) {
             percent = 0;
@@ -61,10 +65,6 @@ public class Fluid extends ScalableUiElement {
             percent = 100;
         }
         this.fluidStack.amount = percent;
-    }
-
-    public int getFillAmount() {
-        return this.fluidStack.amount;
     }
 
     public boolean isFlowing() {

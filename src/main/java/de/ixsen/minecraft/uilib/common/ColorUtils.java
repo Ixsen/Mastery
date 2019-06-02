@@ -11,10 +11,7 @@ import org.lwjgl.util.ReadableColor;
 public class ColorUtils {
 
     public static int toInt(ReadableColor color) {
-        return color.getAlpha() << 24
-                | color.getRed() << 16
-                | color.getGreen() << 8
-                | color.getBlue();
+        return color.getAlpha() << 24 | color.getRed() << 16 | color.getGreen() << 8 | color.getBlue();
     }
 
     public static ReadableColor toColor(int color) {

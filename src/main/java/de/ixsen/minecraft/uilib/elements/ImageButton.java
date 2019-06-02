@@ -1,9 +1,8 @@
 package de.ixsen.minecraft.uilib.elements;
 
-import de.ixsen.minecraft.uilib.elements.container.UiContainer;
-import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableDimension;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import de.ixsen.minecraft.uilib.elements.core.data.ImageData;
 
 /**
@@ -16,7 +15,7 @@ public class ImageButton extends Button {
     /** The image that should be drawn into the button */
     private ImageData imageData;
 
-    public ImageButton(ImageData imageData) {   
+    public ImageButton(ImageData imageData) {
         super("");
         this.imageData = imageData;
     }

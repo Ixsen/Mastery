@@ -11,7 +11,8 @@ public interface Draggable extends Clickable {
     /**
      * Adds a listener to the element. The listener is called onDrag.
      *
-     * @param onDrag Consumer to add
+     * @param onDrag
+     *            Consumer to add
      */
     void addDragListener(Consumer<UIMouseEvent> onDrag);
 
@@ -25,7 +26,8 @@ public interface Draggable extends Clickable {
     /**
      * Adds a listener to the element. The listener is called onRelease.
      *
-     * @param onRelease Consumer to add
+     * @param onRelease
+     *            Consumer to add
      */
     void addReleaseListener(Consumer<UIMouseEvent> onRelease);
 

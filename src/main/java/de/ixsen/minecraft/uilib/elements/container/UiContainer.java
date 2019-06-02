@@ -13,16 +13,12 @@ import de.ixsen.minecraft.uilib.functions.Clickable;
 import de.ixsen.minecraft.uilib.functions.Draggable;
 import de.ixsen.minecraft.uilib.functions.Focusable;
 import de.ixsen.minecraft.uilib.functions.Typeable;
-import de.ixsen.minecraft.uilib.layout.HorizontalLayout;
-import de.ixsen.minecraft.uilib.layout.UiLayout;
 
 /**
  * @author Subaro
  */
 public abstract class UiContainer extends UiElement {
 
-    /** The default layout used by ui containers. */
-    private static UiLayout DEFAULT_LAYOUT = new HorizontalLayout();
     /** List containg all the ui elemnts that are assigned to this container. */
     protected final List<UiElement> containedElements;
 
@@ -63,7 +59,7 @@ public abstract class UiContainer extends UiElement {
     }
 
     /**
-     * Add one or more child to this container with the same default layout data of the set layout.
+     * Add one or more child to this container
      *
      * @param elements
      *            UIElements to add.

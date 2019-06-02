@@ -1,8 +1,8 @@
 package de.ixsen.minecraft.uilib.elements.core;
 
-import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import org.lwjgl.util.Point;
 
+import de.ixsen.minecraft.uilib.elements.container.UiContainer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 

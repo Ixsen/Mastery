@@ -12,7 +12,8 @@ public interface Clickable {
     /**
      * Adds a new consumer to the on click event. Is called when the element is clicked.
      *
-     * @param onClick consumer to add.
+     * @param onClick
+     *            consumer to add.
      */
     void addClickListener(Consumer<UIMouseEvent> onClick);
 

@@ -61,7 +61,7 @@ public abstract class UiElement extends UiWrapper {
      */
     private ReadableDimension maximumSize;
     /**
-     * The current relative relativePosition of the element to its parent. Mostly determined by the current layout.
+     * The current relative relativePosition of the element to its parent.
      */
     private ImmutablePoint relativePosition;
 
@@ -204,7 +204,7 @@ public abstract class UiElement extends UiWrapper {
     /**
      * Should be overitten by every subclassed UI element.
      *
-     * @return The scaled minimum size for this element. Used by the layout.
+     * @return The scaled minimum size for this element.
      */
     public ReadableDimension getMinimumSize() {
         return this.minimumSize;
@@ -276,12 +276,12 @@ public abstract class UiElement extends UiWrapper {
         return this.globalPosition;
     }
 
-    public void setGlobalPosition(int x, int y) {
-        this.globalPosition = new Point(x, y);
-    }
-
     public void setGlobalPosition(Point globalPosition) {
         this.globalPosition = globalPosition;
+    }
+
+    public void setGlobalPosition(int x, int y) {
+        this.globalPosition = new Point(x, y);
     }
 
     /**
@@ -292,8 +292,6 @@ public abstract class UiElement extends UiWrapper {
     }
 
     /**
-     * CAREFUL do not use this method when using a layout. Will override the relativePosition determined by the layout. Sets the not-scaled
-     * relativePosition;
      *
      * @param relativePosition
      *            The relative non-scaled relativePosition to set.

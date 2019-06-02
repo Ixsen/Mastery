@@ -33,8 +33,9 @@ public class TiledImage extends Image {
                 int remainingHeight = size.getHeight() - cY;
                 if (remainingWidth >= this.imageData.getuWidth() && remainingHeight >= this.imageData.getvHeight()) {
                     // Draw a fully image
-                    this.drawImage(this.imageData, this.getGlobalPosition().getX() + cX, this.getGlobalPosition().getY() + cY,
-                            this.imageData.getuWidth(), this.imageData.getvHeight());
+                    this.drawImage(this.imageData, this.getGlobalPosition().getX() + cX,
+                            this.getGlobalPosition().getY() + cY, this.imageData.getuWidth(),
+                            this.imageData.getvHeight());
                 } else if (remainingWidth < this.imageData.getuWidth()
                         && remainingHeight >= this.imageData.getvHeight()) {
                     float quotient = remainingWidth / (float) this.imageData.getuWidth();

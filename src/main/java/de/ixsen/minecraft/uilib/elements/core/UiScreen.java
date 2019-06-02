@@ -35,14 +35,14 @@ public abstract class UiScreen<CONTAINER_TYPE extends UiContainer> extends GuiSc
         this.screenContainer = this.createScreenContainer();
     }
 
+    public UiScreen() {
+        this(new Point(0, 0));
+    }
+
     /**
      * Create and draw into the screen container in this method
      */
     protected abstract CONTAINER_TYPE createScreenContainer();
-
-    public UiScreen() {
-        this(new Point(0, 0));
-    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {

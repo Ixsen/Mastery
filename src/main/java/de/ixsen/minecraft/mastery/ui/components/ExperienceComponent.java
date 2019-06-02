@@ -17,18 +17,12 @@ import de.ixsen.minecraft.uilib.elements.core.data.ImageData;
 
 public class ExperienceComponent extends VerticalContainer {
 
-    private Label levelLabel;
-    private Label masteryLabel;
-    private Image masteryIcon;
+    private final Label levelLabel;
+    private final Label masteryLabel;
+    private final Image masteryIcon;
     private ProgressBar progressBar;
 
     public ExperienceComponent() {
-        super();
-
-        this.buildComponent();
-    }
-
-    private void buildComponent() {
         ImageData imageData = new ImageData(MasteryImageLoader.getImage(MasterySpec.COMBAT), 0, 0, 8, 8, 8, 8);
         this.masteryIcon = new TiledImage(imageData);
         this.masteryIcon.setSize(8, 8);
@@ -54,7 +48,6 @@ public class ExperienceComponent extends VerticalContainer {
 
         this.containedElements.clear();
         this.addElements(topBar, this.progressBar);
-
     }
 
     public void setMasteryInfo(MasteryClass mastery) {
@@ -62,6 +55,6 @@ public class ExperienceComponent extends VerticalContainer {
         this.masteryLabel.setText(mastery.getName());
         this.masteryIcon.setResourceLocation(MasteryImageLoader.getImage(mastery.getSkillClass()));
         this.progressBar.setProgressData(0, mastery.getExperience(), mastery.getNextLevelExp());
-
     }
+
 }

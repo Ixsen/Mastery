@@ -15,4 +15,9 @@ public class SneakingMastery extends MasteryClass {
     public MasterySpec getSkillClass() {
         return MasterySpec.SNEAKING;
     }
+
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
 }

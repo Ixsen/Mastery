@@ -1,12 +1,11 @@
 package de.ixsen.minecraft.mastery;
 
 import static de.ixsen.minecraft.mastery.MasteryItems.INGRIDIENT_RAINBOW_POWDER;
-import static de.ixsen.minecraft.mastery.eventsystem.MasteryEventType.PLAYER_EXP_CHANGED;
-import static de.ixsen.minecraft.mastery.eventsystem.MasteryEventType.PLAYER_LEVEL_UP;
 
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasterySpec;
 import de.ixsen.minecraft.mastery.common.annotations.AnnotationProcessor;
-import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
+import de.ixsen.minecraft.mastery.eventsystem.ExperienceGainEvent;
+import de.ixsen.minecraft.mastery.eventsystem.LevelUpEvent;
 import de.ixsen.minecraft.mastery.eventsystem.MasteryEventHandler;
 import de.ixsen.minecraft.mastery.networking.PacketHandler;
 import de.ixsen.minecraft.mastery.proxy.CommonProxy;
@@ -67,11 +66,11 @@ public class MasteryMod {
     };
 
     public static void fireExpEvent(MasterySpec spec, boolean notifyUI) {
-        MasteryMod.INSTANCE.eventSystem.fireEvent(new MasteryEvent(PLAYER_EXP_CHANGED, spec, notifyUI));
+        MasteryMod.INSTANCE.eventSystem.fireEvent(new ExperienceGainEvent(spec, notifyUI));
     }
 
     public static void fireLevelUpEvent(MasterySpec spec, EntityPlayer player) {
-        MasteryMod.INSTANCE.eventSystem.fireEvent(new MasteryEvent(PLAYER_LEVEL_UP, spec, player));
+        MasteryMod.INSTANCE.eventSystem.fireEvent(new LevelUpEvent(spec, player));
     }
 
     public static MasteryEventHandler getEventHandler() {

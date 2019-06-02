@@ -13,4 +13,9 @@ public class FishingMastery extends MasteryClass {
     public MasterySpec getSkillClass() {
         return MasterySpec.FISHING;
     }
+
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
 }

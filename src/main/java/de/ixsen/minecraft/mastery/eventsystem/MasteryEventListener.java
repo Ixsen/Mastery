@@ -4,7 +4,8 @@ package de.ixsen.minecraft.mastery.eventsystem;
  * @author Subaro
  */
 @FunctionalInterface
-public interface IMasteryEventListener {
+public interface MasteryEventListener {
 
-    void performEvent(MasteryEvent event);
+    void performEvent(Object event);
+
 }

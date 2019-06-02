@@ -1,5 +1,6 @@
 package de.ixsen.minecraft.uilib.elements;
 
+import org.apache.logging.log4j.util.Strings;
 import org.lwjgl.util.Dimension;
 import org.lwjgl.util.Point;
 import org.lwjgl.util.ReadableColor;
@@ -41,9 +42,7 @@ public class Label extends ClickableUiElement {
 
     @Override
     public void drawForeground(int parentX, int parentY, int mouseX, int mouseY, float partialTicks) {
-        if (!this.text.equals("")) {
-            // Draw 'label'
-
+        if (Strings.isNotEmpty(this.text)) {
             float y, x;
 
             switch (this.alignment) {

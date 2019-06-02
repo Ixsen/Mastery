@@ -99,4 +99,6 @@ public abstract class MasteryClass {
     public void setPlayer(EntityPlayer player) {
         this.player = player;
     }
+
+    public abstract String getBonusDescription();
 }

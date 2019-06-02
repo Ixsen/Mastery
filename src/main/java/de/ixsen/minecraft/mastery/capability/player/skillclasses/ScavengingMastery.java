@@ -13,4 +13,9 @@ public class ScavengingMastery extends MasteryClass {
     public MasterySpec getSkillClass() {
         return MasterySpec.SCAVENGING;
     }
+
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
 }

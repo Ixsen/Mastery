@@ -17,6 +17,11 @@ public class MiningMastery extends MasteryClass {
         return MasterySpec.MINING;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
     public float getMiningSpeed(float originalSpeed) {
         float miningSpeed = originalSpeed * this.getLevel();
         if (miningSpeed == 0.0f) {

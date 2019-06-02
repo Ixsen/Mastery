@@ -14,6 +14,11 @@ public class CombatMastery extends MasteryClass {
         return MasterySpec.COMBAT;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
     public double getAttackModifier() {
         return this.getLevel();
     }

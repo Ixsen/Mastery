@@ -8,7 +8,7 @@ import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasteryClass;
 import de.ixsen.minecraft.mastery.capability.player.skillclasses.MasterySpec;
 import de.ixsen.minecraft.mastery.common.util.MasteryUtils;
 import de.ixsen.minecraft.mastery.configuration.MasteryConfiguration;
-import de.ixsen.minecraft.mastery.eventsystem.MasteryEvent;
+import de.ixsen.minecraft.mastery.eventsystem.ExperienceGainEvent;
 import de.ixsen.minecraft.mastery.resource.MasteryImageLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -45,7 +45,7 @@ public class LevelOverlayUi extends Gui {
 
     public LevelOverlayUi() {
         super();
-        MasteryMod.getEventHandler().addListener(this::performEvent);
+        MasteryMod.getEventHandler().addListener(this::performEvent, ExperienceGainEvent.class);
     }
 
     @SubscribeEvent
@@ -157,20 +157,9 @@ public class LevelOverlayUi extends Gui {
         }
     }
 
-    private void performEvent(MasteryEvent event) {
-        switch (event.getType()) {
-        case PLAYER_EXP_CHANGED:
-            if (event.getSource() instanceof MasterySpec) {
-                if (event.getTarget() instanceof Boolean) {
-                    boolean showUI = (Boolean) event.getTarget();
-                    if (showUI) {
-                        this.show((MasterySpec) event.getSource());
-                    }
-                }
-            }
-            break;
-        default:
-            break;
+    private void performEvent(ExperienceGainEvent event) {
+        if (event.shouldNotifyUI()) {
+            this.show(event.getMasterySpec());
         }
 
     }

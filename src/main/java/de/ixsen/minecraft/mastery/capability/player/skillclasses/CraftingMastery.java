@@ -13,6 +13,11 @@ public class CraftingMastery extends MasteryClass {
         return MasterySpec.CRAFTING;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
     public boolean isDoubleCraft() {
         return Math.random() <= Math.min(DOUBLE_CRAFT_CHANCE * this.getLevel(), 1);
     }

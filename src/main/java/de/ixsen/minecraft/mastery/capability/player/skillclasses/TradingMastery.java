@@ -14,4 +14,9 @@ public class TradingMastery extends MasteryClass {
         return MasterySpec.TRADING;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
 }

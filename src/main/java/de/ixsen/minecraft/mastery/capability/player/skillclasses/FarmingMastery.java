@@ -14,6 +14,11 @@ public class FarmingMastery extends MasteryClass {
         return MasterySpec.FARMING;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
     public boolean applyQuadDrop() {
         return Math.random() <= Math.min(this.getLevel() * FarmingMastery.QUAD_CHANCE_PER_LEVEL, 1);
     }

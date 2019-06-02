@@ -15,6 +15,11 @@ public class HusbandryMastery extends MasteryClass {
         return MasterySpec.HUSBANDRY;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
     public boolean willSpawnTwins() {
         return Math.random() <= Math.min(TWIN_CHANCE * this.getLevel(), 1);
     }

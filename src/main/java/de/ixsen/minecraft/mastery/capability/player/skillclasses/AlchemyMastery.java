@@ -7,6 +7,11 @@ public class AlchemyMastery extends MasteryClass {
         return MasterySpec.ALCHEMY;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return "--";
+    }
+
     public AlchemyMastery() {
         this.name = "Alchemy";
     }

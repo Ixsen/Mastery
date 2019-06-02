@@ -11,6 +11,11 @@ public class SurvivalMastery extends MasteryClass {
         return MasterySpec.SURVIVAL;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return null;
+    }
+
     public float getHungerBonus() {
         return (float) Math.min(0.1f, Math.random());
     }

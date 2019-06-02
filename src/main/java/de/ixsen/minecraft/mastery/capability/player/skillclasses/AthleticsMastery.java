@@ -11,6 +11,12 @@ public class AthleticsMastery extends MasteryClass {
         return MasterySpec.ATHLETICS;
     }
 
+    @Override
+    public String getBonusDescription() {
+        return String.format("Bonus speed: %f. \nBonus swimming speed: %f. \nBonus jump height %f.", this.getSpeedModifier(),
+                this.getSwimModifier(), this.getJumpModifier());
+    }
+
     public double getSpeedModifier() {
         return 0.1D;
     }
